@@ -730,7 +730,7 @@
 <div id="toast-container"></div>
 
 <script>
-    let BASE_URL = localStorage.getItem('ts_base_url') || 'https://tomasigla-production.up.railway.app/';
+    let BASE_URL = localStorage.getItem('ts_base_url') || 'https://tomasigla-api.onrender.com/';
     const API = () => BASE_URL + 'index.php';
 
     const DEFAULT_LAT = 14.1032;
@@ -1268,11 +1268,6 @@
         if (value === 'active') { track.classList.add('on'); lbl.classList.add('on'); lbl.textContent = 'Active'; hidden.value = 'active'; }
         else { track.classList.remove('on'); lbl.classList.remove('on'); lbl.textContent = 'Inactive'; hidden.value = 'inactive'; }
     }
-
-    function sampleSpots() { return [{id:1,name:'Calaruega Church',category:'Historical',address:'Nasugbu, Batangas',description:'Famous hillside chapel.',image:'',latitude:14.02,longitude:120.68,status:'active'}] }
-    function sampleBiz() { return [{id:1,name:'Sto. Tomas Delicacies',category:'Shop',address:'Maharlika Hwy',contact:'+63 912 345 6789',description:'Local food.',image:'',images:[],latitude:14.10,longitude:121.17,status:'active'}] }
-    function sampleProd() { return [{id:1,name:'Barako Coffee',category:'Food',description:'Local beans.',price:180,business_id:1,business_name:'Sto. Tomas Delicacies',image:'',status:'active'}] }
-    function sampleEvt() { return [{id:1,title:'Pahiyas ng Sto. Tomas',type:'Festival',location:'Sto. Tomas Church',description:'Harvest festival.',event_date:'2026-05-15',event_time:'09:00',status:'active'}] }
 </script>
 </body>
 </html>
