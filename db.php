@@ -3,11 +3,11 @@
 // TomaSIGLA — db.php (Supabase / PostgreSQL)
 // ============================================================
 
-$host     = 'db.tpvharfxnubwjyguppcq.supabase.co';
+$host     = 'aws-1-ap-northeast-1.pooler.supabase.com';
 $port     = '5432';
 $dbname   = 'postgres';
-$user     = 'postgres';
-$password = 'oddokuro21!';  // paste the password you reset
+$user     = 'postgres.tpvharfxnubwjyguppcq';
+$password = 'oddokuro21!';
 
 $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
 
