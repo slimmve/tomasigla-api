@@ -13,6 +13,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+// ── Global error/exception handlers so PHP never outputs raw HTML ──
+set_exception_handler(function ($e) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage(),
+        'file'    => basename($e->getFile()),
+        'line'    => $e->getLine(),
+    ]);
+    exit;
+});
+
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
+register_shutdown_function(function () {
+    $err = error_get_last();
+    if ($err && in_array($err['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => $err['message'],
+            'file'    => basename($err['file']),
+            'line'    => $err['line'],
+        ]);
+    }
+});
+
 require_once __DIR__ . "/db.php";
 
 $action = $_GET['action'] ?? '';
@@ -66,9 +95,9 @@ switch ($action) {
     // ============================================================
 
     case 'login':
-        $email    = $_POST['email']    ?? '';
-        $password = $_POST['password'] ?? '';
-        $type     = $_POST['type']     ?? 'user';
+        $email    = trim($_POST['email']    ?? '');
+        $password =      $_POST['password'] ?? '';
+        $type     =      $_POST['type']     ?? 'user';
 
         if (!$email || !$password) {
             echo json_encode(['success' => false, 'message' => 'Email and password required.']);
@@ -155,6 +184,12 @@ switch ($action) {
         break;
 
     case 'add_spot':
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+
         $img  = handleImage($_POST['image'] ?? '');
         $stmt = $pdo->prepare("
             INSERT INTO tourist_spots (name, category, description, address, latitude, longitude, image, status)
@@ -162,20 +197,30 @@ switch ($action) {
             RETURNING id
         ");
         $stmt->execute([
-            $_POST['name']        ?? '',
-            $_POST['category']    ?? '',
-            $_POST['description'] ?? '',
-            $_POST['address']     ?? '',
+            $name,
+            trim($_POST['category']    ?? ''),
+            trim($_POST['description'] ?? ''),
+            trim($_POST['address']     ?? ''),
             dec($_POST['latitude']  ?? ''),
             dec($_POST['longitude'] ?? ''),
             $img,
-            $_POST['status']      ?? 'active',
+            trim($_POST['status']      ?? 'active'),
         ]);
         $row = $stmt->fetch();
         echo json_encode(['success' => true, 'id' => $row['id']]);
         break;
 
     case 'update_spot':
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
+
         $img  = handleImage($_POST['image'] ?? '');
         $stmt = $pdo->prepare("
             UPDATE tourist_spots
@@ -183,22 +228,26 @@ switch ($action) {
             WHERE id=$9
         ");
         $stmt->execute([
-            $_POST['name']        ?? '',
-            $_POST['category']    ?? '',
-            $_POST['description'] ?? '',
-            $_POST['address']     ?? '',
+            $name,
+            trim($_POST['category']    ?? ''),
+            trim($_POST['description'] ?? ''),
+            trim($_POST['address']     ?? ''),
             dec($_POST['latitude']  ?? ''),
             dec($_POST['longitude'] ?? ''),
             $img,
-            $_POST['status']      ?? 'active',
-            $_POST['id'],
+            trim($_POST['status']      ?? 'active'),
+            (int)$_POST['id'],
         ]);
         echo json_encode(['success' => true]);
         break;
 
     case 'delete_spot':
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
         $stmt = $pdo->prepare("DELETE FROM tourist_spots WHERE id = $1");
-        $stmt->execute([$_POST['id']]);
+        $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
 
@@ -230,7 +279,6 @@ switch ($action) {
         $stmt->execute($params);
         $rows = $stmt->fetchAll();
 
-        // Parse images JSON string into array
         foreach ($rows as &$row) {
             $row['images'] = !empty($row['images']) ? json_decode($row['images'], true) : [];
         }
@@ -239,6 +287,12 @@ switch ($action) {
         break;
 
     case 'add_business':
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+
         $img       = handleImage($_POST['image'] ?? '');
         $extraImgs = $_POST['images'] ?? '[]';
         $imgsArr   = json_decode($extraImgs, true) ?? [];
@@ -251,22 +305,32 @@ switch ($action) {
             RETURNING id
         ");
         $stmt->execute([
-            $_POST['name']        ?? '',
-            $_POST['category']    ?? '',
-            $_POST['description'] ?? '',
-            $_POST['address']     ?? '',
-            $_POST['contact']     ?? '',
+            $name,
+            trim($_POST['category']    ?? ''),
+            trim($_POST['description'] ?? ''),
+            trim($_POST['address']     ?? ''),
+            trim($_POST['contact']     ?? ''),
             dec($_POST['latitude']  ?? ''),
             dec($_POST['longitude'] ?? ''),
             $img,
             $imgsJson,
-            $_POST['status']      ?? 'active',
+            trim($_POST['status']      ?? 'active'),
         ]);
         $row = $stmt->fetch();
         echo json_encode(['success' => true, 'id' => $row['id']]);
         break;
 
     case 'update_business':
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
+
         $img       = handleImage($_POST['image'] ?? '');
         $extraImgs = $_POST['images'] ?? '[]';
         $imgsArr   = json_decode($extraImgs, true) ?? [];
@@ -279,24 +343,28 @@ switch ($action) {
             WHERE id=$11
         ");
         $stmt->execute([
-            $_POST['name']        ?? '',
-            $_POST['category']    ?? '',
-            $_POST['description'] ?? '',
-            $_POST['address']     ?? '',
-            $_POST['contact']     ?? '',
+            $name,
+            trim($_POST['category']    ?? ''),
+            trim($_POST['description'] ?? ''),
+            trim($_POST['address']     ?? ''),
+            trim($_POST['contact']     ?? ''),
             dec($_POST['latitude']  ?? ''),
             dec($_POST['longitude'] ?? ''),
             $img,
             $imgsJson,
-            $_POST['status']      ?? 'active',
-            $_POST['id'],
+            trim($_POST['status']      ?? 'active'),
+            (int)$_POST['id'],
         ]);
         echo json_encode(['success' => true]);
         break;
 
     case 'delete_business':
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
         $stmt = $pdo->prepare("DELETE FROM businesses WHERE id = $1");
-        $stmt->execute([$_POST['id']]);
+        $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
 
@@ -336,6 +404,12 @@ switch ($action) {
         break;
 
     case 'add_product':
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+
         $img   = handleImage($_POST['image'] ?? '');
         $bizId = trim($_POST['business_id'] ?? '');
         $stmt  = $pdo->prepare("
@@ -344,19 +418,29 @@ switch ($action) {
             RETURNING id
         ");
         $stmt->execute([
-            $_POST['name']        ?? '',
-            $_POST['category']    ?? '',
-            $_POST['description'] ?? '',
-            dec($_POST['price']   ?? '') ?? 0,
+            $name,
+            trim($_POST['category']    ?? ''),
+            trim($_POST['description'] ?? ''),
+            dec($_POST['price']        ?? '') ?? 0,
             $bizId !== '' ? (int)$bizId : null,
             $img,
-            $_POST['status']      ?? 'active',
+            trim($_POST['status']      ?? 'active'),
         ]);
         $row = $stmt->fetch();
         echo json_encode(['success' => true, 'id' => $row['id']]);
         break;
 
     case 'update_product':
+        $name = trim($_POST['name'] ?? '');
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
+
         $img   = handleImage($_POST['image'] ?? '');
         $bizId = trim($_POST['business_id'] ?? '');
         $stmt  = $pdo->prepare("
@@ -365,21 +449,25 @@ switch ($action) {
             WHERE id=$8
         ");
         $stmt->execute([
-            $_POST['name']        ?? '',
-            $_POST['category']    ?? '',
-            $_POST['description'] ?? '',
-            dec($_POST['price']   ?? '') ?? 0,
+            $name,
+            trim($_POST['category']    ?? ''),
+            trim($_POST['description'] ?? ''),
+            dec($_POST['price']        ?? '') ?? 0,
             $bizId !== '' ? (int)$bizId : null,
             $img,
-            $_POST['status']      ?? 'active',
-            $_POST['id'],
+            trim($_POST['status']      ?? 'active'),
+            (int)$_POST['id'],
         ]);
         echo json_encode(['success' => true]);
         break;
 
     case 'delete_product':
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
         $stmt = $pdo->prepare("DELETE FROM products WHERE id = $1");
-        $stmt->execute([$_POST['id']]);
+        $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
 
@@ -414,6 +502,12 @@ switch ($action) {
         break;
 
     case 'add_event':
+        $title = trim($_POST['title'] ?? '');
+        if ($title === '') {
+            echo json_encode(['success' => false, 'message' => 'Title is required.']);
+            exit;
+        }
+
         $date = trim($_POST['event_date'] ?? '');
         $time = trim($_POST['event_time'] ?? '');
         $stmt = $pdo->prepare("
@@ -422,19 +516,29 @@ switch ($action) {
             RETURNING id
         ");
         $stmt->execute([
-            $_POST['title']       ?? '',
-            $_POST['type']        ?? '',
-            $_POST['description'] ?? '',
-            $_POST['location']    ?? '',
+            $title,
+            trim($_POST['type']        ?? ''),
+            trim($_POST['description'] ?? ''),
+            trim($_POST['location']    ?? ''),
             $date !== '' ? $date : null,
             $time !== '' ? $time : null,
-            $_POST['status']      ?? 'active',
+            trim($_POST['status']      ?? 'active'),
         ]);
         $row = $stmt->fetch();
         echo json_encode(['success' => true, 'id' => $row['id']]);
         break;
 
     case 'update_event':
+        $title = trim($_POST['title'] ?? '');
+        if ($title === '') {
+            echo json_encode(['success' => false, 'message' => 'Title is required.']);
+            exit;
+        }
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
+
         $date = trim($_POST['event_date'] ?? '');
         $time = trim($_POST['event_time'] ?? '');
         $stmt = $pdo->prepare("
@@ -443,21 +547,25 @@ switch ($action) {
             WHERE id=$8
         ");
         $stmt->execute([
-            $_POST['title']       ?? '',
-            $_POST['type']        ?? '',
-            $_POST['description'] ?? '',
-            $_POST['location']    ?? '',
+            $title,
+            trim($_POST['type']        ?? ''),
+            trim($_POST['description'] ?? ''),
+            trim($_POST['location']    ?? ''),
             $date !== '' ? $date : null,
             $time !== '' ? $time : null,
-            $_POST['status']      ?? 'active',
-            $_POST['id'],
+            trim($_POST['status']      ?? 'active'),
+            (int)$_POST['id'],
         ]);
         echo json_encode(['success' => true]);
         break;
 
     case 'delete_event':
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
         $stmt = $pdo->prepare("DELETE FROM events WHERE id = $1");
-        $stmt->execute([$_POST['id']]);
+        $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
 
@@ -484,7 +592,6 @@ switch ($action) {
             exit;
         }
 
-        // PostgreSQL upsert (replaces MySQL ON DUPLICATE KEY UPDATE)
         $stmt = $pdo->prepare("
             INSERT INTO app_settings (key, value) VALUES ($1, $2)
             ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = CURRENT_TIMESTAMP
@@ -532,15 +639,21 @@ switch ($action) {
         if (str_contains($message, 'spot') || str_contains($message, 'tourist')) {
             $stmt = $pdo->query("SELECT name FROM tourist_spots WHERE status='active' LIMIT 3");
             $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
-            $reply = "Here are some popular spots: $list. Check the map for directions!";
+            $reply = $list
+                ? "Here are some popular spots: $list. Check the map for directions!"
+                : "No tourist spots are available right now.";
         } elseif (str_contains($message, 'event') || str_contains($message, 'festival')) {
             $stmt = $pdo->query("SELECT title FROM events WHERE status='active' ORDER BY event_date ASC LIMIT 3");
             $list = implode(', ', array_column($stmt->fetchAll(), 'title'));
-            $reply = "Upcoming events: $list. Visit the Events tab for details!";
+            $reply = $list
+                ? "Upcoming events: $list. Visit the Events tab for details!"
+                : "No upcoming events right now.";
         } elseif (str_contains($message, 'business') || str_contains($message, 'shop') || str_contains($message, 'food')) {
             $stmt = $pdo->query("SELECT name FROM businesses WHERE status='active' LIMIT 3");
             $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
-            $reply = "Popular businesses: $list. Check the Business tab for more!";
+            $reply = $list
+                ? "Popular businesses: $list. Check the Business tab for more!"
+                : "No businesses listed yet.";
         } elseif (str_contains($message, 'hello') || str_contains($message, 'hi') || str_contains($message, 'hey')) {
             $reply = "Hello! Welcome to TomaSIGLA — your guide to Sto. Tomas, Batangas. How can I help you?";
         }
