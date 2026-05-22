@@ -730,6 +730,9 @@
 <div id="toast-container"></div>
 
 <script>
+    const CLOUDINARY_CLOUD = 'doyumggnp';
+    const CLOUDINARY_PRESET = 'tomasigla';
+
     let BASE_URL = localStorage.getItem('ts_base_url') || 'https://tomasigla-api.onrender.com/';
     const API = () => BASE_URL + 'index.php';
 
@@ -827,28 +830,66 @@
             grid.appendChild(add);
         }
     }
-    function addBizExtra(input) {
-        const file = input.files[0];
-        if (!file || bizExtraImages.length >= 3) return;
-        const reader = new FileReader();
-        reader.onload = e => { bizExtraImages.push(e.target.result); renderBizMultiGrid(); };
-        reader.readAsDataURL(file);
+   async function addBizExtra(input) {
+    const file = input.files[0];
+    if (!file || bizExtraImages.length >= 3) return;
+
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', CLOUDINARY_PRESET);
+
+    toast('Uploading image…', 'info');
+    try {
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+            method: 'POST', body: fd
+        });
+        const data = await res.json();
+        if (data.secure_url) {
+            bizExtraImages.push(data.secure_url);
+            renderBizMultiGrid();
+            toast('Image uploaded!', 'success');
+        } else throw new Error(data.error?.message || 'Upload failed');
+    } catch (err) {
+        toast('Upload failed: ' + err.message, 'error');
     }
+}
     function removeBizExtra(i) { bizExtraImages.splice(i, 1); renderBizMultiGrid(); }
 
-    function handleImgUpload(prefix) {
-        const file = document.getElementById(prefix + '-img-file').files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = e => {
-            imgData[prefix] = e.target.result;
-            document.getElementById(prefix + '-img-preview').src = e.target.result;
+    async function handleImgUpload(prefix) {
+    const file = document.getElementById(prefix + '-img-file').files[0];
+    if (!file) return;
+
+    const area = document.getElementById(prefix + '-img-area');
+    area.innerHTML = `<div style="padding:20px;color:var(--muted);font-size:13px">
+        <div class="spinner" style="margin:0 auto 8px"></div>Uploading…
+    </div>`;
+
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', CLOUDINARY_PRESET);
+
+    try {
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+            method: 'POST',
+            body: fd
+        });
+        const data = await res.json();
+
+        if (data.secure_url) {
+            imgData[prefix] = data.secure_url;
+            document.getElementById(prefix + '-img-preview').src = data.secure_url;
             document.getElementById(prefix + '-img-preview-wrap').style.display = 'block';
             document.getElementById(prefix + '-img-area').style.display = 'none';
-            document.getElementById(prefix + '-img-filename').textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-        };
-        reader.readAsDataURL(file);
+            document.getElementById(prefix + '-img-filename').textContent = 'Uploaded ✓';
+            toast('Image uploaded!', 'success');
+        } else {
+            throw new Error(data.error?.message || 'Upload failed');
+        }
+    } catch (err) {
+        toast('Image upload failed: ' + err.message, 'error');
+        resetImgUpload(prefix);
     }
+}
     function removeImg(prefix) {
         imgData[prefix] = null;
         document.getElementById(prefix + '-img-file').value = '';
