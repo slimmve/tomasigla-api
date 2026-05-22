@@ -87,6 +87,13 @@ function handleImage($value) {
 // ============================================================
 // ROUTER
 // ============================================================
+$action = $_GET['action'] ?? '';
+
+// Temporary debug
+if ($action === 'add_spot' && empty($_POST)) {
+    echo json_encode(['success' => false, 'message' => 'POST body is empty — server may have just woken up, try again.']);
+    exit;
+}
 
 switch ($action) {
 
