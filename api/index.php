@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// ── Global error/exception handlers so PHP never outputs raw HTML ──
 set_exception_handler(function ($e) {
     http_response_code(500);
     echo json_encode([
@@ -87,13 +86,6 @@ function handleImage($value) {
 // ============================================================
 // ROUTER
 // ============================================================
-$action = $_GET['action'] ?? '';
-
-// Temporary debug
-if ($action === 'add_spot' && empty($_POST)) {
-    echo json_encode(['success' => false, 'message' => 'POST body is empty — server may have just woken up, try again.']);
-    exit;
-}
 
 switch ($action) {
 
@@ -111,7 +103,7 @@ switch ($action) {
             exit;
         }
 
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = $1 LIMIT 1");
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
@@ -146,7 +138,7 @@ switch ($action) {
             exit;
         }
 
-        $check = $pdo->prepare("SELECT id FROM users WHERE email = $1 LIMIT 1");
+        $check = $pdo->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
         $check->execute([$email]);
         if ($check->fetch()) {
             echo json_encode(['success' => false, 'message' => 'Email already registered.']);
@@ -154,7 +146,7 @@ switch ($action) {
         }
 
         $hash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, 'user')");
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'user')");
         $stmt->execute([$name, $email, $hash]);
 
         echo json_encode(['success' => true, 'message' => 'Registered successfully.']);
@@ -169,14 +161,12 @@ switch ($action) {
         $category  =        $_GET['category'] ?? '';
         $adminMode =       ($_GET['admin']    ?? '') === '1';
 
-        $sql    = "SELECT * FROM tourist_spots WHERE (name ILIKE $1 OR description ILIKE $2 OR address ILIKE $3)";
+        $sql    = "SELECT * FROM tourist_spots WHERE (name ILIKE ? OR description ILIKE ? OR address ILIKE ?)";
         $params = [$search, $search, $search];
-        $i = 4;
 
         if ($category) {
-            $sql    .= " AND category = \$$i";
+            $sql    .= " AND category = ?";
             $params[] = $category;
-            $i++;
         }
 
         if (!$adminMode) {
@@ -200,7 +190,7 @@ switch ($action) {
         $img  = handleImage($_POST['image'] ?? '');
         $stmt = $pdo->prepare("
             INSERT INTO tourist_spots (name, category, description, address, latitude, longitude, image, status)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         ");
         $stmt->execute([
@@ -231,8 +221,8 @@ switch ($action) {
         $img  = handleImage($_POST['image'] ?? '');
         $stmt = $pdo->prepare("
             UPDATE tourist_spots
-            SET name=$1, category=$2, description=$3, address=$4, latitude=$5, longitude=$6, image=$7, status=$8
-            WHERE id=$9
+            SET name=?, category=?, description=?, address=?, latitude=?, longitude=?, image=?, status=?
+            WHERE id=?
         ");
         $stmt->execute([
             $name,
@@ -253,7 +243,7 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'ID is required.']);
             exit;
         }
-        $stmt = $pdo->prepare("DELETE FROM tourist_spots WHERE id = $1");
+        $stmt = $pdo->prepare("DELETE FROM tourist_spots WHERE id = ?");
         $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
@@ -267,14 +257,12 @@ switch ($action) {
         $category  =        $_GET['category'] ?? '';
         $adminMode =       ($_GET['admin']    ?? '') === '1';
 
-        $sql    = "SELECT * FROM businesses WHERE (name ILIKE $1 OR description ILIKE $2 OR address ILIKE $3)";
+        $sql    = "SELECT * FROM businesses WHERE (name ILIKE ? OR description ILIKE ? OR address ILIKE ?)";
         $params = [$search, $search, $search];
-        $i = 4;
 
         if ($category) {
-            $sql    .= " AND category = \$$i";
+            $sql    .= " AND category = ?";
             $params[] = $category;
-            $i++;
         }
 
         if (!$adminMode) {
@@ -308,7 +296,7 @@ switch ($action) {
 
         $stmt = $pdo->prepare("
             INSERT INTO businesses (name, category, description, address, contact, latitude, longitude, image, images, status)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         ");
         $stmt->execute([
@@ -346,8 +334,8 @@ switch ($action) {
 
         $stmt = $pdo->prepare("
             UPDATE businesses
-            SET name=$1, category=$2, description=$3, address=$4, contact=$5, latitude=$6, longitude=$7, image=$8, images=$9, status=$10
-            WHERE id=$11
+            SET name=?, category=?, description=?, address=?, contact=?, latitude=?, longitude=?, image=?, images=?, status=?
+            WHERE id=?
         ");
         $stmt->execute([
             $name,
@@ -370,7 +358,7 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'ID is required.']);
             exit;
         }
-        $stmt = $pdo->prepare("DELETE FROM businesses WHERE id = $1");
+        $stmt = $pdo->prepare("DELETE FROM businesses WHERE id = ?");
         $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
@@ -388,15 +376,13 @@ switch ($action) {
             SELECT p.*, b.name AS business_name
             FROM products p
             LEFT JOIN businesses b ON p.business_id = b.id
-            WHERE (p.name ILIKE $1 OR p.description ILIKE $2)
+            WHERE (p.name ILIKE ? OR p.description ILIKE ?)
         ";
         $params = [$search, $search];
-        $i = 3;
 
         if ($category) {
-            $sql    .= " AND p.category = \$$i";
+            $sql    .= " AND p.category = ?";
             $params[] = $category;
-            $i++;
         }
 
         if (!$adminMode) {
@@ -421,7 +407,7 @@ switch ($action) {
         $bizId = trim($_POST['business_id'] ?? '');
         $stmt  = $pdo->prepare("
             INSERT INTO products (name, category, description, price, business_id, image, status)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         ");
         $stmt->execute([
@@ -452,8 +438,8 @@ switch ($action) {
         $bizId = trim($_POST['business_id'] ?? '');
         $stmt  = $pdo->prepare("
             UPDATE products
-            SET name=$1, category=$2, description=$3, price=$4, business_id=$5, image=$6, status=$7
-            WHERE id=$8
+            SET name=?, category=?, description=?, price=?, business_id=?, image=?, status=?
+            WHERE id=?
         ");
         $stmt->execute([
             $name,
@@ -473,7 +459,7 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'ID is required.']);
             exit;
         }
-        $stmt = $pdo->prepare("DELETE FROM products WHERE id = $1");
+        $stmt = $pdo->prepare("DELETE FROM products WHERE id = ?");
         $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
@@ -487,14 +473,12 @@ switch ($action) {
         $type      =        $_GET['type']   ?? '';
         $adminMode =       ($_GET['admin']  ?? '') === '1';
 
-        $sql    = "SELECT * FROM events WHERE (title ILIKE $1 OR description ILIKE $2 OR location ILIKE $3)";
+        $sql    = "SELECT * FROM events WHERE (title ILIKE ? OR description ILIKE ? OR location ILIKE ?)";
         $params = [$search, $search, $search];
-        $i = 4;
 
         if ($type) {
-            $sql    .= " AND type = \$$i";
+            $sql    .= " AND type = ?";
             $params[] = $type;
-            $i++;
         }
 
         if (!$adminMode) {
@@ -519,7 +503,7 @@ switch ($action) {
         $time = trim($_POST['event_time'] ?? '');
         $stmt = $pdo->prepare("
             INSERT INTO events (title, type, description, location, event_date, event_time, status)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             RETURNING id
         ");
         $stmt->execute([
@@ -550,8 +534,8 @@ switch ($action) {
         $time = trim($_POST['event_time'] ?? '');
         $stmt = $pdo->prepare("
             UPDATE events
-            SET title=$1, type=$2, description=$3, location=$4, event_date=$5, event_time=$6, status=$7
-            WHERE id=$8
+            SET title=?, type=?, description=?, location=?, event_date=?, event_time=?, status=?
+            WHERE id=?
         ");
         $stmt->execute([
             $title,
@@ -571,7 +555,7 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'ID is required.']);
             exit;
         }
-        $stmt = $pdo->prepare("DELETE FROM events WHERE id = $1");
+        $stmt = $pdo->prepare("DELETE FROM events WHERE id = ?");
         $stmt->execute([(int)$_POST['id']]);
         echo json_encode(['success' => true]);
         break;
@@ -600,7 +584,7 @@ switch ($action) {
         }
 
         $stmt = $pdo->prepare("
-            INSERT INTO app_settings (key, value) VALUES ($1, $2)
+            INSERT INTO app_settings (key, value) VALUES (?, ?)
             ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = CURRENT_TIMESTAMP
         ");
         $stmt->execute([$key, $value]);
@@ -617,7 +601,7 @@ switch ($action) {
         }
 
         $stmt = $pdo->prepare("
-            INSERT INTO app_settings (key, value) VALUES ($1, $2)
+            INSERT INTO app_settings (key, value) VALUES (?, ?)
             ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = CURRENT_TIMESTAMP
         ");
 
