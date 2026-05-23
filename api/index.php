@@ -651,7 +651,90 @@ switch ($action) {
 
         echo json_encode(['success' => true, 'reply' => $reply]);
         break;
+// ============================================================
+    // SUGGESTIONS
+    // ============================================================
 
+    case 'submit_suggestion':
+        $name     = trim($_POST['name']     ?? '');
+        $category = trim($_POST['category'] ?? '');
+
+        if ($name === '') {
+            echo json_encode(['success' => false, 'message' => 'Name is required.']);
+            exit;
+        }
+        if (!in_array($category, ['Spot', 'Business', 'Product', 'Event'])) {
+            echo json_encode(['success' => false, 'message' => 'Invalid category.']);
+            exit;
+        }
+
+        $stmt = $pdo->prepare("
+            INSERT INTO suggestions (name, category, status)
+            VALUES (?, ?, 'pending')
+        ");
+        $stmt->execute([$name, $category]);
+
+        echo json_encode(['success' => true, 'message' => 'Suggestion submitted!']);
+        break;
+
+    case 'get_suggestions':
+        $status = $_GET['status'] ?? 'pending';
+        $stmt   = $pdo->prepare("SELECT * FROM suggestions WHERE status = ? ORDER BY created_at DESC");
+        $stmt->execute([$status]);
+        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        break;
+
+    case 'approve_suggestion':
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
+
+        $stmt = $pdo->prepare("SELECT * FROM suggestions WHERE id = ? LIMIT 1");
+        $stmt->execute([(int)$_POST['id']]);
+        $suggestion = $stmt->fetch();
+
+        if (!$suggestion) {
+            echo json_encode(['success' => false, 'message' => 'Suggestion not found.']);
+            exit;
+        }
+
+        $table = match($suggestion['category']) {
+            'Spot'     => 'tourist_spots',
+            'Business' => 'businesses',
+            'Product'  => 'products',
+            'Event'    => 'events',
+            default    => null,
+        };
+
+        if (!$table) {
+            echo json_encode(['success' => false, 'message' => 'Unknown category.']);
+            exit;
+        }
+
+        $pdo->prepare("
+            INSERT INTO $table (name, status, created_at, updated_at)
+            VALUES (?, 'active', NOW(), NOW())
+        ")->execute([$suggestion['name']]);
+
+        $pdo->prepare("UPDATE suggestions SET status = 'approved', updated_at = NOW() WHERE id = ?")
+            ->execute([(int)$_POST['id']]);
+
+        echo json_encode(['success' => true, 'message' => 'Approved and added to ' . $table . '!']);
+        break;
+
+    case 'reject_suggestion':
+        if (empty($_POST['id'])) {
+            echo json_encode(['success' => false, 'message' => 'ID is required.']);
+            exit;
+        }
+
+        $pdo->prepare("UPDATE suggestions SET status = 'rejected', updated_at = NOW() WHERE id = ?")
+            ->execute([(int)$_POST['id']]);
+
+        echo json_encode(['success' => true, 'message' => 'Suggestion rejected.']);
+        break;
+        
     // ============================================================
     // DEFAULT
     // ============================================================
