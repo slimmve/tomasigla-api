@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -31,15 +32,58 @@
             --dj-blue-dark: #356078;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
-        html, body { height: 100%; font-family: 'Satoshi', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5 }
-        a { color: inherit; text-decoration: none }
-        button { cursor: pointer; font-family: inherit }
-        input, select, textarea { font-family: inherit }
-        table { border-collapse: collapse; width: 100% }
-        ::-webkit-scrollbar { width: 4px; height: 4px }
-        ::-webkit-scrollbar-track { background: transparent }
-        ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 2px }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Satoshi', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit
+        }
+
+        input,
+        select,
+        textarea {
+            font-family: inherit
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-dark);
+            border-radius: 2px
+        }
 
         /* ── DJANGO-STYLE LOGIN ── */
         #login-screen {
@@ -49,19 +93,22 @@
             min-height: 100vh;
             background: #f5f5f5;
         }
+
         .login-box {
             width: 370px;
             background: #fff;
             border: 1px solid #ccc;
-            box-shadow: 0 2px 10px rgba(0,0,0,.12);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
             border-radius: 3px;
             overflow: hidden;
         }
+
         .login-header {
             background: var(--dj-blue);
             padding: 20px 24px 16px;
             text-align: center;
         }
+
         .login-logo {
             font-weight: 700;
             font-size: 22px;
@@ -69,13 +116,16 @@
             letter-spacing: 0.3px;
             margin-bottom: 4px;
         }
+
         .login-sub {
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 12px;
         }
+
         .login-body {
             padding: 22px 24px 26px;
         }
+
         .login-body label {
             display: block;
             font-size: 12px;
@@ -86,7 +136,11 @@
             margin-bottom: 5px;
             margin-top: 16px;
         }
-        .login-body label:first-of-type { margin-top: 0; }
+
+        .login-body label:first-of-type {
+            margin-top: 0;
+        }
+
         .login-body input {
             width: 100%;
             padding: 9px 11px;
@@ -98,11 +152,13 @@
             outline: none;
             transition: border .2s, box-shadow .2s;
         }
+
         .login-body input:focus {
             border-color: var(--dj-blue);
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(65,118,144,.15);
+            box-shadow: 0 0 0 3px rgba(65, 118, 144, .15);
         }
+
         .login-btn {
             width: 100%;
             margin-top: 20px;
@@ -116,1199 +172,2436 @@
             letter-spacing: 0.2px;
             transition: background .15s;
         }
-        .login-btn:hover { background: var(--dj-blue-dark); }
-        .login-err { color: var(--danger); font-size: 12px; margin-top: 10px; display: none; text-align: center; }
 
-        #app { display: none; height: 100vh; overflow: hidden; flex-direction: column }
-        .hdr { height: var(--hdr); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,.04) }
-        .hdr-brand { font-weight: 800; font-size: 20px; color: var(--accent) }
-        .hdr-user { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted) }
-        .hdr-user span { color: var(--text); font-weight: 500 }
-        .logout-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 5px 12px; font-size: 12px; transition: all .15s }
-        .logout-btn:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg) }
-
-        .body-wrap { display: flex; flex: 1; overflow: hidden }
-        .sidebar { width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; padding: 16px 0; overflow-y: auto }
-        .nav-section { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted-light); padding: 20px 20px 6px }
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; cursor: pointer; font-size: 13px; font-weight: 400; color: var(--muted); border-left: 2px solid transparent; transition: all .15s }
-        .nav-item svg { opacity: .5; flex-shrink: 0; transition: opacity .15s }
-        .nav-item:hover { background: var(--bg); color: var(--text2) }
-        .nav-item:hover svg { opacity: .8 }
-        .nav-item.active { background: var(--accent-bg); color: var(--accent); border-left-color: var(--accent); font-weight: 600 }
-        .nav-item.active svg { opacity: 1 }
-
-        .main { flex: 1; overflow-y: auto; padding: 28px; background: var(--bg) }
-        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px }
-        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.04) }
-        .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px }
-        .stat-num { font-weight: 700; font-size: 32px; color: var(--text) }
-        .stat-sub { font-size: 11px; color: var(--muted-light); margin-top: 4px }
-
-        .section-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px }
-        .section-title { font-weight: 700; font-size: 20px; color: var(--text) }
-        .section-actions { display: flex; gap: 10px; align-items: center }
-
-        .search-wrap { position: relative }
-        .search-wrap input { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 14px 8px 34px; border-radius: 8px; font-size: 13px; outline: none; width: 210px; transition: border .2s }
-        .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,146,42,.1) }
-        .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: .4 }
-        .filter-sel { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer }
-
-        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; border: none; transition: all .15s }
-        .btn-primary { background: var(--accent); color: #fff }
-        .btn-primary:hover { opacity: .88 }
-        .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text2) }
-        .btn-secondary:hover { border-color: var(--accent); color: var(--accent) }
-        .btn-danger { background: var(--danger-bg); border: 1px solid rgba(220,38,38,.25); color: var(--danger) }
-        .btn-danger:hover { background: #fee2e2 }
-        .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px }
-
-        .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.04) }
-        .table-wrap table thead th { background: var(--bg); padding: 10px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border) }
-        .table-wrap table tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; color: var(--text2) }
-        .table-wrap table tbody tr:last-child td { border-bottom: none }
-        .table-wrap table tbody tr:hover td { background: #fafbfc }
-
-        .td-img { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border) }
-        .td-img-placeholder { width: 40px; height: 40px; border-radius: 6px; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center }
-
-        .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600 }
-        .badge-active { background: var(--success-bg); color: var(--success); border: 1px solid rgba(22,163,74,.2) }
-        .badge-inactive { background: #f9fafb; color: var(--muted); border: 1px solid var(--border) }
-        .badge-pending { background: var(--accent-bg); color: var(--accent); border: 1px solid rgba(200,146,42,.25) }
-
-        .act-btns { display: flex; gap: 6px }
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--muted) }
-        .empty-state p { font-size: 13px }
-        .loading-row td { text-align: center; padding: 40px; color: var(--muted) }
-        .spinner { display: inline-block; width: 22px; height: 22px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite }
-
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); backdrop-filter: blur(2px); z-index: 100; display: none; align-items: center; justify-content: center }
-        .overlay.show { display: flex }
-        .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; width: 620px; max-width: 96vw; max-height: 92vh; overflow-y: auto; animation: fadeUp .25s ease; box-shadow: 0 16px 48px rgba(0,0,0,.12) }
-        .modal-title { font-weight: 700; font-size: 18px; margin-bottom: 22px; color: var(--text) }
-        .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px }
-
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
-        .form-grid.single { grid-template-columns: 1fr }
-        .form-group { display: flex; flex-direction: column; gap: 6px }
-        .form-group.full { grid-column: 1/-1 }
-        .form-group label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; font-weight: 600 }
-        .form-group input, .form-group select, .form-group textarea { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 9px 12px; border-radius: 8px; font-size: 13px; outline: none; transition: border .2s }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,146,42,.1) }
-        .form-group textarea { resize: vertical; min-height: 80px }
-
-        .map-picker-wrap { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); position: relative }
-        .map-container { height: 260px; width: 100%; }
-        .map-hint {
-            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-            background: rgba(255,255,255,.92); border: 1px solid var(--border);
-            border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--text2);
-            z-index: 500; pointer-events: none; white-space: nowrap;
-            display: flex; align-items: center; gap: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+        .login-btn:hover {
+            background: var(--dj-blue-dark);
         }
-        .map-hint svg { color: var(--accent) }
-        .map-coords-row { display: flex; gap: 10px; margin-top: 8px }
-        .map-coords-row .form-group { flex: 1 }
-        .map-coords-row input { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 8px; font-size: 13px; width: 100%; outline: none }
-        .map-coords-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,146,42,.1) }
-        .map-reset-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; font-size: 11px; color: var(--muted); background: none; border: none; padding: 0; cursor: pointer; text-decoration: underline }
-        .map-reset-btn:hover { color: var(--accent) }
 
-        .img-upload-wrap { display: flex; flex-direction: column; gap: 8px }
-        .img-upload-area { border: 2px dashed var(--border-dark); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: all .2s; background: var(--bg); position: relative }
-        .img-upload-area:hover, .img-upload-area.drag-over { border-color: var(--accent); background: var(--accent-bg) }
-        .img-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100% }
-        .img-upload-icon { color: var(--muted-light); margin-bottom: 6px }
-        .img-upload-text { font-size: 12px; color: var(--muted) }
-        .img-upload-text span { color: var(--accent); font-weight: 600 }
-        .img-preview-wrap { display: none; position: relative; margin-top: 4px }
-        .img-preview { width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border) }
-        .img-remove-btn { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,.55); color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; line-height: 1 }
-        .img-filename { font-size: 11px; color: var(--muted); text-align: center; margin-top: 4px }
+        .login-err {
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 10px;
+            display: none;
+            text-align: center;
+        }
 
-        .multi-img-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px }
-        .multi-img-item { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 1 }
-        .multi-img-item img { width: 100%; height: 100%; object-fit: cover }
-        .multi-img-remove { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.6); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer }
-        .multi-img-add { border: 2px dashed var(--border-dark); border-radius: 8px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; background: var(--bg); position: relative; font-size: 11px; color: var(--muted); gap: 4px }
-        .multi-img-add:hover { border-color: var(--accent); background: var(--accent-bg); color: var(--accent) }
-        .multi-img-add input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100% }
-        .multi-img-label { font-size: 11px; color: var(--muted); margin-bottom: 4px }
+        #app {
+            display: none;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column
+        }
 
-        .confirm-modal { width: 380px }
-        .confirm-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--danger-bg); border: 1px solid rgba(220,38,38,.2); display: flex; align-items: center; justify-content: center; margin-bottom: 16px }
-        .confirm-msg { color: var(--muted); font-size: 13px; margin-top: 6px }
+        .hdr {
+            height: var(--hdr);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .04)
+        }
 
-        #toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 999 }
-        .toast { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 18px; font-size: 13px; animation: toastIn .3s ease; display: flex; align-items: center; gap: 10px; max-width: 320px; box-shadow: 0 4px 16px rgba(0,0,0,.1); color: var(--text2) }
-        .toast.success { border-color: rgba(22,163,74,.3); }
-        .toast.error { border-color: rgba(220,38,38,.3); }
-        .toast.info { border-color: rgba(37,99,235,.3); }
+        .hdr-brand {
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--accent)
+        }
 
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
-        @keyframes spin { to { transform: rotate(360deg) } }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(20px) } to { opacity: 1; transform: translateX(0) } }
+        .hdr-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--muted)
+        }
 
-        .panel { display: none }
-        .panel.active { display: block; animation: fadeUp .3s ease }
+        .hdr-user span {
+            color: var(--text);
+            font-weight: 500
+        }
 
-        .pagination { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; font-size: 12px; color: var(--muted) }
-        .page-btns { display: flex; gap: 6px }
-        .page-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text2); padding: 4px 10px; border-radius: 6px; font-size: 12px; transition: all .15s }
-        .page-btn:hover, .page-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-bg) }
-        .page-btn:disabled { opacity: .3; cursor: not-allowed }
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 12px;
+            transition: all .15s
+        }
 
-        .toggle-track { width: 44px; height: 24px; background: var(--border-dark); border-radius: 12px; transition: background .2s; cursor: pointer; position: relative; flex-shrink: 0 }
-        .toggle-thumb { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2) }
-        .toggle-wrap { display: flex; align-items: center; gap: 12px }
+        .logout-btn:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: var(--danger-bg)
+        }
 
-        .settings-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 660px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.04) }
-        .settings-card-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: var(--text) }
-        .settings-card-desc { color: var(--muted); font-size: 12px; margin-bottom: 18px }
-        .section-toggle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
-        .section-toggle-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border) }
-        .section-toggle-label { font-size: 13px; color: var(--text2) }
+        .body-wrap {
+            display: flex;
+            flex: 1;
+            overflow: hidden
+        }
 
-        .custom-pin { background: var(--accent); border: 3px solid #fff; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); width: 28px; height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,.3) }
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            padding: 16px 0;
+            overflow-y: auto
+        }
 
-        .status-toggle-wrap { display: flex; align-items: center; gap: 12px; padding: 9px 0 }
-        .status-toggle-track { width: 44px; height: 24px; border-radius: 12px; cursor: pointer; position: relative; flex-shrink: 0; transition: background .2s; background: var(--border-dark) }
-        .status-toggle-track.on { background: var(--success) }
-        .status-toggle-thumb { width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2) }
-        .status-toggle-track.on .status-toggle-thumb { transform: translateX(20px) }
-        .status-toggle-label { font-size: 13px; font-weight: 500 }
-        .status-toggle-label.on { color: var(--success) }
-        .status-toggle-label.off { color: var(--muted) }
+        .nav-section {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--muted-light);
+            padding: 20px 20px 6px
+        }
 
-        .status-tog-track { width: 48px; height: 26px; border-radius: 13px; cursor: pointer; position: relative; flex-shrink: 0; transition: background .2s; background: var(--border-dark); border: none; padding: 0 }
-        .status-tog-track.on { background: var(--success) }
-        .status-tog-thumb { width: 22px; height: 22px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: transform .22s; box-shadow: 0 1px 4px rgba(0,0,0,.2); pointer-events: none }
-        .status-tog-track.on .status-tog-thumb { transform: translateX(22px) }
-        .status-tog-lbl { font-size: 13px; font-weight: 600; color: var(--muted) }
-        .status-tog-lbl.on { color: var(--success) }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--muted);
+            border-left: 2px solid transparent;
+            transition: all .15s
+        }
+
+        .nav-item svg {
+            opacity: .5;
+            flex-shrink: 0;
+            transition: opacity .15s
+        }
+
+        .nav-item:hover {
+            background: var(--bg);
+            color: var(--text2)
+        }
+
+        .nav-item:hover svg {
+            opacity: .8
+        }
+
+        .nav-item.active {
+            background: var(--accent-bg);
+            color: var(--accent);
+            border-left-color: var(--accent);
+            font-weight: 600
+        }
+
+        .nav-item.active svg {
+            opacity: 1
+        }
+
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px;
+            background: var(--bg)
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 28px
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .04)
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 8px
+        }
+
+        .stat-num {
+            font-weight: 700;
+            font-size: 32px;
+            color: var(--text)
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: var(--muted-light);
+            margin-top: 4px
+        }
+
+        .section-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--text)
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .search-wrap {
+            position: relative
+        }
+
+        .search-wrap input {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 14px 8px 34px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            width: 210px;
+            transition: border .2s
+        }
+
+        .search-wrap input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 146, 42, .1)
+        }
+
+        .search-wrap svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: .4
+        }
+
+        .filter-sel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            transition: all .15s
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff
+        }
+
+        .btn-primary:hover {
+            opacity: .88
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text2)
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent)
+        }
+
+        .btn-danger {
+            background: var(--danger-bg);
+            border: 1px solid rgba(220, 38, 38, .25);
+            color: var(--danger)
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 6px
+        }
+
+        .table-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .04)
+        }
+
+        .table-wrap table thead th {
+            background: var(--bg);
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: var(--muted);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .table-wrap table tbody td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            vertical-align: middle;
+            color: var(--text2)
+        }
+
+        .table-wrap table tbody tr:last-child td {
+            border-bottom: none
+        }
+
+        .table-wrap table tbody tr:hover td {
+            background: #fafbfc
+        }
+
+        .td-img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border)
+        }
+
+        .td-img-placeholder {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600
+        }
+
+        .badge-active {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid rgba(22, 163, 74, .2)
+        }
+
+        .badge-inactive {
+            background: #f9fafb;
+            color: var(--muted);
+            border: 1px solid var(--border)
+        }
+
+        .badge-pending {
+            background: var(--accent-bg);
+            color: var(--accent);
+            border: 1px solid rgba(200, 146, 42, .25)
+        }
+
+        .act-btns {
+            display: flex;
+            gap: 6px
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted)
+        }
+
+        .empty-state p {
+            font-size: 13px
+        }
+
+        .loading-row td {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted)
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .7s linear infinite
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .35);
+            backdrop-filter: blur(2px);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center
+        }
+
+        .overlay.show {
+            display: flex
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            width: 620px;
+            max-width: 96vw;
+            max-height: 92vh;
+            overflow-y: auto;
+            animation: fadeUp .25s ease;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .12)
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 22px;
+            color: var(--text)
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 24px
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        .form-grid.single {
+            grid-template-columns: 1fr
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .form-group.full {
+            grid-column: 1/-1
+        }
+
+        .form-group label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            font-weight: 600
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            transition: border .2s
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 146, 42, .1)
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px
+        }
+
+        .map-picker-wrap {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative
+        }
+
+        .map-container {
+            height: 260px;
+            width: 100%;
+        }
+
+        .map-hint {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, .92);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 12px;
+            color: var(--text2);
+            z-index: 500;
+            pointer-events: none;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        }
+
+        .map-hint svg {
+            color: var(--accent)
+        }
+
+        .map-coords-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px
+        }
+
+        .map-coords-row .form-group {
+            flex: 1
+        }
+
+        .map-coords-row input {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            width: 100%;
+            outline: none
+        }
+
+        .map-coords-row input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 146, 42, .1)
+        }
+
+        .map-reset-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--muted);
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            text-decoration: underline
+        }
+
+        .map-reset-btn:hover {
+            color: var(--accent)
+        }
+
+        .img-upload-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .img-upload-area {
+            border: 2px dashed var(--border-dark);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: var(--bg);
+            position: relative
+        }
+
+        .img-upload-area:hover,
+        .img-upload-area.drag-over {
+            border-color: var(--accent);
+            background: var(--accent-bg)
+        }
+
+        .img-upload-area input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%
+        }
+
+        .img-upload-icon {
+            color: var(--muted-light);
+            margin-bottom: 6px
+        }
+
+        .img-upload-text {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .img-upload-text span {
+            color: var(--accent);
+            font-weight: 600
+        }
+
+        .img-preview-wrap {
+            display: none;
+            position: relative;
+            margin-top: 4px
+        }
+
+        .img-preview {
+            width: 100%;
+            max-height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border)
+        }
+
+        .img-remove-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(0, 0, 0, .55);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            line-height: 1
+        }
+
+        .img-filename {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 4px
+        }
+
+        .multi-img-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .multi-img-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 1
+        }
+
+        .multi-img-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .multi-img-remove {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, .6);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer
+        }
+
+        .multi-img-add {
+            border: 2px dashed var(--border-dark);
+            border-radius: 8px;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: var(--bg);
+            position: relative;
+            font-size: 11px;
+            color: var(--muted);
+            gap: 4px
+        }
+
+        .multi-img-add:hover {
+            border-color: var(--accent);
+            background: var(--accent-bg);
+            color: var(--accent)
+        }
+
+        .multi-img-add input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%
+        }
+
+        .multi-img-label {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 4px
+        }
+
+        .confirm-modal {
+            width: 380px
+        }
+
+        .confirm-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--danger-bg);
+            border: 1px solid rgba(220, 38, 38, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px
+        }
+
+        .confirm-msg {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 6px
+        }
+
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 999
+        }
+
+        .toast {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 13px;
+            animation: toastIn .3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 320px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+            color: var(--text2)
+        }
+
+        .toast.success {
+            border-color: rgba(22, 163, 74, .3);
+        }
+
+        .toast.error {
+            border-color: rgba(220, 38, 38, .3);
+        }
+
+        .toast.info {
+            border-color: rgba(37, 99, 235, .3);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        .panel {
+            display: none
+        }
+
+        .panel.active {
+            display: block;
+            animation: fadeUp .3s ease
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .page-btns {
+            display: flex;
+            gap: 6px
+        }
+
+        .page-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            transition: all .15s
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-bg)
+        }
+
+        .page-btn:disabled {
+            opacity: .3;
+            cursor: not-allowed
+        }
+
+        .toggle-track {
+            width: 44px;
+            height: 24px;
+            background: var(--border-dark);
+            border-radius: 12px;
+            transition: background .2s;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0
+        }
+
+        .toggle-thumb {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform .2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .2)
+        }
+
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .settings-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 660px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .04)
+        }
+
+        .settings-card-title {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: var(--text)
+        }
+
+        .settings-card-desc {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 18px
+        }
+
+        .section-toggle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .section-toggle-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border)
+        }
+
+        .section-toggle-label {
+            font-size: 13px;
+            color: var(--text2)
+        }
+
+        .custom-pin {
+            background: var(--accent);
+            border: 3px solid #fff;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            width: 28px;
+            height: 28px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3)
+        }
+
+        .status-toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 0
+        }
+
+        .status-toggle-track {
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: background .2s;
+            background: var(--border-dark)
+        }
+
+        .status-toggle-track.on {
+            background: var(--success)
+        }
+
+        .status-toggle-thumb {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform .2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .2)
+        }
+
+        .status-toggle-track.on .status-toggle-thumb {
+            transform: translateX(20px)
+        }
+
+        .status-toggle-label {
+            font-size: 13px;
+            font-weight: 500
+        }
+
+        .status-toggle-label.on {
+            color: var(--success)
+        }
+
+        .status-toggle-label.off {
+            color: var(--muted)
+        }
+
+        .status-tog-track {
+            width: 48px;
+            height: 26px;
+            border-radius: 13px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: background .2s;
+            background: var(--border-dark);
+            border: none;
+            padding: 0
+        }
+
+        .status-tog-track.on {
+            background: var(--success)
+        }
+
+        .status-tog-thumb {
+            width: 22px;
+            height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform .22s;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+            pointer-events: none
+        }
+
+        .status-tog-track.on .status-tog-thumb {
+            transform: translateX(22px)
+        }
+
+        .status-tog-lbl {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted)
+        }
+
+        .status-tog-lbl.on {
+            color: var(--success)
+        }
     </style>
 </head>
+
 <body>
 
-<!-- ══════════════════════════════════════
+    <!-- ══════════════════════════════════════
      DJANGO-STYLE LOGIN
 ══════════════════════════════════════ -->
-<div id="login-screen">
-    <div class="login-box">
-        <div class="login-header">
-            <div class="login-logo">TomaSIGLA</div>
-        </div>
-        <div class="login-body">
-            <label>Email:</label>
-            <input type="email" id="l-email" placeholder="admin@tomasigla.com" />
-            <label>Password:</label>
-            <input type="password" id="l-pass" placeholder="••••••••" />
-            <button class="login-btn" onclick="doLogin()">Log in</button>
-            <div class="login-err" id="l-err">Invalid credentials.</div>
-        </div>
-    </div>
-</div>
-
-<div id="app" style="display:none;flex-direction:column;height:100vh">
-    <div class="hdr">
-        <div class="hdr-brand">TomaSIGLA</div>
-        <div class="hdr-user">Logged in as <span id="admin-name">Admin</span>
-            <button class="logout-btn" onclick="doLogout()">Logout</button>
+    <div id="login-screen">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">TomaSIGLA</div>
+            </div>
+            <div class="login-body">
+                <label>Email:</label>
+                <input type="email" id="l-email" placeholder="admin@tomasigla.com" />
+                <label>Password:</label>
+                <input type="password" id="l-pass" placeholder="••••••••" />
+                <button class="login-btn" onclick="doLogin()">Log in</button>
+                <div class="login-err" id="l-err">Invalid credentials.</div>
+            </div>
         </div>
     </div>
-    <div class="body-wrap">
-        <nav class="sidebar">
-            <div class="nav-section">Overview</div>
-            <div class="nav-item active" onclick="showPanel('dashboard',this)">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-                Dashboard
-            </div>
-            <div class="nav-section">Content</div>
-            <div class="nav-item" onclick="showPanel('spots',this)">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                Tourist Spots
-            </div>
-            <div class="nav-item" onclick="showPanel('businesses',this)">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 21v-6h6v6"/></svg>
-                Businesses
-            </div>
-            <div class="nav-item" onclick="showPanel('products',this)">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-                Products
-            </div>
-            <div class="nav-item" onclick="showPanel('events',this)">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18"/></svg>
-                Events
-            </div>
-            <div class="nav-section">System</div>
-            <div class="nav-item" onclick="showPanel('settings',this)">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-                Settings
-            </div>
-        </nav>
 
-        <main class="main">
-
-            <!-- DASHBOARD -->
-            <div class="panel active" id="panel-dashboard">
-                <div class="section-hdr">
-                    <div class="section-title">Dashboard</div>
-                    <button class="btn btn-secondary" onclick="loadDashboard()">
-                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                        Refresh
-                    </button>
+    <div id="app" style="display:none;flex-direction:column;height:100vh">
+        <div class="hdr">
+            <div class="hdr-brand">TomaSIGLA</div>
+            <div class="hdr-user">Logged in as <span id="admin-name">Admin</span>
+                <button class="logout-btn" onclick="doLogout()">Logout</button>
+            </div>
+        </div>
+        <div class="body-wrap">
+            <nav class="sidebar">
+                <div class="nav-section">Overview</div>
+                <div class="nav-item active" onclick="showPanel('dashboard',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
                 </div>
-                <div class="stats-row">
-                    <div class="stat-card"><div class="stat-label">Tourist Spots</div><div class="stat-num" id="stat-spots">—</div><div class="stat-sub">Total entries</div></div>
-                    <div class="stat-card"><div class="stat-label">Businesses</div><div class="stat-num" id="stat-biz">—</div><div class="stat-sub">Total entries</div></div>
-                    <div class="stat-card"><div class="stat-label">Products</div><div class="stat-num" id="stat-prod">—</div><div class="stat-sub">Total entries</div></div>
-                    <div class="stat-card"><div class="stat-label">Events</div><div class="stat-num" id="stat-events">—</div><div class="stat-sub">Total entries</div></div>
+                <div class="nav-section">Content</div>
+                <div class="nav-item" onclick="showPanel('spots',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    Tourist Spots
                 </div>
-                <div style="color:var(--muted);font-size:12px;text-align:center;margin-top:40px">Select a section from the sidebar to manage content.</div>
-            </div>
+                <div class="nav-item" onclick="showPanel('businesses',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 21v-6h6v6" />
+                    </svg>
+                    Businesses
+                </div>
+                <div class="nav-item" onclick="showPanel('products',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    Products
+                </div>
+                <div class="nav-item" onclick="showPanel('events',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <path stroke-linecap="round" d="M16 2v4M8 2v4M3 10h18" />
+                    </svg>
+                    Events
+                </div>
+                <div class="nav-item" onclick="showPanel('suggestions',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    Suggestions
+                </div>
+                <div class="nav-section">System</div>
+                <div class="nav-item" onclick="showPanel('settings',this)">
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="1.8">
+                        <circle cx="12" cy="12" r="3" />
+                        <path stroke-linecap="round"
+                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                    </svg>
+                    Settings
+                </div>
+            </nav>
 
-            <!-- TOURIST SPOTS -->
-            <div class="panel" id="panel-spots">
-                <div class="section-hdr">
-                    <div class="section-title">Tourist Spots</div>
-                    <div class="section-actions">
-                        <div class="search-wrap">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
-                            <input type="text" id="spot-search" placeholder="Search spots…" oninput="filterSpots()" />
-                        </div>
-                        <select class="filter-sel" id="spot-cat" onchange="filterSpots()">
-                            <option value="">All Categories</option>
-                            <option>Beach</option><option>Mountain</option><option>Historical</option><option>Park</option><option>Falls</option><option>Lake</option><option>Other</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="openSpotModal()">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
-                            Add Spot
+            <main class="main">
+
+                <!-- DASHBOARD -->
+                <div class="panel active" id="panel-dashboard">
+                    <div class="section-hdr">
+                        <div class="section-title">Dashboard</div>
+                        <button class="btn btn-secondary" onclick="loadDashboard()">
+                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <path stroke-linecap="round"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Refresh
                         </button>
                     </div>
-                </div>
-                <div class="table-wrap"><table><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Address</th><th>Status</th><th>Actions</th></tr></thead><tbody id="spots-tbody"></tbody></table></div>
-                <div class="pagination"><span id="spots-info"></span><div class="page-btns" id="spots-pages"></div></div>
-            </div>
-
-            <!-- BUSINESSES -->
-            <div class="panel" id="panel-businesses">
-                <div class="section-hdr">
-                    <div class="section-title">Businesses</div>
-                    <div class="section-actions">
-                        <div class="search-wrap">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
-                            <input type="text" id="biz-search" placeholder="Search businesses…" oninput="filterBiz()" />
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-label">Tourist Spots</div>
+                            <div class="stat-num" id="stat-spots">—</div>
+                            <div class="stat-sub">Total entries</div>
                         </div>
-                        <select class="filter-sel" id="biz-cat" onchange="filterBiz()">
-                            <option value="">All Categories</option>
-                            <option>Restaurant</option><option>Hotel</option><option>Resort</option><option>Shop</option><option>Cafe</option><option>Other</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="openBizModal()">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
-                            Add Business
+                        <div class="stat-card">
+                            <div class="stat-label">Businesses</div>
+                            <div class="stat-num" id="stat-biz">—</div>
+                            <div class="stat-sub">Total entries</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Products</div>
+                            <div class="stat-num" id="stat-prod">—</div>
+                            <div class="stat-sub">Total entries</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Events</div>
+                            <div class="stat-num" id="stat-events">—</div>
+                            <div class="stat-sub">Total entries</div>
+                        </div>
+                    </div>
+                    <div style="color:var(--muted);font-size:12px;text-align:center;margin-top:40px">Select a section
+                        from the sidebar to manage content.</div>
+                </div>
+
+                <!-- TOURIST SPOTS -->
+                <div class="panel" id="panel-spots">
+                    <div class="section-hdr">
+                        <div class="section-title">Tourist Spots</div>
+                        <div class="section-actions">
+                            <div class="search-wrap">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path stroke-linecap="round" d="M21 21l-4.35-4.35" />
+                                </svg>
+                                <input type="text" id="spot-search" placeholder="Search spots…"
+                                    oninput="filterSpots()" />
+                            </div>
+                            <select class="filter-sel" id="spot-cat" onchange="filterSpots()">
+                                <option value="">All Categories</option>
+                                <option>Beach</option>
+                                <option>Mountain</option>
+                                <option>Historical</option>
+                                <option>Park</option>
+                                <option>Falls</option>
+                                <option>Lake</option>
+                                <option>Other</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openSpotModal()">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path stroke-linecap="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Spot
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="spots-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination"><span id="spots-info"></span>
+                        <div class="page-btns" id="spots-pages"></div>
+                    </div>
+                </div>
+
+                <!-- BUSINESSES -->
+                <div class="panel" id="panel-businesses">
+                    <div class="section-hdr">
+                        <div class="section-title">Businesses</div>
+                        <div class="section-actions">
+                            <div class="search-wrap">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path stroke-linecap="round" d="M21 21l-4.35-4.35" />
+                                </svg>
+                                <input type="text" id="biz-search" placeholder="Search businesses…"
+                                    oninput="filterBiz()" />
+                            </div>
+                            <select class="filter-sel" id="biz-cat" onchange="filterBiz()">
+                                <option value="">All Categories</option>
+                                <option>Restaurant</option>
+                                <option>Hotel</option>
+                                <option>Resort</option>
+                                <option>Shop</option>
+                                <option>Cafe</option>
+                                <option>Other</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openBizModal()">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path stroke-linecap="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Business
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="biz-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination"><span id="biz-info"></span>
+                        <div class="page-btns" id="biz-pages"></div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTS -->
+                <div class="panel" id="panel-products">
+                    <div class="section-hdr">
+                        <div class="section-title">Products</div>
+                        <div class="section-actions">
+                            <div class="search-wrap">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path stroke-linecap="round" d="M21 21l-4.35-4.35" />
+                                </svg>
+                                <input type="text" id="prod-search" placeholder="Search products…"
+                                    oninput="filterProd()" />
+                            </div>
+                            <select class="filter-sel" id="prod-cat" onchange="filterProd()">
+                                <option value="">All Categories</option>
+                                <option>Food</option>
+                                <option>Souvenir</option>
+                                <option>Clothing</option>
+                                <option>Handicraft</option>
+                                <option>Other</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openProdModal()">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path stroke-linecap="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Product
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Business</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prod-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination"><span id="prod-info"></span>
+                        <div class="page-btns" id="prod-pages"></div>
+                    </div>
+                </div>
+
+                <!-- EVENTS -->
+                <div class="panel" id="panel-events">
+                    <div class="section-hdr">
+                        <div class="section-title">Events</div>
+                        <div class="section-actions">
+                            <div class="search-wrap">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <path stroke-linecap="round" d="M21 21l-4.35-4.35" />
+                                </svg>
+                                <input type="text" id="evt-search" placeholder="Search events…" oninput="filterEvt()" />
+                            </div>
+                            <select class="filter-sel" id="evt-type" onchange="filterEvt()">
+                                <option value="">All Types</option>
+                                <option>Festival</option>
+                                <option>Cultural</option>
+                                <option>Sports</option>
+                                <option>Food</option>
+                                <option>Music</option>
+                                <option>Other</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openEvtModal()">
+                                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path stroke-linecap="round" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Event
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Location</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="evt-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination"><span id="evt-info"></span>
+                        <div class="page-btns" id="evt-pages"></div>
+                    </div>
+                </div>
+
+                <!-- SUGGESTIONS -->
+                <div class="panel" id="panel-suggestions">
+                    <div class="section-hdr">
+                        <div class="section-title">Suggestions</div>
+                        <button class="btn btn-secondary" onclick="loadSuggestions()">
+                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2">
+                                <path stroke-linecap="round"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Refresh
                         </button>
                     </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Date Submitted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="suggestions-tbody">
+                                <tr class="loading-row">
+                                    <td colspan="5">
+                                        <div class="spinner"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="table-wrap"><table><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead><tbody id="biz-tbody"></tbody></table></div>
-                <div class="pagination"><span id="biz-info"></span><div class="page-btns" id="biz-pages"></div></div>
-            </div>
 
-            <!-- PRODUCTS -->
-            <div class="panel" id="panel-products">
-                <div class="section-hdr">
-                    <div class="section-title">Products</div>
-                    <div class="section-actions">
-                        <div class="search-wrap">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
-                            <input type="text" id="prod-search" placeholder="Search products…" oninput="filterProd()" />
+                <!-- SETTINGS -->
+                <div class="panel" id="panel-settings">
+                    <div class="section-hdr">
+                        <div class="section-title">Settings</div>
+                    </div>
+                    <div class="settings-card">
+                        <div class="settings-card-title">Maintenance Mode</div>
+                        <div class="settings-card-desc">When enabled, the app will show an "Under Construction" screen
+                            to all users.</div>
+                        <div class="toggle-wrap">
+                            <div class="toggle-track" id="maintenance-track" onclick="toggleMaintenance()">
+                                <div class="toggle-thumb" id="maintenance-thumb"></div>
+                            </div>
+                            <span id="maintenance-label" style="font-size:13px;color:var(--muted)">Disabled</span>
                         </div>
-                        <select class="filter-sel" id="prod-cat" onchange="filterProd()">
-                            <option value="">All Categories</option>
-                            <option>Food</option><option>Souvenir</option><option>Clothing</option><option>Handicraft</option><option>Other</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="openProdModal()">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
-                            Add Product
+                    </div>
+                    <div class="settings-card">
+                        <div class="settings-card-title">Section Control</div>
+                        <div class="settings-card-desc">Enable or disable entire sections in the app.</div>
+                        <div class="section-toggle-grid">
+                            <div class="section-toggle-item"><span class="section-toggle-label">Tourist Spots</span>
+                                <div class="toggle-track" id="track-spots" onclick="toggleSection('spots')">
+                                    <div class="toggle-thumb" id="thumb-spots"></div>
+                                </div>
+                            </div>
+                            <div class="section-toggle-item"><span class="section-toggle-label">Businesses</span>
+                                <div class="toggle-track" id="track-businesses" onclick="toggleSection('businesses')">
+                                    <div class="toggle-thumb" id="thumb-businesses"></div>
+                                </div>
+                            </div>
+                            <div class="section-toggle-item"><span class="section-toggle-label">Products</span>
+                                <div class="toggle-track" id="track-products" onclick="toggleSection('products')">
+                                    <div class="toggle-thumb" id="thumb-products"></div>
+                                </div>
+                            </div>
+                            <div class="section-toggle-item"><span class="section-toggle-label">Events</span>
+                                <div class="toggle-track" id="track-events" onclick="toggleSection('events')">
+                                    <div class="toggle-thumb" id="thumb-events"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top:16px" onclick="saveSectionControls()">Save
+                            Section Settings</button>
+                    </div>
+                    <div class="settings-card">
+                        <div class="settings-card-title">Page Management</div>
+                        <div class="settings-card-desc">Edit home screen content shown in the app.</div>
+                        <div class="form-grid single">
+                            <div class="form-group"><label>Home Banner Title</label><input type="text"
+                                    id="pg-banner-title" placeholder="Welcome to Sto. Tomas" /></div>
+                            <div class="form-group"><label>Home Banner Subtitle</label><input type="text"
+                                    id="pg-banner-sub" placeholder="Discover tourist spots, local products & events" />
+                            </div>
+                            <div class="form-group"><label>Announcement / Notice</label><textarea id="pg-announcement"
+                                    placeholder="Leave blank to hide. E.g. 'Fiesta this May 15!'"></textarea></div>
+                            <div class="form-group"><label>Featured Spot ID</label><input type="number"
+                                    id="pg-feat-spot" placeholder="e.g. 1" /></div>
+                            <div class="form-group"><label>Featured Business ID</label><input type="number"
+                                    id="pg-feat-biz" placeholder="e.g. 2" /></div>
+                        </div>
+                        <button class="btn btn-primary" style="margin-top:16px" onclick="savePageSettings()">Save Page
+                            Settings</button>
+                    </div>
+                    <div class="settings-card">
+                        <div class="settings-card-title">API Configuration</div>
+                        <div class="settings-card-desc">Base URL for the backend API.</div>
+                        <div class="form-group" style="margin-bottom:16px">
+                            <label>Base URL</label>
+                            <input type="text" id="cfg-base"
+                                placeholder="https://tomasigla-production.up.railway.app/" />
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSettings()">Save API Settings</button>
+                        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+                            <div
+                                style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px">
+                                Current API Endpoint</div>
+                            <div style="font-size:11px;color:var(--accent);word-break:break-all" id="cfg-display"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- SPOT MODAL -->
+    <div class="overlay" id="spot-modal">
+        <div class="modal">
+            <div class="modal-title" id="spot-modal-title">Add Tourist Spot</div>
+            <input type="hidden" id="spot-id" />
+            <div class="form-grid">
+                <div class="form-group"><label>Name</label><input type="text" id="s-name" placeholder="Spot name" />
+                </div>
+                <div class="form-group"><label>Category</label>
+                    <select id="s-cat">
+                        <option>Beach</option>
+                        <option>Mountain</option>
+                        <option>Historical</option>
+                        <option>Park</option>
+                        <option>Falls</option>
+                        <option>Lake</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label>Description</label><textarea id="s-desc"
+                        placeholder="Describe this spot…"></textarea></div>
+                <div class="form-group full"><label>Address</label><input type="text" id="s-addr"
+                        placeholder="Full address" /></div>
+                <div class="form-group full">
+                    <label>Pin Location on Map</label>
+                    <div class="map-picker-wrap">
+                        <div class="map-hint">
+                            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                                <circle cx="12" cy="9" r="2.5" fill="currentColor" stroke="none" />
+                            </svg>
+                            Click anywhere on the map to drop a pin
+                        </div>
+                        <div id="s-map" class="map-container"></div>
+                    </div>
+                    <input type="hidden" id="s-lat" />
+                    <input type="hidden" id="s-lng" />
+                </div>
+                <div class="form-group full">
+                    <label>Image</label>
+                    <div class="img-upload-wrap">
+                        <div class="img-upload-area" id="s-img-area">
+                            <input type="file" id="s-img-file" accept="image/*" onchange="handleImgUpload('s')" />
+                            <div class="img-upload-icon">
+                                <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="1.5">
+                                    <path stroke-linecap="round"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div class="img-upload-text"><span>Click to upload</span> or drag & drop</div>
+                            <div class="img-upload-text" style="margin-top:2px">PNG, JPG, WEBP up to 10MB</div>
+                        </div>
+                        <div class="img-preview-wrap" id="s-img-preview-wrap">
+                            <img class="img-preview" id="s-img-preview" src="" alt="Preview" />
+                            <button class="img-remove-btn" onclick="removeImg('s')">✕</button>
+                            <div class="img-filename" id="s-img-filename"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group full"><label>Status</label>
+                    <div class="status-toggle-wrap">
+                        <button type="button" class="status-tog-track on" id="s-status-track"
+                            onclick="toggleStatus('s')">
+                            <div class="status-tog-thumb"></div>
                         </button>
+                        <span class="status-tog-lbl on" id="s-status-lbl">Active</span>
                     </div>
+                    <input type="hidden" id="s-status" value="active" />
                 </div>
-                <div class="table-wrap"><table><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Business</th><th>Status</th><th>Actions</th></tr></thead><tbody id="prod-tbody"></tbody></table></div>
-                <div class="pagination"><span id="prod-info"></span><div class="page-btns" id="prod-pages"></div></div>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('spot-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveSpot()">Save Spot</button>
+            </div>
+        </div>
+    </div>
 
-            <!-- EVENTS -->
-            <div class="panel" id="panel-events">
-                <div class="section-hdr">
-                    <div class="section-title">Events</div>
-                    <div class="section-actions">
-                        <div class="search-wrap">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
-                            <input type="text" id="evt-search" placeholder="Search events…" oninput="filterEvt()" />
-                        </div>
-                        <select class="filter-sel" id="evt-type" onchange="filterEvt()">
-                            <option value="">All Types</option>
-                            <option>Festival</option><option>Cultural</option><option>Sports</option><option>Food</option><option>Music</option><option>Other</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="openEvtModal()">
-                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
-                            Add Event
+    <!-- BIZ MODAL -->
+    <div class="overlay" id="biz-modal">
+        <div class="modal">
+            <div class="modal-title" id="biz-modal-title">Add Business</div>
+            <input type="hidden" id="biz-id" />
+            <div class="form-grid">
+                <div class="form-group"><label>Name</label><input type="text" id="b-name" placeholder="Business name" />
+                </div>
+                <div class="form-group"><label>Category</label>
+                    <select id="b-cat">
+                        <option>Restaurant</option>
+                        <option>Hotel</option>
+                        <option>Resort</option>
+                        <option>Shop</option>
+                        <option>Cafe</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label>Description</label><textarea id="b-desc"
+                        placeholder="Describe this business…"></textarea></div>
+                <div class="form-group full"><label>Address</label><input type="text" id="b-addr"
+                        placeholder="Full address" /></div>
+                <div class="form-group"><label>Contact</label><input type="text" id="b-contact" placeholder="+63 9…" />
+                </div>
+                <div class="form-group full"><label>Status</label>
+                    <div class="status-toggle-wrap">
+                        <button type="button" class="status-tog-track on" id="b-status-track"
+                            onclick="toggleStatus('b')">
+                            <div class="status-tog-thumb"></div>
                         </button>
+                        <span class="status-tog-lbl on" id="b-status-lbl">Active</span>
                     </div>
+                    <input type="hidden" id="b-status" value="active" />
                 </div>
-                <div class="table-wrap"><table><thead><tr><th>Title</th><th>Type</th><th>Location</th><th>Date</th><th>Time</th><th>Status</th><th>Actions</th></tr></thead><tbody id="evt-tbody"></tbody></table></div>
-                <div class="pagination"><span id="evt-info"></span><div class="page-btns" id="evt-pages"></div></div>
-            </div>
-
-            <!-- SETTINGS -->
-            <div class="panel" id="panel-settings">
-                <div class="section-hdr"><div class="section-title">Settings</div></div>
-                <div class="settings-card">
-                    <div class="settings-card-title">Maintenance Mode</div>
-                    <div class="settings-card-desc">When enabled, the app will show an "Under Construction" screen to all users.</div>
-                    <div class="toggle-wrap">
-                        <div class="toggle-track" id="maintenance-track" onclick="toggleMaintenance()"><div class="toggle-thumb" id="maintenance-thumb"></div></div>
-                        <span id="maintenance-label" style="font-size:13px;color:var(--muted)">Disabled</span>
-                    </div>
-                </div>
-                <div class="settings-card">
-                    <div class="settings-card-title">Section Control</div>
-                    <div class="settings-card-desc">Enable or disable entire sections in the app.</div>
-                    <div class="section-toggle-grid">
-                        <div class="section-toggle-item"><span class="section-toggle-label">Tourist Spots</span><div class="toggle-track" id="track-spots" onclick="toggleSection('spots')"><div class="toggle-thumb" id="thumb-spots"></div></div></div>
-                        <div class="section-toggle-item"><span class="section-toggle-label">Businesses</span><div class="toggle-track" id="track-businesses" onclick="toggleSection('businesses')"><div class="toggle-thumb" id="thumb-businesses"></div></div></div>
-                        <div class="section-toggle-item"><span class="section-toggle-label">Products</span><div class="toggle-track" id="track-products" onclick="toggleSection('products')"><div class="toggle-thumb" id="thumb-products"></div></div></div>
-                        <div class="section-toggle-item"><span class="section-toggle-label">Events</span><div class="toggle-track" id="track-events" onclick="toggleSection('events')"><div class="toggle-thumb" id="thumb-events"></div></div></div>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top:16px" onclick="saveSectionControls()">Save Section Settings</button>
-                </div>
-                <div class="settings-card">
-                    <div class="settings-card-title">Page Management</div>
-                    <div class="settings-card-desc">Edit home screen content shown in the app.</div>
-                    <div class="form-grid single">
-                        <div class="form-group"><label>Home Banner Title</label><input type="text" id="pg-banner-title" placeholder="Welcome to Sto. Tomas" /></div>
-                        <div class="form-group"><label>Home Banner Subtitle</label><input type="text" id="pg-banner-sub" placeholder="Discover tourist spots, local products & events" /></div>
-                        <div class="form-group"><label>Announcement / Notice</label><textarea id="pg-announcement" placeholder="Leave blank to hide. E.g. 'Fiesta this May 15!'"></textarea></div>
-                        <div class="form-group"><label>Featured Spot ID</label><input type="number" id="pg-feat-spot" placeholder="e.g. 1" /></div>
-                        <div class="form-group"><label>Featured Business ID</label><input type="number" id="pg-feat-biz" placeholder="e.g. 2" /></div>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top:16px" onclick="savePageSettings()">Save Page Settings</button>
-                </div>
-                <div class="settings-card">
-                    <div class="settings-card-title">API Configuration</div>
-                    <div class="settings-card-desc">Base URL for the backend API.</div>
-                    <div class="form-group" style="margin-bottom:16px">
-                        <label>Base URL</label>
-                        <input type="text" id="cfg-base" placeholder="https://tomasigla-production.up.railway.app/" />
-                    </div>
-                    <button class="btn btn-primary" onclick="saveSettings()">Save API Settings</button>
-                    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
-                        <div style="font-size:11px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px">Current API Endpoint</div>
-                        <div style="font-size:11px;color:var(--accent);word-break:break-all" id="cfg-display"></div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-</div>
-
-<!-- SPOT MODAL -->
-<div class="overlay" id="spot-modal">
-    <div class="modal">
-        <div class="modal-title" id="spot-modal-title">Add Tourist Spot</div>
-        <input type="hidden" id="spot-id" />
-        <div class="form-grid">
-            <div class="form-group"><label>Name</label><input type="text" id="s-name" placeholder="Spot name" /></div>
-            <div class="form-group"><label>Category</label>
-                <select id="s-cat"><option>Beach</option><option>Mountain</option><option>Historical</option><option>Park</option><option>Falls</option><option>Lake</option><option>Other</option></select>
-            </div>
-            <div class="form-group full"><label>Description</label><textarea id="s-desc" placeholder="Describe this spot…"></textarea></div>
-            <div class="form-group full"><label>Address</label><input type="text" id="s-addr" placeholder="Full address" /></div>
-            <div class="form-group full">
-                <label>Pin Location on Map</label>
-                <div class="map-picker-wrap">
-                    <div class="map-hint">
-                        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="currentColor" stroke="none"/></svg>
-                        Click anywhere on the map to drop a pin
-                    </div>
-                    <div id="s-map" class="map-container"></div>
-                </div>
-                <input type="hidden" id="s-lat" />
-                <input type="hidden" id="s-lng" />
-            </div>
-            <div class="form-group full">
-                <label>Image</label>
-                <div class="img-upload-wrap">
-                    <div class="img-upload-area" id="s-img-area">
-                        <input type="file" id="s-img-file" accept="image/*" onchange="handleImgUpload('s')" />
-                        <div class="img-upload-icon">
-                            <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <div class="form-group full">
+                    <label>Pin Location on Map</label>
+                    <div class="map-picker-wrap">
+                        <div class="map-hint">
+                            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="2.2">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                                <circle cx="12" cy="9" r="2.5" fill="currentColor" stroke="none" />
+                            </svg>
+                            Click anywhere on the map to drop a pin
                         </div>
-                        <div class="img-upload-text"><span>Click to upload</span> or drag & drop</div>
-                        <div class="img-upload-text" style="margin-top:2px">PNG, JPG, WEBP up to 10MB</div>
+                        <div id="b-map" class="map-container"></div>
                     </div>
-                    <div class="img-preview-wrap" id="s-img-preview-wrap">
-                        <img class="img-preview" id="s-img-preview" src="" alt="Preview" />
-                        <button class="img-remove-btn" onclick="removeImg('s')">✕</button>
-                        <div class="img-filename" id="s-img-filename"></div>
+                    <input type="hidden" id="b-lat" />
+                    <input type="hidden" id="b-lng" />
+                </div>
+                <div class="form-group full">
+                    <label>Main Image</label>
+                    <div class="img-upload-wrap">
+                        <div class="img-upload-area" id="b-img-area">
+                            <input type="file" id="b-img-file" accept="image/*" onchange="handleImgUpload('b')" />
+                            <div class="img-upload-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg></div>
+                            <div class="img-upload-text"><span>Click to upload</span> or drag & drop</div>
+                            <div class="img-upload-text" style="margin-top:2px">PNG, JPG, WEBP up to 10MB</div>
+                        </div>
+                        <div class="img-preview-wrap" id="b-img-preview-wrap">
+                            <img class="img-preview" id="b-img-preview" src="" alt="Preview" />
+                            <button class="img-remove-btn" onclick="removeImg('b')">✕</button>
+                            <div class="img-filename" id="b-img-filename"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group full"><label>Status</label>
-                <div class="status-toggle-wrap">
-                    <button type="button" class="status-tog-track on" id="s-status-track" onclick="toggleStatus('s')">
-                        <div class="status-tog-thumb"></div>
-                    </button>
-                    <span class="status-tog-lbl on" id="s-status-lbl">Active</span>
+                <div class="form-group full">
+                    <label>Additional Images <span
+                            style="color:var(--muted-light);text-transform:none;letter-spacing:0;font-weight:400">(up to
+                            3)</span></label>
+                    <div class="multi-img-grid" id="b-multi-grid"></div>
                 </div>
-                <input type="hidden" id="s-status" value="active" />
             </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('spot-modal')">Cancel</button>
-            <button class="btn btn-primary" onclick="saveSpot()">Save Spot</button>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('biz-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveBiz()">Save Business</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- BIZ MODAL -->
-<div class="overlay" id="biz-modal">
-    <div class="modal">
-        <div class="modal-title" id="biz-modal-title">Add Business</div>
-        <input type="hidden" id="biz-id" />
-        <div class="form-grid">
-            <div class="form-group"><label>Name</label><input type="text" id="b-name" placeholder="Business name" /></div>
-            <div class="form-group"><label>Category</label>
-                <select id="b-cat"><option>Restaurant</option><option>Hotel</option><option>Resort</option><option>Shop</option><option>Cafe</option><option>Other</option></select>
-            </div>
-            <div class="form-group full"><label>Description</label><textarea id="b-desc" placeholder="Describe this business…"></textarea></div>
-            <div class="form-group full"><label>Address</label><input type="text" id="b-addr" placeholder="Full address" /></div>
-            <div class="form-group"><label>Contact</label><input type="text" id="b-contact" placeholder="+63 9…" /></div>
-            <div class="form-group full"><label>Status</label>
-                <div class="status-toggle-wrap">
-                    <button type="button" class="status-tog-track on" id="b-status-track" onclick="toggleStatus('b')">
-                        <div class="status-tog-thumb"></div>
-                    </button>
-                    <span class="status-tog-lbl on" id="b-status-lbl">Active</span>
+    <!-- PROD MODAL -->
+    <div class="overlay" id="prod-modal">
+        <div class="modal">
+            <div class="modal-title" id="prod-modal-title">Add Product</div>
+            <input type="hidden" id="prod-id" />
+            <div class="form-grid">
+                <div class="form-group"><label>Name</label><input type="text" id="p-name" placeholder="Product name" />
                 </div>
-                <input type="hidden" id="b-status" value="active" />
-            </div>
-            <div class="form-group full">
-                <label>Pin Location on Map</label>
-                <div class="map-picker-wrap">
-                    <div class="map-hint">
-                        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="currentColor" stroke="none"/></svg>
-                        Click anywhere on the map to drop a pin
-                    </div>
-                    <div id="b-map" class="map-container"></div>
+                <div class="form-group"><label>Category</label>
+                    <select id="p-cat">
+                        <option>Food</option>
+                        <option>Souvenir</option>
+                        <option>Clothing</option>
+                        <option>Handicraft</option>
+                        <option>Other</option>
+                    </select>
                 </div>
-                <input type="hidden" id="b-lat" />
-                <input type="hidden" id="b-lng" />
-            </div>
-            <div class="form-group full">
-                <label>Main Image</label>
-                <div class="img-upload-wrap">
-                    <div class="img-upload-area" id="b-img-area">
-                        <input type="file" id="b-img-file" accept="image/*" onchange="handleImgUpload('b')" />
-                        <div class="img-upload-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
-                        <div class="img-upload-text"><span>Click to upload</span> or drag & drop</div>
-                        <div class="img-upload-text" style="margin-top:2px">PNG, JPG, WEBP up to 10MB</div>
-                    </div>
-                    <div class="img-preview-wrap" id="b-img-preview-wrap">
-                        <img class="img-preview" id="b-img-preview" src="" alt="Preview" />
-                        <button class="img-remove-btn" onclick="removeImg('b')">✕</button>
-                        <div class="img-filename" id="b-img-filename"></div>
+                <div class="form-group full"><label>Description</label><textarea id="p-desc"
+                        placeholder="Describe this product…"></textarea></div>
+                <div class="form-group"><label>Price (₱)</label><input type="number" step="0.01" id="p-price"
+                        placeholder="0.00" /></div>
+                <div class="form-group"><label>Business ID</label><input type="number" id="p-bizid" placeholder="1" />
+                </div>
+                <div class="form-group full">
+                    <label>Image</label>
+                    <div class="img-upload-wrap">
+                        <div class="img-upload-area" id="p-img-area">
+                            <input type="file" id="p-img-file" accept="image/*" onchange="handleImgUpload('p')" />
+                            <div class="img-upload-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg></div>
+                            <div class="img-upload-text"><span>Click to upload</span> or drag & drop</div>
+                            <div class="img-upload-text" style="margin-top:2px">PNG, JPG, WEBP up to 10MB</div>
+                        </div>
+                        <div class="img-preview-wrap" id="p-img-preview-wrap">
+                            <img class="img-preview" id="p-img-preview" src="" alt="Preview" />
+                            <button class="img-remove-btn" onclick="removeImg('p')">✕</button>
+                            <div class="img-filename" id="p-img-filename"></div>
+                        </div>
                     </div>
                 </div>
+                <div class="form-group full"><label>Status</label>
+                    <div class="status-toggle-wrap">
+                        <button type="button" class="status-tog-track on" id="p-status-track"
+                            onclick="toggleStatus('p')">
+                            <div class="status-tog-thumb"></div>
+                        </button>
+                        <span class="status-tog-lbl on" id="p-status-lbl">Active</span>
+                    </div>
+                    <input type="hidden" id="p-status" value="active" />
+                </div>
             </div>
-            <div class="form-group full">
-                <label>Additional Images <span style="color:var(--muted-light);text-transform:none;letter-spacing:0;font-weight:400">(up to 3)</span></label>
-                <div class="multi-img-grid" id="b-multi-grid"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('prod-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProd()">Save Product</button>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('biz-modal')">Cancel</button>
-            <button class="btn btn-primary" onclick="saveBiz()">Save Business</button>
         </div>
     </div>
-</div>
 
-<!-- PROD MODAL -->
-<div class="overlay" id="prod-modal">
-    <div class="modal">
-        <div class="modal-title" id="prod-modal-title">Add Product</div>
-        <input type="hidden" id="prod-id" />
-        <div class="form-grid">
-            <div class="form-group"><label>Name</label><input type="text" id="p-name" placeholder="Product name" /></div>
-            <div class="form-group"><label>Category</label>
-                <select id="p-cat"><option>Food</option><option>Souvenir</option><option>Clothing</option><option>Handicraft</option><option>Other</option></select>
-            </div>
-            <div class="form-group full"><label>Description</label><textarea id="p-desc" placeholder="Describe this product…"></textarea></div>
-            <div class="form-group"><label>Price (₱)</label><input type="number" step="0.01" id="p-price" placeholder="0.00" /></div>
-            <div class="form-group"><label>Business ID</label><input type="number" id="p-bizid" placeholder="1" /></div>
-            <div class="form-group full">
-                <label>Image</label>
-                <div class="img-upload-wrap">
-                    <div class="img-upload-area" id="p-img-area">
-                        <input type="file" id="p-img-file" accept="image/*" onchange="handleImgUpload('p')" />
-                        <div class="img-upload-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
-                        <div class="img-upload-text"><span>Click to upload</span> or drag & drop</div>
-                        <div class="img-upload-text" style="margin-top:2px">PNG, JPG, WEBP up to 10MB</div>
+    <!-- EVT MODAL -->
+    <div class="overlay" id="evt-modal">
+        <div class="modal">
+            <div class="modal-title" id="evt-modal-title">Add Event</div>
+            <input type="hidden" id="evt-id" />
+            <div class="form-grid">
+                <div class="form-group full"><label>Title</label><input type="text" id="e-title"
+                        placeholder="Event title" /></div>
+                <div class="form-group"><label>Type</label>
+                    <select id="e-type">
+                        <option>Festival</option>
+                        <option>Cultural</option>
+                        <option>Sports</option>
+                        <option>Food</option>
+                        <option>Music</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label>Status</label>
+                    <div class="status-toggle-wrap">
+                        <button type="button" class="status-tog-track on" id="e-status-track"
+                            onclick="toggleStatus('e')">
+                            <div class="status-tog-thumb"></div>
+                        </button>
+                        <span class="status-tog-lbl on" id="e-status-lbl">Active</span>
                     </div>
-                    <div class="img-preview-wrap" id="p-img-preview-wrap">
-                        <img class="img-preview" id="p-img-preview" src="" alt="Preview" />
-                        <button class="img-remove-btn" onclick="removeImg('p')">✕</button>
-                        <div class="img-filename" id="p-img-filename"></div>
-                    </div>
+                    <input type="hidden" id="e-status" value="active" />
                 </div>
+                <div class="form-group full"><label>Description</label><textarea id="e-desc"
+                        placeholder="Describe this event…"></textarea></div>
+                <div class="form-group full"><label>Location</label><input type="text" id="e-loc"
+                        placeholder="Venue / location" /></div>
+                <div class="form-group"><label>Date</label><input type="date" id="e-date" /></div>
+                <div class="form-group"><label>Time</label><input type="time" id="e-time" /></div>
             </div>
-            <div class="form-group full"><label>Status</label>
-                <div class="status-toggle-wrap">
-                    <button type="button" class="status-tog-track on" id="p-status-track" onclick="toggleStatus('p')">
-                        <div class="status-tog-thumb"></div>
-                    </button>
-                    <span class="status-tog-lbl on" id="p-status-lbl">Active</span>
-                </div>
-                <input type="hidden" id="p-status" value="active" />
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('evt-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveEvt()">Save Event</button>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('prod-modal')">Cancel</button>
-            <button class="btn btn-primary" onclick="saveProd()">Save Product</button>
         </div>
     </div>
-</div>
 
-<!-- EVT MODAL -->
-<div class="overlay" id="evt-modal">
-    <div class="modal">
-        <div class="modal-title" id="evt-modal-title">Add Event</div>
-        <input type="hidden" id="evt-id" />
-        <div class="form-grid">
-            <div class="form-group full"><label>Title</label><input type="text" id="e-title" placeholder="Event title" /></div>
-            <div class="form-group"><label>Type</label>
-                <select id="e-type"><option>Festival</option><option>Cultural</option><option>Sports</option><option>Food</option><option>Music</option><option>Other</option></select>
+    <!-- CONFIRM MODAL -->
+    <div class="overlay" id="confirm-modal">
+        <div class="modal confirm-modal">
+            <div class="confirm-icon">
+                <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#dc2626" stroke-width="2">
+                    <path stroke-linecap="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
+                </svg>
             </div>
-            <div class="form-group full"><label>Status</label>
-                <div class="status-toggle-wrap">
-                    <button type="button" class="status-tog-track on" id="e-status-track" onclick="toggleStatus('e')">
-                        <div class="status-tog-thumb"></div>
-                    </button>
-                    <span class="status-tog-lbl on" id="e-status-lbl">Active</span>
-                </div>
-                <input type="hidden" id="e-status" value="active" />
+            <div style="font-weight:700;font-size:17px;color:var(--text)">Delete Record</div>
+            <div class="confirm-msg" id="confirm-msg">Are you sure you want to delete this record?</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
+                <button class="btn btn-danger" id="confirm-ok">Delete</button>
             </div>
-            <div class="form-group full"><label>Description</label><textarea id="e-desc" placeholder="Describe this event…"></textarea></div>
-            <div class="form-group full"><label>Location</label><input type="text" id="e-loc" placeholder="Venue / location" /></div>
-            <div class="form-group"><label>Date</label><input type="date" id="e-date" /></div>
-            <div class="form-group"><label>Time</label><input type="time" id="e-time" /></div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('evt-modal')">Cancel</button>
-            <button class="btn btn-primary" onclick="saveEvt()">Save Event</button>
         </div>
     </div>
-</div>
 
-<!-- CONFIRM MODAL -->
-<div class="overlay" id="confirm-modal">
-    <div class="modal confirm-modal">
-        <div class="confirm-icon">
-            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#dc2626" stroke-width="2"><path stroke-linecap="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
-        </div>
-        <div style="font-weight:700;font-size:17px;color:var(--text)">Delete Record</div>
-        <div class="confirm-msg" id="confirm-msg">Are you sure you want to delete this record?</div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closeModal('confirm-modal')">Cancel</button>
-            <button class="btn btn-danger" id="confirm-ok">Delete</button>
-        </div>
-    </div>
-</div>
+    <div id="toast-container"></div>
 
-<div id="toast-container"></div>
+    <script>
+        const CLOUDINARY_CLOUD = 'doyumggnp';
+        const CLOUDINARY_PRESET = 'tomasigla';
 
-<script>
-    const CLOUDINARY_CLOUD = 'doyumggnp';
-    const CLOUDINARY_PRESET = 'tomasigla';
+        let BASE_URL = localStorage.getItem('ts_base_url') || 'https://tomasigla-api.onrender.com/';
+        const API = () => BASE_URL + 'index.php';
 
-    let BASE_URL = localStorage.getItem('ts_base_url') || 'https://tomasigla-api.onrender.com/';
-    const API = () => BASE_URL + 'index.php';
+        const DEFAULT_LAT = 14.1032;
+        const DEFAULT_LNG = 121.1703;
+        const DEFAULT_ZOOM = 14;
 
-    const DEFAULT_LAT = 14.1032;
-    const DEFAULT_LNG = 121.1703;
-    const DEFAULT_ZOOM = 14;
+        const maps = {};
+        const markers = {};
 
-    const maps = {};
-    const markers = {};
-
-    const pinIcon = L.divIcon({
-        className: '',
-        html: `<div style="width:26px;height:26px;background:#c8922a;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.35);"></div>`,
-        iconSize: [26, 26],
-        iconAnchor: [13, 26],
-        popupAnchor: [0, -28]
-    });
-
-    function initMap(prefix, initLat, initLng) {
-        if (maps[prefix]) { maps[prefix].remove(); maps[prefix] = null; markers[prefix] = null; }
-        const lat = parseFloat(initLat) || DEFAULT_LAT;
-        const lng = parseFloat(initLng) || DEFAULT_LNG;
-        const map = L.map(prefix + '-map', { zoomControl: true }).setView([lat, lng], DEFAULT_ZOOM);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            maxZoom: 19
-        }).addTo(map);
-        maps[prefix] = map;
-        if (initLat && initLng) placeMarker(prefix, lat, lng);
-        map.on('click', function(e) { placeMarker(prefix, e.latlng.lat, e.latlng.lng); });
-        setTimeout(() => map.invalidateSize(), 320);
-    }
-
-    function placeMarker(prefix, lat, lng) {
-        const map = maps[prefix];
-        const roundedLat = parseFloat(lat.toFixed(7));
-        const roundedLng = parseFloat(lng.toFixed(7));
-        if (markers[prefix]) {
-            markers[prefix].setLatLng([roundedLat, roundedLng]);
-        } else {
-            markers[prefix] = L.marker([roundedLat, roundedLng], { icon: pinIcon, draggable: true }).addTo(map);
-            markers[prefix].on('dragend', function(e) {
-                const pos = e.target.getLatLng();
-                updateCoordsInputs(prefix, pos.lat, pos.lng);
-                reverseGeocode(prefix, pos.lat, pos.lng);
-            });
-        }
-        updateCoordsInputs(prefix, roundedLat, roundedLng);
-        map.panTo([roundedLat, roundedLng]);
-        reverseGeocode(prefix, roundedLat, roundedLng);
-    }
-
-    function updateCoordsInputs(prefix, lat, lng) {
-        document.getElementById(prefix + '-lat').value = parseFloat(lat).toFixed(7);
-        document.getElementById(prefix + '-lng').value = parseFloat(lng).toFixed(7);
-    }
-
-    function reverseGeocode(prefix, lat, lng) {
-        const addrId = prefix === 's' ? 's-addr' : 'b-addr';
-        const addrField = document.getElementById(addrId);
-        if (!addrField) return;
-        addrField.placeholder = 'Looking up address…';
-        fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng + '&accept-language=en', {
-            headers: { 'User-Agent': 'TomaSIGLA-Admin/1.0' }
-        })
-        .then(r => r.json())
-        .then(data => { if (data && data.display_name) addrField.value = data.display_name; addrField.placeholder = 'Full address'; })
-        .catch(() => { addrField.placeholder = 'Full address'; });
-    }
-
-    let allSpots = [], allBiz = [], allProd = [], allEvt = [];
-    let filteredSpots = [], filteredBiz = [], filteredProd = [], filteredEvt = [];
-    const PAGE_SIZE = 10;
-    let spotPage = 1, bizPage = 1, prodPage = 1, evtPage = 1;
-    let sectionStates = { spots: '1', businesses: '1', products: '1', events: '1' };
-    let maintenanceOn = false;
-    const imgData = {};
-    let bizExtraImages = [];
-
-    function renderBizMultiGrid() {
-        const grid = document.getElementById('b-multi-grid');
-        grid.innerHTML = '';
-        bizExtraImages.forEach((src, i) => {
-            const item = document.createElement('div');
-            item.className = 'multi-img-item';
-            item.innerHTML = `<img src="${src}" /><button class="multi-img-remove" onclick="removeBizExtra(${i})">✕</button>`;
-            grid.appendChild(item);
+        const pinIcon = L.divIcon({
+            className: '',
+            html: `<div style="width:26px;height:26px;background:#c8922a;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.35);"></div>`,
+            iconSize: [26, 26],
+            iconAnchor: [13, 26],
+            popupAnchor: [0, -28]
         });
-        if (bizExtraImages.length < 3) {
-            const add = document.createElement('div');
-            add.className = 'multi-img-add';
-            add.innerHTML = `<input type="file" accept="image/*" onchange="addBizExtra(this)" />
+
+        function initMap(prefix, initLat, initLng) {
+            if (maps[prefix]) { maps[prefix].remove(); maps[prefix] = null; markers[prefix] = null; }
+            const lat = parseFloat(initLat) || DEFAULT_LAT;
+            const lng = parseFloat(initLng) || DEFAULT_LNG;
+            const map = L.map(prefix + '-map', { zoomControl: true }).setView([lat, lng], DEFAULT_ZOOM);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                maxZoom: 19
+            }).addTo(map);
+            maps[prefix] = map;
+            if (initLat && initLng) placeMarker(prefix, lat, lng);
+            map.on('click', function (e) { placeMarker(prefix, e.latlng.lat, e.latlng.lng); });
+            setTimeout(() => map.invalidateSize(), 320);
+        }
+
+        function placeMarker(prefix, lat, lng) {
+            const map = maps[prefix];
+            const roundedLat = parseFloat(lat.toFixed(7));
+            const roundedLng = parseFloat(lng.toFixed(7));
+            if (markers[prefix]) {
+                markers[prefix].setLatLng([roundedLat, roundedLng]);
+            } else {
+                markers[prefix] = L.marker([roundedLat, roundedLng], { icon: pinIcon, draggable: true }).addTo(map);
+                markers[prefix].on('dragend', function (e) {
+                    const pos = e.target.getLatLng();
+                    updateCoordsInputs(prefix, pos.lat, pos.lng);
+                    reverseGeocode(prefix, pos.lat, pos.lng);
+                });
+            }
+            updateCoordsInputs(prefix, roundedLat, roundedLng);
+            map.panTo([roundedLat, roundedLng]);
+            reverseGeocode(prefix, roundedLat, roundedLng);
+        }
+
+        function updateCoordsInputs(prefix, lat, lng) {
+            document.getElementById(prefix + '-lat').value = parseFloat(lat).toFixed(7);
+            document.getElementById(prefix + '-lng').value = parseFloat(lng).toFixed(7);
+        }
+
+        function reverseGeocode(prefix, lat, lng) {
+            const addrId = prefix === 's' ? 's-addr' : 'b-addr';
+            const addrField = document.getElementById(addrId);
+            if (!addrField) return;
+            addrField.placeholder = 'Looking up address…';
+            fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng + '&accept-language=en', {
+                headers: { 'User-Agent': 'TomaSIGLA-Admin/1.0' }
+            })
+                .then(r => r.json())
+                .then(data => { if (data && data.display_name) addrField.value = data.display_name; addrField.placeholder = 'Full address'; })
+                .catch(() => { addrField.placeholder = 'Full address'; });
+        }
+
+        let allSpots = [], allBiz = [], allProd = [], allEvt = [];
+        let filteredSpots = [], filteredBiz = [], filteredProd = [], filteredEvt = [];
+        const PAGE_SIZE = 10;
+        let spotPage = 1, bizPage = 1, prodPage = 1, evtPage = 1;
+        let sectionStates = { spots: '1', businesses: '1', products: '1', events: '1' };
+        let maintenanceOn = false;
+        const imgData = {};
+        let bizExtraImages = [];
+
+        function renderBizMultiGrid() {
+            const grid = document.getElementById('b-multi-grid');
+            grid.innerHTML = '';
+            bizExtraImages.forEach((src, i) => {
+                const item = document.createElement('div');
+                item.className = 'multi-img-item';
+                item.innerHTML = `<img src="${src}" /><button class="multi-img-remove" onclick="removeBizExtra(${i})">✕</button>`;
+                grid.appendChild(item);
+            });
+            if (bizExtraImages.length < 3) {
+                const add = document.createElement('div');
+                add.className = 'multi-img-add';
+                add.innerHTML = `<input type="file" accept="image/*" onchange="addBizExtra(this)" />
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
                 <span>Add image</span>`;
-            grid.appendChild(add);
+                grid.appendChild(add);
+            }
         }
-    }
-   async function addBizExtra(input) {
-    const file = input.files[0];
-    if (!file || bizExtraImages.length >= 3) return;
+        async function addBizExtra(input) {
+            const file = input.files[0];
+            if (!file || bizExtraImages.length >= 3) return;
 
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', CLOUDINARY_PRESET);
+            const fd = new FormData();
+            fd.append('file', file);
+            fd.append('upload_preset', CLOUDINARY_PRESET);
 
-    toast('Uploading image…', 'info');
-    try {
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-            method: 'POST', body: fd
-        });
-        const data = await res.json();
-        if (data.secure_url) {
-            bizExtraImages.push(data.secure_url);
-            renderBizMultiGrid();
-            toast('Image uploaded!', 'success');
-        } else throw new Error(data.error?.message || 'Upload failed');
-    } catch (err) {
-        toast('Upload failed: ' + err.message, 'error');
-    }
-}
-    function removeBizExtra(i) { bizExtraImages.splice(i, 1); renderBizMultiGrid(); }
+            toast('Uploading image…', 'info');
+            try {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+                    method: 'POST', body: fd
+                });
+                const data = await res.json();
+                if (data.secure_url) {
+                    bizExtraImages.push(data.secure_url);
+                    renderBizMultiGrid();
+                    toast('Image uploaded!', 'success');
+                } else throw new Error(data.error?.message || 'Upload failed');
+            } catch (err) {
+                toast('Upload failed: ' + err.message, 'error');
+            }
+        }
+        function removeBizExtra(i) { bizExtraImages.splice(i, 1); renderBizMultiGrid(); }
 
-    async function handleImgUpload(prefix) {
-    const file = document.getElementById(prefix + '-img-file').files[0];
-    if (!file) return;
+        async function handleImgUpload(prefix) {
+            const file = document.getElementById(prefix + '-img-file').files[0];
+            if (!file) return;
 
-    const area = document.getElementById(prefix + '-img-area');
-    area.innerHTML = `<div style="padding:20px;color:var(--muted);font-size:13px">
+            const area = document.getElementById(prefix + '-img-area');
+            area.innerHTML = `<div style="padding:20px;color:var(--muted);font-size:13px">
         <div class="spinner" style="margin:0 auto 8px"></div>Uploading…
     </div>`;
 
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', CLOUDINARY_PRESET);
+            const fd = new FormData();
+            fd.append('file', file);
+            fd.append('upload_preset', CLOUDINARY_PRESET);
 
-    try {
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-            method: 'POST',
-            body: fd
-        });
-        const data = await res.json();
+            try {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+                    method: 'POST',
+                    body: fd
+                });
+                const data = await res.json();
 
-        if (data.secure_url) {
-            imgData[prefix] = data.secure_url;
-            document.getElementById(prefix + '-img-preview').src = data.secure_url;
-            document.getElementById(prefix + '-img-preview-wrap').style.display = 'block';
-            document.getElementById(prefix + '-img-area').style.display = 'none';
-            document.getElementById(prefix + '-img-filename').textContent = 'Uploaded ✓';
-            toast('Image uploaded!', 'success');
-        } else {
-            throw new Error(data.error?.message || 'Upload failed');
-        }
-    } catch (err) {
-        toast('Image upload failed: ' + err.message, 'error');
-        resetImgUpload(prefix);
-    }
-}
-    function removeImg(prefix) {
-        imgData[prefix] = null;
-        document.getElementById(prefix + '-img-file').value = '';
-        document.getElementById(prefix + '-img-preview').src = '';
-        document.getElementById(prefix + '-img-preview-wrap').style.display = 'none';
-        document.getElementById(prefix + '-img-area').style.display = 'block';
-        document.getElementById(prefix + '-img-filename').textContent = '';
-    }
-    function resetImgUpload(prefix, existingUrl) {
-        removeImg(prefix);
-        if (existingUrl) {
-            document.getElementById(prefix + '-img-preview').src = existingUrl;
-            document.getElementById(prefix + '-img-preview-wrap').style.display = 'block';
-            document.getElementById(prefix + '-img-area').style.display = 'none';
-            document.getElementById(prefix + '-img-filename').textContent = 'Current image';
-            imgData[prefix] = existingUrl;
-        }
-    }
-
-    function doLogin() {
-        const email = document.getElementById('l-email').value.trim();
-        const pass = document.getElementById('l-pass').value;
-        if (!email || !pass) { showErr('l-err', 'Please fill in all fields.'); return }
-        const fd = new FormData();
-        fd.append('email', email); fd.append('password', pass); fd.append('type', 'admin');
-        fetch(API() + '?action=login', { method: 'POST', body: fd })
-            .then(r => r.json())
-            .then(d => {
-                if (d.success) { loginSuccess(d.user?.name || email); }
-                else {
-                    if (email === 'admin@tomasigla.com' && pass === 'admin') loginSuccess('Admin');
-                    else showErr('l-err', d.message || 'Invalid credentials.');
+                if (data.secure_url) {
+                    imgData[prefix] = data.secure_url;
+                    document.getElementById(prefix + '-img-preview').src = data.secure_url;
+                    document.getElementById(prefix + '-img-preview-wrap').style.display = 'block';
+                    document.getElementById(prefix + '-img-area').style.display = 'none';
+                    document.getElementById(prefix + '-img-filename').textContent = 'Uploaded ✓';
+                    toast('Image uploaded!', 'success');
+                } else {
+                    throw new Error(data.error?.message || 'Upload failed');
                 }
-            })
-            .catch(() => {
-                if (email && pass) loginSuccess('Admin');
-                else showErr('l-err', 'Cannot connect to server.');
-            });
-    }
-    function loginSuccess(name) {
-        document.getElementById('admin-name').textContent = name;
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('app').style.display = 'flex';
-        loadDashboard(); initSettings();
-    }
-    document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin() });
-    function doLogout() { document.getElementById('app').style.display = 'none'; document.getElementById('login-screen').style.display = 'flex'; }
-    function showErr(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 3000) }
+            } catch (err) {
+                toast('Image upload failed: ' + err.message, 'error');
+                resetImgUpload(prefix);
+            }
+        }
+        function removeImg(prefix) {
+            imgData[prefix] = null;
+            document.getElementById(prefix + '-img-file').value = '';
+            document.getElementById(prefix + '-img-preview').src = '';
+            document.getElementById(prefix + '-img-preview-wrap').style.display = 'none';
+            document.getElementById(prefix + '-img-area').style.display = 'block';
+            document.getElementById(prefix + '-img-filename').textContent = '';
+        }
+        function resetImgUpload(prefix, existingUrl) {
+            removeImg(prefix);
+            if (existingUrl) {
+                document.getElementById(prefix + '-img-preview').src = existingUrl;
+                document.getElementById(prefix + '-img-preview-wrap').style.display = 'block';
+                document.getElementById(prefix + '-img-area').style.display = 'none';
+                document.getElementById(prefix + '-img-filename').textContent = 'Current image';
+                imgData[prefix] = existingUrl;
+            }
+        }
 
-    function showPanel(name, el) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById('panel-' + name).classList.add('active');
-        if (el) el.classList.add('active');
-        if (name === 'spots' && !allSpots.length) loadSpots();
-        if (name === 'businesses' && !allBiz.length) loadBiz();
-        if (name === 'products' && !allProd.length) loadProd();
-        if (name === 'events' && !allEvt.length) loadEvt();
-        if (name === 'settings') loadAppSettings();
-    }
+        function doLogin() {
+            const email = document.getElementById('l-email').value.trim();
+            const pass = document.getElementById('l-pass').value;
+            if (!email || !pass) { showErr('l-err', 'Please fill in all fields.'); return }
+            const fd = new FormData();
+            fd.append('email', email); fd.append('password', pass); fd.append('type', 'admin');
+            fetch(API() + '?action=login', { method: 'POST', body: fd })
+                .then(r => r.json())
+                .then(d => {
+                    if (d.success) { loginSuccess(d.user?.name || email); }
+                    else {
+                        if (email === 'admin@tomasigla.com' && pass === 'admin') loginSuccess('Admin');
+                        else showErr('l-err', d.message || 'Invalid credentials.');
+                    }
+                })
+                .catch(() => {
+                    if (email && pass) loginSuccess('Admin');
+                    else showErr('l-err', 'Cannot connect to server.');
+                });
+        }
+        function loginSuccess(name) {
+            document.getElementById('admin-name').textContent = name;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'flex';
+            loadDashboard(); initSettings();
+        }
+        document.getElementById('l-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin() });
+        function doLogout() { document.getElementById('app').style.display = 'none'; document.getElementById('login-screen').style.display = 'flex'; }
+        function showErr(id, msg) { const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 3000) }
 
-    async function loadDashboard() {
-        const loads = [
-            apiGet('get_spots').catch(() => ({ data: [] })),
-            apiGet('get_businesses').catch(() => ({ data: [] })),
-            apiGet('get_products').catch(() => ({ data: [] })),
-            apiGet('get_events').catch(() => ({ data: [] }))
-        ];
-        const [s, b, p, e] = await Promise.all(loads);
-        document.getElementById('stat-spots').textContent = (s.data || []).length;
-        document.getElementById('stat-biz').textContent = (b.data || []).length;
-        document.getElementById('stat-prod').textContent = (p.data || []).length;
-        document.getElementById('stat-events').textContent = (e.data || []).length;
-    }
+        function showPanel(name, el) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('panel-' + name).classList.add('active');
+            if (el) el.classList.add('active');
+            if (name === 'spots' && !allSpots.length) loadSpots();
+            if (name === 'businesses' && !allBiz.length) loadBiz();
+            if (name === 'products' && !allProd.length) loadProd();
+            if (name === 'events' && !allEvt.length) loadEvt();
+            if (name === 'settings') loadAppSettings();
+            if (name === 'suggestions') loadSuggestions();  
+        }
 
-    function apiGet(action, params = {}) {
-        const url = new URL(API()); url.searchParams.set('action', action);
-        Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-        return fetch(url).then(r => r.json());
-    }
-    function apiPost(action, data = {}) {
-        const fd = new FormData();
-        Object.entries(data).forEach(([k, v]) => fd.append(k, v));
-        return fetch(API() + '?action=' + action, { method: 'POST', body: fd }).then(r => r.json());
-    }
+        async function loadDashboard() {
+            const loads = [
+                apiGet('get_spots').catch(() => ({ data: [] })),
+                apiGet('get_businesses').catch(() => ({ data: [] })),
+                apiGet('get_products').catch(() => ({ data: [] })),
+                apiGet('get_events').catch(() => ({ data: [] }))
+            ];
+            const [s, b, p, e] = await Promise.all(loads);
+            document.getElementById('stat-spots').textContent = (s.data || []).length;
+            document.getElementById('stat-biz').textContent = (b.data || []).length;
+            document.getElementById('stat-prod').textContent = (p.data || []).length;
+            document.getElementById('stat-events').textContent = (e.data || []).length;
+        }
 
-    async function loadSpots() {
-        setLoading('spots-tbody', 6);
-        try { const d = await apiGet('get_spots'); allSpots = d.data || []; } catch { allSpots = sampleSpots(); }
-        filteredSpots = [...allSpots]; spotPage = 1; renderSpots();
-    }
-    function filterSpots() {
-        const q = document.getElementById('spot-search').value.toLowerCase();
-        const c = document.getElementById('spot-cat').value;
-        filteredSpots = allSpots.filter(s => (!q || (s.name||'').toLowerCase().includes(q)||(s.address||'').toLowerCase().includes(q))&&(!c||s.category===c));
-        spotPage = 1; renderSpots();
-    }
-    function renderSpots() {
-        const tbody = document.getElementById('spots-tbody');
-        const total = filteredSpots.length, start = (spotPage-1)*PAGE_SIZE, end = start+PAGE_SIZE;
-        const page = filteredSpots.slice(start, end);
-        if (!page.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No tourist spots found.</p></div></td></tr>`; renderPager('spots', total, spotPage); return }
-        tbody.innerHTML = page.map(s => `<tr>
-            <td>${s.image?`<img class="td-img" src="${s.image}" onerror="this.style.display='none'" alt=""/>`:`<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9"/></svg></div>`}</td>
-            <td><b style="color:var(--text)">${esc(s.name)}</b><br><span style="color:var(--muted);font-size:11px">${esc(s.description||'').slice(0,50)}…</span></td>
+        function apiGet(action, params = {}) {
+            const url = new URL(API()); url.searchParams.set('action', action);
+            Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+            return fetch(url).then(r => r.json());
+        }
+        function apiPost(action, data = {}) {
+            const fd = new FormData();
+            Object.entries(data).forEach(([k, v]) => fd.append(k, v));
+            return fetch(API() + '?action=' + action, { method: 'POST', body: fd }).then(r => r.json());
+        }
+
+        async function loadSpots() {
+            setLoading('spots-tbody', 6);
+            try { const d = await apiGet('get_spots'); allSpots = d.data || []; } catch { allSpots = sampleSpots(); }
+            filteredSpots = [...allSpots]; spotPage = 1; renderSpots();
+        }
+        function filterSpots() {
+            const q = document.getElementById('spot-search').value.toLowerCase();
+            const c = document.getElementById('spot-cat').value;
+            filteredSpots = allSpots.filter(s => (!q || (s.name || '').toLowerCase().includes(q) || (s.address || '').toLowerCase().includes(q)) && (!c || s.category === c));
+            spotPage = 1; renderSpots();
+        }
+        function renderSpots() {
+            const tbody = document.getElementById('spots-tbody');
+            const total = filteredSpots.length, start = (spotPage - 1) * PAGE_SIZE, end = start + PAGE_SIZE;
+            const page = filteredSpots.slice(start, end);
+            if (!page.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No tourist spots found.</p></div></td></tr>`; renderPager('spots', total, spotPage); return }
+            tbody.innerHTML = page.map(s => `<tr>
+            <td>${s.image ? `<img class="td-img" src="${s.image}" onerror="this.style.display='none'" alt=""/>` : `<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9"/></svg></div>`}</td>
+            <td><b style="color:var(--text)">${esc(s.name)}</b><br><span style="color:var(--muted);font-size:11px">${esc(s.description || '').slice(0, 50)}…</span></td>
             <td>${esc(s.category)}</td>
             <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.address)}</td>
             <td>${statusBadge(s.status)}</td>
             <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editSpot(${JSON.stringify(s)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_spot',${s.id},'spot')">Delete</button></div></td>
         </tr>`).join('');
-        renderPager('spots', total, spotPage, n => { spotPage = n; renderSpots() });
-        document.getElementById('spots-info').textContent = `Showing ${start+1}–${Math.min(end,total)} of ${total}`;
-    }
-    function openSpotModal(s=null) {
-        document.getElementById('spot-modal-title').textContent = s ? 'Edit Tourist Spot' : 'Add Tourist Spot';
-        document.getElementById('spot-id').value = s?.id||'';
-        document.getElementById('s-name').value = s?.name||'';
-        document.getElementById('s-cat').value = s?.category||'Beach';
-        document.getElementById('s-desc').value = s?.description||'';
-        document.getElementById('s-addr').value = s?.address||'';
-        document.getElementById('s-lat').value = s?.latitude||'';
-        document.getElementById('s-lng').value = s?.longitude||'';
-        setStatus('s', s?.status||'active');
-        resetImgUpload('s', s?.image||'');
-        openModal('spot-modal');
-        setTimeout(() => initMap('s', s?.latitude, s?.longitude), 100);
-    }
-    function editSpot(s) { openSpotModal(s) }
-    async function saveSpot() {
-        const id = document.getElementById('spot-id').value;
-        const data = { name:document.getElementById('s-name').value, category:document.getElementById('s-cat').value, description:document.getElementById('s-desc').value, address:document.getElementById('s-addr').value, latitude:document.getElementById('s-lat').value, longitude:document.getElementById('s-lng').value, image:imgData['s']||'', status:document.getElementById('s-status').value };
-        if (!data.name) { toast('Name is required','error'); return }
-        if (id) data.id = id;
-        try { const r = await apiPost(id?'update_spot':'add_spot', data); if (r.success!==false) { closeModal('spot-modal'); toast((id?'Updated':'Added')+' spot successfully','success'); allSpots=[]; loadSpots(); } else toast(r.message||'Error saving spot','error'); }
-        catch { toast('Cannot connect to server','error') }
-    }
+            renderPager('spots', total, spotPage, n => { spotPage = n; renderSpots() });
+            document.getElementById('spots-info').textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
+        }
+        function openSpotModal(s = null) {
+            document.getElementById('spot-modal-title').textContent = s ? 'Edit Tourist Spot' : 'Add Tourist Spot';
+            document.getElementById('spot-id').value = s?.id || '';
+            document.getElementById('s-name').value = s?.name || '';
+            document.getElementById('s-cat').value = s?.category || 'Beach';
+            document.getElementById('s-desc').value = s?.description || '';
+            document.getElementById('s-addr').value = s?.address || '';
+            document.getElementById('s-lat').value = s?.latitude || '';
+            document.getElementById('s-lng').value = s?.longitude || '';
+            setStatus('s', s?.status || 'active');
+            resetImgUpload('s', s?.image || '');
+            openModal('spot-modal');
+            setTimeout(() => initMap('s', s?.latitude, s?.longitude), 100);
+        }
+        function editSpot(s) { openSpotModal(s) }
+        async function saveSpot() {
+            const id = document.getElementById('spot-id').value;
+            const data = { name: document.getElementById('s-name').value, category: document.getElementById('s-cat').value, description: document.getElementById('s-desc').value, address: document.getElementById('s-addr').value, latitude: document.getElementById('s-lat').value, longitude: document.getElementById('s-lng').value, image: imgData['s'] || '', status: document.getElementById('s-status').value };
+            if (!data.name) { toast('Name is required', 'error'); return }
+            if (id) data.id = id;
+            try { const r = await apiPost(id ? 'update_spot' : 'add_spot', data); if (r.success !== false) { closeModal('spot-modal'); toast((id ? 'Updated' : 'Added') + ' spot successfully', 'success'); allSpots = []; loadSpots(); } else toast(r.message || 'Error saving spot', 'error'); }
+            catch { toast('Cannot connect to server', 'error') }
+        }
 
-    async function loadBiz() {
-        setLoading('biz-tbody', 6);
-        try { const d = await apiGet('get_businesses'); allBiz = d.data||[]; } catch { allBiz = sampleBiz(); }
-        filteredBiz = [...allBiz]; bizPage = 1; renderBiz();
-    }
-    function filterBiz() {
-        const q = document.getElementById('biz-search').value.toLowerCase();
-        const c = document.getElementById('biz-cat').value;
-        filteredBiz = allBiz.filter(b => (!q||(b.name||'').toLowerCase().includes(q)||(b.address||'').toLowerCase().includes(q))&&(!c||b.category===c));
-        bizPage = 1; renderBiz();
-    }
-    function renderBiz() {
-        const tbody = document.getElementById('biz-tbody');
-        const total = filteredBiz.length, start = (bizPage-1)*PAGE_SIZE, end = start+PAGE_SIZE;
-        const page = filteredBiz.slice(start, end);
-        if (!page.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No businesses found.</p></div></td></tr>`; renderPager('biz', total, bizPage); return }
-        tbody.innerHTML = page.map(b => `<tr>
-            <td>${b.image?`<img class="td-img" src="${b.image}" onerror="this.style.display='none'" alt=""/>`:`<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9"/></svg></div>`}</td>
-            <td><b style="color:var(--text)">${esc(b.name)}</b><br><span style="color:var(--muted);font-size:11px">${esc(b.address||'').slice(0,50)}</span></td>
+        async function loadBiz() {
+            setLoading('biz-tbody', 6);
+            try { const d = await apiGet('get_businesses'); allBiz = d.data || []; } catch { allBiz = sampleBiz(); }
+            filteredBiz = [...allBiz]; bizPage = 1; renderBiz();
+        }
+        function filterBiz() {
+            const q = document.getElementById('biz-search').value.toLowerCase();
+            const c = document.getElementById('biz-cat').value;
+            filteredBiz = allBiz.filter(b => (!q || (b.name || '').toLowerCase().includes(q) || (b.address || '').toLowerCase().includes(q)) && (!c || b.category === c));
+            bizPage = 1; renderBiz();
+        }
+        function renderBiz() {
+            const tbody = document.getElementById('biz-tbody');
+            const total = filteredBiz.length, start = (bizPage - 1) * PAGE_SIZE, end = start + PAGE_SIZE;
+            const page = filteredBiz.slice(start, end);
+            if (!page.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No businesses found.</p></div></td></tr>`; renderPager('biz', total, bizPage); return }
+            tbody.innerHTML = page.map(b => `<tr>
+            <td>${b.image ? `<img class="td-img" src="${b.image}" onerror="this.style.display='none'" alt=""/>` : `<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9"/></svg></div>`}</td>
+            <td><b style="color:var(--text)">${esc(b.name)}</b><br><span style="color:var(--muted);font-size:11px">${esc(b.address || '').slice(0, 50)}</span></td>
             <td>${esc(b.category)}</td>
-            <td>${esc(b.contact||'—')}</td>
+            <td>${esc(b.contact || '—')}</td>
             <td>${statusBadge(b.status)}</td>
             <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editBiz(${JSON.stringify(b)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_business',${b.id},'business')">Delete</button></div></td>
         </tr>`).join('');
-        renderPager('biz', total, bizPage, n => { bizPage = n; renderBiz() });
-        document.getElementById('biz-info').textContent = `Showing ${start+1}–${Math.min(end,total)} of ${total}`;
-    }
-    function openBizModal(b=null) {
-        document.getElementById('biz-modal-title').textContent = b ? 'Edit Business' : 'Add Business';
-        document.getElementById('biz-id').value = b?.id||'';
-        document.getElementById('b-name').value = b?.name||'';
-        document.getElementById('b-cat').value = b?.category||'Restaurant';
-        document.getElementById('b-desc').value = b?.description||'';
-        document.getElementById('b-addr').value = b?.address||'';
-        document.getElementById('b-contact').value = b?.contact||'';
-        document.getElementById('b-lat').value = b?.latitude||'';
-        document.getElementById('b-lng').value = b?.longitude||'';
-        setStatus('b', b?.status||'active');
-        resetImgUpload('b', b?.image||'');
-        bizExtraImages = (b?.images && Array.isArray(b.images)) ? [...b.images] : [];
-        renderBizMultiGrid();
-        openModal('biz-modal');
-        setTimeout(() => initMap('b', b?.latitude, b?.longitude), 100);
-    }
-    function editBiz(b) { openBizModal(b) }
-    async function saveBiz() {
-        const id = document.getElementById('biz-id').value;
-        const data = { name:document.getElementById('b-name').value, category:document.getElementById('b-cat').value, description:document.getElementById('b-desc').value, address:document.getElementById('b-addr').value, contact:document.getElementById('b-contact').value, latitude:document.getElementById('b-lat').value, longitude:document.getElementById('b-lng').value, image:imgData['b']||'', images:JSON.stringify(bizExtraImages), status:document.getElementById('b-status').value };
-        if (!data.name) { toast('Name is required','error'); return }
-        if (id) data.id = id;
-        try { const r = await apiPost(id?'update_business':'add_business', data); if (r.success!==false) { closeModal('biz-modal'); toast((id?'Updated':'Added')+' business','success'); allBiz=[]; loadBiz(); } else toast(r.message||'Error','error'); }
-        catch { toast('Cannot connect to server','error') }
-    }
+            renderPager('biz', total, bizPage, n => { bizPage = n; renderBiz() });
+            document.getElementById('biz-info').textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
+        }
+        function openBizModal(b = null) {
+            document.getElementById('biz-modal-title').textContent = b ? 'Edit Business' : 'Add Business';
+            document.getElementById('biz-id').value = b?.id || '';
+            document.getElementById('b-name').value = b?.name || '';
+            document.getElementById('b-cat').value = b?.category || 'Restaurant';
+            document.getElementById('b-desc').value = b?.description || '';
+            document.getElementById('b-addr').value = b?.address || '';
+            document.getElementById('b-contact').value = b?.contact || '';
+            document.getElementById('b-lat').value = b?.latitude || '';
+            document.getElementById('b-lng').value = b?.longitude || '';
+            setStatus('b', b?.status || 'active');
+            resetImgUpload('b', b?.image || '');
+            bizExtraImages = (b?.images && Array.isArray(b.images)) ? [...b.images] : [];
+            renderBizMultiGrid();
+            openModal('biz-modal');
+            setTimeout(() => initMap('b', b?.latitude, b?.longitude), 100);
+        }
+        function editBiz(b) { openBizModal(b) }
+        async function saveBiz() {
+            const id = document.getElementById('biz-id').value;
+            const data = { name: document.getElementById('b-name').value, category: document.getElementById('b-cat').value, description: document.getElementById('b-desc').value, address: document.getElementById('b-addr').value, contact: document.getElementById('b-contact').value, latitude: document.getElementById('b-lat').value, longitude: document.getElementById('b-lng').value, image: imgData['b'] || '', images: JSON.stringify(bizExtraImages), status: document.getElementById('b-status').value };
+            if (!data.name) { toast('Name is required', 'error'); return }
+            if (id) data.id = id;
+            try { const r = await apiPost(id ? 'update_business' : 'add_business', data); if (r.success !== false) { closeModal('biz-modal'); toast((id ? 'Updated' : 'Added') + ' business', 'success'); allBiz = []; loadBiz(); } else toast(r.message || 'Error', 'error'); }
+            catch { toast('Cannot connect to server', 'error') }
+        }
 
-    async function loadProd() {
-        setLoading('prod-tbody', 7);
-        try { const d = await apiGet('get_products'); allProd = d.data||[]; } catch { allProd = sampleProd(); }
-        filteredProd = [...allProd]; prodPage = 1; renderProd();
-    }
-    function filterProd() {
-        const q = document.getElementById('prod-search').value.toLowerCase();
-        const c = document.getElementById('prod-cat').value;
-        filteredProd = allProd.filter(p => (!q||(p.name||'').toLowerCase().includes(q)||(p.business_name||'').toLowerCase().includes(q))&&(!c||p.category===c));
-        prodPage = 1; renderProd();
-    }
-    function renderProd() {
-        const tbody = document.getElementById('prod-tbody');
-        const total = filteredProd.length, start = (prodPage-1)*PAGE_SIZE, end = start+PAGE_SIZE;
-        const page = filteredProd.slice(start, end);
-        if (!page.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>No products found.</p></div></td></tr>`; renderPager('prod', total, prodPage); return }
-        tbody.innerHTML = page.map(p => `<tr>
-            <td>${p.image?`<img class="td-img" src="${p.image}" onerror="this.style.display='none'" alt=""/>`:`<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path stroke-linecap="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>`}</td>
+        async function loadProd() {
+            setLoading('prod-tbody', 7);
+            try { const d = await apiGet('get_products'); allProd = d.data || []; } catch { allProd = sampleProd(); }
+            filteredProd = [...allProd]; prodPage = 1; renderProd();
+        }
+        function filterProd() {
+            const q = document.getElementById('prod-search').value.toLowerCase();
+            const c = document.getElementById('prod-cat').value;
+            filteredProd = allProd.filter(p => (!q || (p.name || '').toLowerCase().includes(q) || (p.business_name || '').toLowerCase().includes(q)) && (!c || p.category === c));
+            prodPage = 1; renderProd();
+        }
+        function renderProd() {
+            const tbody = document.getElementById('prod-tbody');
+            const total = filteredProd.length, start = (prodPage - 1) * PAGE_SIZE, end = start + PAGE_SIZE;
+            const page = filteredProd.slice(start, end);
+            if (!page.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>No products found.</p></div></td></tr>`; renderPager('prod', total, prodPage); return }
+            tbody.innerHTML = page.map(p => `<tr>
+            <td>${p.image ? `<img class="td-img" src="${p.image}" onerror="this.style.display='none'" alt=""/>` : `<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path stroke-linecap="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>`}</td>
             <td><b style="color:var(--text)">${esc(p.name)}</b></td>
             <td>${esc(p.category)}</td>
-            <td>₱${parseFloat(p.price||0).toFixed(2)}</td>
-            <td>${esc(p.business_name||'—')}</td>
+            <td>₱${parseFloat(p.price || 0).toFixed(2)}</td>
+            <td>${esc(p.business_name || '—')}</td>
             <td>${statusBadge(p.status)}</td>
             <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editProd(${JSON.stringify(p)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_product',${p.id},'product')">Delete</button></div></td>
         </tr>`).join('');
-        renderPager('prod', total, prodPage, n => { prodPage = n; renderProd() });
-        document.getElementById('prod-info').textContent = `Showing ${start+1}–${Math.min(end,total)} of ${total}`;
-    }
-    function openProdModal(p=null) {
-        document.getElementById('prod-modal-title').textContent = p ? 'Edit Product' : 'Add Product';
-        document.getElementById('prod-id').value = p?.id||'';
-        document.getElementById('p-name').value = p?.name||'';
-        document.getElementById('p-cat').value = p?.category||'Food';
-        document.getElementById('p-desc').value = p?.description||'';
-        document.getElementById('p-price').value = p?.price||'';
-        document.getElementById('p-bizid').value = p?.business_id||'';
-        setStatus('p', p?.status||'active');
-        resetImgUpload('p', p?.image||'');
-        openModal('prod-modal');
-    }
-    function editProd(p) { openProdModal(p) }
-    async function saveProd() {
-        const id = document.getElementById('prod-id').value;
-        const data = { name:document.getElementById('p-name').value, category:document.getElementById('p-cat').value, description:document.getElementById('p-desc').value, price:document.getElementById('p-price').value, business_id:document.getElementById('p-bizid').value, image:imgData['p']||'', status:document.getElementById('p-status').value };
-        if (!data.name) { toast('Name is required','error'); return }
-        if (id) data.id = id;
-        try { const r = await apiPost(id?'update_product':'add_product', data); if (r.success!==false) { closeModal('prod-modal'); toast((id?'Updated':'Added')+' product','success'); allProd=[]; loadProd(); } else toast(r.message||'Error','error'); }
-        catch { toast('Cannot connect to server','error') }
-    }
+            renderPager('prod', total, prodPage, n => { prodPage = n; renderProd() });
+            document.getElementById('prod-info').textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
+        }
+        function openProdModal(p = null) {
+            document.getElementById('prod-modal-title').textContent = p ? 'Edit Product' : 'Add Product';
+            document.getElementById('prod-id').value = p?.id || '';
+            document.getElementById('p-name').value = p?.name || '';
+            document.getElementById('p-cat').value = p?.category || 'Food';
+            document.getElementById('p-desc').value = p?.description || '';
+            document.getElementById('p-price').value = p?.price || '';
+            document.getElementById('p-bizid').value = p?.business_id || '';
+            setStatus('p', p?.status || 'active');
+            resetImgUpload('p', p?.image || '');
+            openModal('prod-modal');
+        }
+        function editProd(p) { openProdModal(p) }
+        async function saveProd() {
+            const id = document.getElementById('prod-id').value;
+            const data = { name: document.getElementById('p-name').value, category: document.getElementById('p-cat').value, description: document.getElementById('p-desc').value, price: document.getElementById('p-price').value, business_id: document.getElementById('p-bizid').value, image: imgData['p'] || '', status: document.getElementById('p-status').value };
+            if (!data.name) { toast('Name is required', 'error'); return }
+            if (id) data.id = id;
+            try { const r = await apiPost(id ? 'update_product' : 'add_product', data); if (r.success !== false) { closeModal('prod-modal'); toast((id ? 'Updated' : 'Added') + ' product', 'success'); allProd = []; loadProd(); } else toast(r.message || 'Error', 'error'); }
+            catch { toast('Cannot connect to server', 'error') }
+        }
 
-    async function loadEvt() {
-        setLoading('evt-tbody', 7);
-        try { const d = await apiGet('get_events'); allEvt = d.data||[]; } catch { allEvt = sampleEvt(); }
-        filteredEvt = [...allEvt]; evtPage = 1; renderEvt();
-    }
-    function filterEvt() {
-        const q = document.getElementById('evt-search').value.toLowerCase();
-        const t = document.getElementById('evt-type').value;
-        filteredEvt = allEvt.filter(e => (!q||(e.title||'').toLowerCase().includes(q)||(e.location||'').toLowerCase().includes(q))&&(!t||e.type===t));
-        evtPage = 1; renderEvt();
-    }
-    function renderEvt() {
-        const tbody = document.getElementById('evt-tbody');
-        const total = filteredEvt.length, start = (evtPage-1)*PAGE_SIZE, end = start+PAGE_SIZE;
-        const page = filteredEvt.slice(start, end);
-        if (!page.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>No events found.</p></div></td></tr>`; renderPager('evt', total, evtPage); return }
-        tbody.innerHTML = page.map(e => `<tr>
-            <td><b style="color:var(--text)">${esc(e.title)}</b><br><span style="color:var(--muted);font-size:11px">${esc((e.description||'').slice(0,50))}…</span></td>
+        async function loadEvt() {
+            setLoading('evt-tbody', 7);
+            try { const d = await apiGet('get_events'); allEvt = d.data || []; } catch { allEvt = sampleEvt(); }
+            filteredEvt = [...allEvt]; evtPage = 1; renderEvt();
+        }
+        function filterEvt() {
+            const q = document.getElementById('evt-search').value.toLowerCase();
+            const t = document.getElementById('evt-type').value;
+            filteredEvt = allEvt.filter(e => (!q || (e.title || '').toLowerCase().includes(q) || (e.location || '').toLowerCase().includes(q)) && (!t || e.type === t));
+            evtPage = 1; renderEvt();
+        }
+        function renderEvt() {
+            const tbody = document.getElementById('evt-tbody');
+            const total = filteredEvt.length, start = (evtPage - 1) * PAGE_SIZE, end = start + PAGE_SIZE;
+            const page = filteredEvt.slice(start, end);
+            if (!page.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>No events found.</p></div></td></tr>`; renderPager('evt', total, evtPage); return }
+            tbody.innerHTML = page.map(e => `<tr>
+            <td><b style="color:var(--text)">${esc(e.title)}</b><br><span style="color:var(--muted);font-size:11px">${esc((e.description || '').slice(0, 50))}…</span></td>
             <td>${esc(e.type)}</td>
-            <td>${esc(e.location||'—')}</td>
-            <td style="white-space:nowrap">${esc(e.event_date||'—')}</td>
-            <td>${esc(e.event_time||'—')}</td>
+            <td>${esc(e.location || '—')}</td>
+            <td style="white-space:nowrap">${esc(e.event_date || '—')}</td>
+            <td>${esc(e.event_time || '—')}</td>
             <td>${statusBadge(e.status)}</td>
             <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editEvt(${JSON.stringify(e)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_event',${e.id},'event')">Delete</button></div></td>
         </tr>`).join('');
-        renderPager('evt', total, evtPage, n => { evtPage = n; renderEvt() });
-        document.getElementById('evt-info').textContent = `Showing ${start+1}–${Math.min(end,total)} of ${total}`;
-    }
-    function openEvtModal(e=null) {
-        document.getElementById('evt-modal-title').textContent = e ? 'Edit Event' : 'Add Event';
-        document.getElementById('evt-id').value = e?.id||'';
-        document.getElementById('e-title').value = e?.title||'';
-        document.getElementById('e-type').value = e?.type||'Festival';
-        document.getElementById('e-desc').value = e?.description||'';
-        document.getElementById('e-loc').value = e?.location||'';
-        document.getElementById('e-date').value = e?.event_date||'';
-        document.getElementById('e-time').value = e?.event_time||'';
-        setStatus('e', e?.status||'active');
-        openModal('evt-modal');
-    }
-    function editEvt(e) { openEvtModal(e) }
-    async function saveEvt() {
-        const id = document.getElementById('evt-id').value;
-        const data = { title:document.getElementById('e-title').value, type:document.getElementById('e-type').value, description:document.getElementById('e-desc').value, location:document.getElementById('e-loc').value, event_date:document.getElementById('e-date').value, event_time:document.getElementById('e-time').value, status:document.getElementById('e-status').value };
-        if (!data.title) { toast('Title is required','error'); return }
-        if (id) data.id = id;
-        try { const r = await apiPost(id?'update_event':'add_event', data); if (r.success!==false) { closeModal('evt-modal'); toast((id?'Updated':'Added')+' event','success'); allEvt=[]; loadEvt(); } else toast(r.message||'Error','error'); }
-        catch { toast('Cannot connect to server','error') }
-    }
+            renderPager('evt', total, evtPage, n => { evtPage = n; renderEvt() });
+            document.getElementById('evt-info').textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
+        }
+        function openEvtModal(e = null) {
+            document.getElementById('evt-modal-title').textContent = e ? 'Edit Event' : 'Add Event';
+            document.getElementById('evt-id').value = e?.id || '';
+            document.getElementById('e-title').value = e?.title || '';
+            document.getElementById('e-type').value = e?.type || 'Festival';
+            document.getElementById('e-desc').value = e?.description || '';
+            document.getElementById('e-loc').value = e?.location || '';
+            document.getElementById('e-date').value = e?.event_date || '';
+            document.getElementById('e-time').value = e?.event_time || '';
+            setStatus('e', e?.status || 'active');
+            openModal('evt-modal');
+        }
+        function editEvt(e) { openEvtModal(e) }
+        async function saveEvt() {
+            const id = document.getElementById('evt-id').value;
+            const data = { title: document.getElementById('e-title').value, type: document.getElementById('e-type').value, description: document.getElementById('e-desc').value, location: document.getElementById('e-loc').value, event_date: document.getElementById('e-date').value, event_time: document.getElementById('e-time').value, status: document.getElementById('e-status').value };
+            if (!data.title) { toast('Title is required', 'error'); return }
+            if (id) data.id = id;
+            try { const r = await apiPost(id ? 'update_event' : 'add_event', data); if (r.success !== false) { closeModal('evt-modal'); toast((id ? 'Updated' : 'Added') + ' event', 'success'); allEvt = []; loadEvt(); } else toast(r.message || 'Error', 'error'); }
+            catch { toast('Cannot connect to server', 'error') }
+        }
 
-    function confirmDelete(action, id, label) {
-        document.getElementById('confirm-msg').textContent = `Are you sure you want to delete this ${label}? This cannot be undone.`;
-        document.getElementById('confirm-ok').onclick = async () => {
+        function confirmDelete(action, id, label) {
+            document.getElementById('confirm-msg').textContent = `Are you sure you want to delete this ${label}? This cannot be undone.`;
+            document.getElementById('confirm-ok').onclick = async () => {
+                try {
+                    const r = await apiPost(action, { id });
+                    if (r.success !== false) {
+                        toast('Deleted successfully', 'success'); closeModal('confirm-modal');
+                        if (action.includes('spot')) { allSpots = []; loadSpots() }
+                        else if (action.includes('business')) { allBiz = []; loadBiz() }
+                        else if (action.includes('product')) { allProd = []; loadProd() }
+                        else if (action.includes('event')) { allEvt = []; loadEvt() }
+                    } else toast(r.message || 'Error deleting', 'error');
+                } catch { toast('Cannot connect to server', 'error') }
+            };
+            openModal('confirm-modal');
+        }
+
+        async function loadAppSettings() {
             try {
-                const r = await apiPost(action, { id });
-                if (r.success!==false) {
-                    toast('Deleted successfully','success'); closeModal('confirm-modal');
-                    if (action.includes('spot')) { allSpots=[]; loadSpots() }
-                    else if (action.includes('business')) { allBiz=[]; loadBiz() }
-                    else if (action.includes('product')) { allProd=[]; loadProd() }
-                    else if (action.includes('event')) { allEvt=[]; loadEvt() }
-                } else toast(r.message||'Error deleting','error');
-            } catch { toast('Cannot connect to server','error') }
-        };
-        openModal('confirm-modal');
-    }
+                const d = await apiGet('get_settings');
+                if (!d.data) return;
+                const s = d.data;
+                maintenanceOn = s.maintenance_mode === '1';
+                updateMaintenanceUI();
+                sectionStates = { spots: s.section_spots || '1', businesses: s.section_businesses || '1', products: s.section_products || '1', events: s.section_events || '1' };
+                updateSectionUI();
+                document.getElementById('pg-banner-title').value = s.home_banner_title || '';
+                document.getElementById('pg-banner-sub').value = s.home_banner_subtitle || '';
+                document.getElementById('pg-announcement').value = s.home_announcement || '';
+                document.getElementById('pg-feat-spot').value = s.home_featured_spot_id || '';
+                document.getElementById('pg-feat-biz').value = s.home_featured_business_id || '';
+            } catch { }
+        }
+        function updateMaintenanceUI() {
+            const track = document.getElementById('maintenance-track');
+            const thumb = document.getElementById('maintenance-thumb');
+            const label = document.getElementById('maintenance-label');
+            if (maintenanceOn) { track.style.background = 'var(--danger)'; thumb.style.transform = 'translateX(20px)'; label.textContent = 'Enabled — App is under maintenance'; label.style.color = 'var(--danger)'; }
+            else { track.style.background = 'var(--border-dark)'; thumb.style.transform = 'translateX(0)'; label.textContent = 'Disabled'; label.style.color = 'var(--muted)'; }
+        }
+        async function toggleMaintenance() {
+            maintenanceOn = !maintenanceOn; updateMaintenanceUI();
+            try { await apiPost('update_setting', { key: 'maintenance_mode', value: maintenanceOn ? '1' : '0' }); toast('Maintenance mode ' + (maintenanceOn ? 'enabled' : 'disabled'), maintenanceOn ? 'error' : 'success'); }
+            catch { toast('Failed to update', 'error') }
+        }
+        function updateSectionUI() {
+            ['spots', 'businesses', 'products', 'events'].forEach(sec => {
+                const on = sectionStates[sec] === '1';
+                const track = document.getElementById('track-' + sec);
+                const thumb = document.getElementById('thumb-' + sec);
+                if (track && thumb) { track.style.background = on ? 'var(--success)' : 'var(--border-dark)'; thumb.style.transform = on ? 'translateX(20px)' : 'translateX(0)'; }
+            });
+        }
+        function toggleSection(sec) { sectionStates[sec] = sectionStates[sec] === '1' ? '0' : '1'; updateSectionUI(); }
+        async function saveSectionControls() {
+            const pairs = { section_spots: sectionStates.spots, section_businesses: sectionStates.businesses, section_products: sectionStates.products, section_events: sectionStates.events };
+            try { await apiPost('update_settings_bulk', { pairs: JSON.stringify(pairs) }); toast('Section settings saved', 'success'); }
+            catch { toast('Failed to save', 'error') }
+        }
+        async function savePageSettings() {
+            const pairs = { home_banner_title: document.getElementById('pg-banner-title').value, home_banner_subtitle: document.getElementById('pg-banner-sub').value, home_announcement: document.getElementById('pg-announcement').value, home_featured_spot_id: document.getElementById('pg-feat-spot').value, home_featured_business_id: document.getElementById('pg-feat-biz').value };
+            try { await apiPost('update_settings_bulk', { pairs: JSON.stringify(pairs) }); toast('Page settings saved', 'success'); }
+            catch { toast('Failed to save', 'error') }
+        }
+        function initSettings() {
+            document.getElementById('cfg-base').value = BASE_URL;
+            document.getElementById('cfg-display').textContent = BASE_URL + 'index.php';
+        }
+        function saveSettings() {
+            let v = document.getElementById('cfg-base').value.trim();
+            if (!v.endsWith('/')) v += '/';
+            BASE_URL = v; localStorage.setItem('ts_base_url', BASE_URL);
+            document.getElementById('cfg-display').textContent = BASE_URL + 'index.php';
+            toast('Settings saved', 'success');
+            allSpots = []; allBiz = []; allProd = []; allEvt = [];
+        }
 
-    async function loadAppSettings() {
-        try {
-            const d = await apiGet('get_settings');
-            if (!d.data) return;
-            const s = d.data;
-            maintenanceOn = s.maintenance_mode === '1';
-            updateMaintenanceUI();
-            sectionStates = { spots:s.section_spots||'1', businesses:s.section_businesses||'1', products:s.section_products||'1', events:s.section_events||'1' };
-            updateSectionUI();
-            document.getElementById('pg-banner-title').value = s.home_banner_title||'';
-            document.getElementById('pg-banner-sub').value = s.home_banner_subtitle||'';
-            document.getElementById('pg-announcement').value = s.home_announcement||'';
-            document.getElementById('pg-feat-spot').value = s.home_featured_spot_id||'';
-            document.getElementById('pg-feat-biz').value = s.home_featured_business_id||'';
-        } catch {}
-    }
-    function updateMaintenanceUI() {
-        const track = document.getElementById('maintenance-track');
-        const thumb = document.getElementById('maintenance-thumb');
-        const label = document.getElementById('maintenance-label');
-        if (maintenanceOn) { track.style.background='var(--danger)'; thumb.style.transform='translateX(20px)'; label.textContent='Enabled — App is under maintenance'; label.style.color='var(--danger)'; }
-        else { track.style.background='var(--border-dark)'; thumb.style.transform='translateX(0)'; label.textContent='Disabled'; label.style.color='var(--muted)'; }
-    }
-    async function toggleMaintenance() {
-        maintenanceOn = !maintenanceOn; updateMaintenanceUI();
-        try { await apiPost('update_setting', { key:'maintenance_mode', value:maintenanceOn?'1':'0' }); toast('Maintenance mode '+(maintenanceOn?'enabled':'disabled'), maintenanceOn?'error':'success'); }
-        catch { toast('Failed to update','error') }
-    }
-    function updateSectionUI() {
-        ['spots','businesses','products','events'].forEach(sec => {
-            const on = sectionStates[sec]==='1';
-            const track = document.getElementById('track-'+sec);
-            const thumb = document.getElementById('thumb-'+sec);
-            if (track&&thumb) { track.style.background=on?'var(--success)':'var(--border-dark)'; thumb.style.transform=on?'translateX(20px)':'translateX(0)'; }
-        });
-    }
-    function toggleSection(sec) { sectionStates[sec]=sectionStates[sec]==='1'?'0':'1'; updateSectionUI(); }
-    async function saveSectionControls() {
-        const pairs = { section_spots:sectionStates.spots, section_businesses:sectionStates.businesses, section_products:sectionStates.products, section_events:sectionStates.events };
-        try { await apiPost('update_settings_bulk', { pairs:JSON.stringify(pairs) }); toast('Section settings saved','success'); }
-        catch { toast('Failed to save','error') }
-    }
-    async function savePageSettings() {
-        const pairs = { home_banner_title:document.getElementById('pg-banner-title').value, home_banner_subtitle:document.getElementById('pg-banner-sub').value, home_announcement:document.getElementById('pg-announcement').value, home_featured_spot_id:document.getElementById('pg-feat-spot').value, home_featured_business_id:document.getElementById('pg-feat-biz').value };
-        try { await apiPost('update_settings_bulk', { pairs:JSON.stringify(pairs) }); toast('Page settings saved','success'); }
-        catch { toast('Failed to save','error') }
-    }
-    function initSettings() {
-        document.getElementById('cfg-base').value = BASE_URL;
-        document.getElementById('cfg-display').textContent = BASE_URL + 'index.php';
-    }
-    function saveSettings() {
-        let v = document.getElementById('cfg-base').value.trim();
-        if (!v.endsWith('/')) v += '/';
-        BASE_URL = v; localStorage.setItem('ts_base_url', BASE_URL);
-        document.getElementById('cfg-display').textContent = BASE_URL+'index.php';
-        toast('Settings saved','success');
-        allSpots=[]; allBiz=[]; allProd=[]; allEvt=[];
-    }
-
-    function openModal(id) { document.getElementById(id).classList.add('show') }
-    function closeModal(id) {
-        document.getElementById(id).classList.remove('show');
-        if (id === 'spot-modal' && maps['s']) { maps['s'].remove(); maps['s'] = null; markers['s'] = null; }
-        if (id === 'biz-modal' && maps['b']) { maps['b'].remove(); maps['b'] = null; markers['b'] = null; }
-    }
-    document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => {
-        if (e.target === o) {
-            const id = o.id;
-            o.classList.remove('show');
+        function openModal(id) { document.getElementById(id).classList.add('show') }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
             if (id === 'spot-modal' && maps['s']) { maps['s'].remove(); maps['s'] = null; markers['s'] = null; }
             if (id === 'biz-modal' && maps['b']) { maps['b'].remove(); maps['b'] = null; markers['b'] = null; }
         }
-    }));
-    function setLoading(tbodyId, cols) { document.getElementById(tbodyId).innerHTML=`<tr class="loading-row"><td colspan="${cols}"><div class="spinner"></div></td></tr>` }
-    function statusBadge(s) { if (s==='active') return '<span class="badge badge-active">active</span>'; if (s==='pending') return '<span class="badge badge-pending">pending</span>'; return '<span class="badge badge-inactive">'+(s||'inactive')+'</span>' }
-    function esc(str) { if (!str) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') }
-    function renderPager(key, total, current, cb) {
-        const pages = Math.ceil(total/PAGE_SIZE);
-        const el = document.getElementById(key+'-pages');
-        if (!el||pages<=1) { if (el) el.innerHTML=''; return }
-        let html = '';
-        for (let i=1;i<=pages;i++) html+=`<button class="page-btn${i===current?' active':''}">${i}</button>`;
-        el.innerHTML = html;
-        if (cb) el.querySelectorAll('.page-btn').forEach((btn,i) => btn.addEventListener('click', () => cb(i+1)));
-    }
-    function toast(msg, type='info') {
-        const t = document.createElement('div');
-        t.className = 'toast '+type;
-        const icons = { success:'✓', error:'✕', info:'i' };
-        t.innerHTML = `<span style="font-weight:700;color:${type==='success'?'var(--success)':type==='error'?'var(--danger)':'var(--accent2)'}">${icons[type]||'i'}</span> ${msg}`;
-        document.getElementById('toast-container').appendChild(t);
-        setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300) }, 3000);
-    }
+        document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => {
+            if (e.target === o) {
+                const id = o.id;
+                o.classList.remove('show');
+                if (id === 'spot-modal' && maps['s']) { maps['s'].remove(); maps['s'] = null; markers['s'] = null; }
+                if (id === 'biz-modal' && maps['b']) { maps['b'].remove(); maps['b'] = null; markers['b'] = null; }
+            }
+        }));
+        function setLoading(tbodyId, cols) { document.getElementById(tbodyId).innerHTML = `<tr class="loading-row"><td colspan="${cols}"><div class="spinner"></div></td></tr>` }
+        function statusBadge(s) { if (s === 'active') return '<span class="badge badge-active">active</span>'; if (s === 'pending') return '<span class="badge badge-pending">pending</span>'; return '<span class="badge badge-inactive">' + (s || 'inactive') + '</span>' }
+        function esc(str) { if (!str) return ''; return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') }
+        function renderPager(key, total, current, cb) {
+            const pages = Math.ceil(total / PAGE_SIZE);
+            const el = document.getElementById(key + '-pages');
+            if (!el || pages <= 1) { if (el) el.innerHTML = ''; return }
+            let html = '';
+            for (let i = 1; i <= pages; i++) html += `<button class="page-btn${i === current ? ' active' : ''}">${i}</button>`;
+            el.innerHTML = html;
+            if (cb) el.querySelectorAll('.page-btn').forEach((btn, i) => btn.addEventListener('click', () => cb(i + 1)));
+        }
+        function toast(msg, type = 'info') {
+            const t = document.createElement('div');
+            t.className = 'toast ' + type;
+            const icons = { success: '✓', error: '✕', info: 'i' };
+            t.innerHTML = `<span style="font-weight:700;color:${type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--accent2)'}">${icons[type] || 'i'}</span> ${msg}`;
+            document.getElementById('toast-container').appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; setTimeout(() => t.remove(), 300) }, 3000);
+        }
 
-    function toggleStatus(prefix) {
-        const track = document.getElementById(prefix + '-status-track');
-        const lbl = document.getElementById(prefix + '-status-lbl');
-        const hidden = document.getElementById(prefix + '-status');
-        const isOn = track.classList.contains('on');
-        if (isOn) { track.classList.remove('on'); lbl.classList.remove('on'); lbl.textContent = 'Inactive'; hidden.value = 'inactive'; }
-        else { track.classList.add('on'); lbl.classList.add('on'); lbl.textContent = 'Active'; hidden.value = 'active'; }
-    }
-    function setStatus(prefix, value) {
-        const track = document.getElementById(prefix + '-status-track');
-        const lbl = document.getElementById(prefix + '-status-lbl');
-        const hidden = document.getElementById(prefix + '-status');
-        if (!track) return;
-        if (value === 'active') { track.classList.add('on'); lbl.classList.add('on'); lbl.textContent = 'Active'; hidden.value = 'active'; }
-        else { track.classList.remove('on'); lbl.classList.remove('on'); lbl.textContent = 'Inactive'; hidden.value = 'inactive'; }
-    }
-</script>
+        function toggleStatus(prefix) {
+            const track = document.getElementById(prefix + '-status-track');
+            const lbl = document.getElementById(prefix + '-status-lbl');
+            const hidden = document.getElementById(prefix + '-status');
+            const isOn = track.classList.contains('on');
+            if (isOn) { track.classList.remove('on'); lbl.classList.remove('on'); lbl.textContent = 'Inactive'; hidden.value = 'inactive'; }
+            else { track.classList.add('on'); lbl.classList.add('on'); lbl.textContent = 'Active'; hidden.value = 'active'; }
+        }
+        function setStatus(prefix, value) {
+            const track = document.getElementById(prefix + '-status-track');
+            const lbl = document.getElementById(prefix + '-status-lbl');
+            const hidden = document.getElementById(prefix + '-status');
+            if (!track) return;
+            if (value === 'active') { track.classList.add('on'); lbl.classList.add('on'); lbl.textContent = 'Active'; hidden.value = 'active'; }
+            else { track.classList.remove('on'); lbl.classList.remove('on'); lbl.textContent = 'Inactive'; hidden.value = 'inactive'; }
+        }
+        function loadSuggestions() {
+            const tbody = document.getElementById('suggestions-tbody');
+            tbody.innerHTML = '<tr class="loading-row"><td colspan="5"><div class="spinner"></div></td></tr>';
+
+            fetch(API() + '?action=get_suggestions&status=pending')
+                .then(r => r.json())
+                .then(res => {
+                    if (!res.success || res.data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><p>No pending suggestions.</p></td></tr>';
+                        return;
+                    }
+                    tbody.innerHTML = res.data.map((s, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td style="font-weight:500">${s.name}</td>
+                    <td><span class="badge badge-pending">${s.category}</span></td>
+                    <td>${new Date(s.created_at).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                    <td>
+                        <div class="act-btns">
+                            <button class="btn btn-sm" style="background:var(--success-bg);color:var(--success);border:1px solid rgba(22,163,74,.2)"
+                                onclick="approveSuggestion(${s.id}, '${s.name}')">✅ Approve</button>
+                            <button class="btn btn-sm btn-danger"
+                                onclick="rejectSuggestion(${s.id})">❌ Reject</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+                })
+                .catch(() => toast('Failed to load suggestions', 'error'));
+        }
+
+        function approveSuggestion(id, name) {
+            if (!confirm('Approve "' + name + '" and add it to the app?')) return;
+            const fd = new FormData();
+            fd.append('id', id);
+            fetch(API() + '?action=approve_suggestion', { method: 'POST', body: fd })
+                .then(r => r.json())
+                .then(res => {
+                    toast(res.message, res.success ? 'success' : 'error');
+                    if (res.success) loadSuggestions();
+                })
+                .catch(() => toast('Failed to approve', 'error'));
+        }
+
+        function rejectSuggestion(id) {
+            if (!confirm('Reject this suggestion?')) return;
+            const fd = new FormData();
+            fd.append('id', id);
+            fetch(API() + '?action=reject_suggestion', { method: 'POST', body: fd })
+                .then(r => r.json())
+                .then(res => {
+                    toast(res.message, res.success ? 'success' : 'error');
+                    if (res.success) loadSuggestions();
+                })
+                .catch(() => toast('Failed to reject', 'error'));
+        }
+    </script>
 </body>
+
 </html>
