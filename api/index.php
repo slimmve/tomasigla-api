@@ -49,12 +49,14 @@ $action = $_GET['action'] ?? '';
 // HELPERS
 // ============================================================
 
-function dec($val) {
+function dec($val)
+{
     $v = trim($val ?? '');
     return ($v === '' || $v === null) ? null : (float)$v;
 }
 
-function handleImage($value) {
+function handleImage($value)
+{
     if (empty($value)) return '';
 
     if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
@@ -651,7 +653,7 @@ switch ($action) {
 
         echo json_encode(['success' => true, 'reply' => $reply]);
         break;
-// ============================================================
+    // ============================================================
     // SUGGESTIONS
     // ============================================================
 
@@ -699,7 +701,7 @@ switch ($action) {
             exit;
         }
 
-        $table = match($suggestion['category']) {
+        $table = match ($suggestion['category']) {
             'Spot'     => 'tourist_spots',
             'Business' => 'businesses',
             'Product'  => 'products',
@@ -712,10 +714,17 @@ switch ($action) {
             exit;
         }
 
-        $pdo->prepare("
-            INSERT INTO $table (name, status, created_at, updated_at)
-            VALUES (?, 'active', NOW(), NOW())
-        ")->execute([$suggestion['name']]);
+        if ($table === 'events') {
+            $pdo->prepare("
+        INSERT INTO events (title, status, created_at, updated_at)
+        VALUES (?, 'active', NOW(), NOW())
+    ")->execute([$suggestion['name']]);
+        } else {
+            $pdo->prepare("
+        INSERT INTO $table (name, status, created_at, updated_at)
+        VALUES (?, 'active', NOW(), NOW())
+    ")->execute([$suggestion['name']]);
+        }
 
         $pdo->prepare("UPDATE suggestions SET status = 'approved', updated_at = NOW() WHERE id = ?")
             ->execute([(int)$_POST['id']]);
@@ -734,7 +743,7 @@ switch ($action) {
 
         echo json_encode(['success' => true, 'message' => 'Suggestion rejected.']);
         break;
-        
+
     // ============================================================
     // DEFAULT
     // ============================================================
@@ -744,4 +753,3 @@ switch ($action) {
         echo json_encode(['success' => false, 'message' => 'Unknown action: ' . $action]);
         break;
 }
-?>
