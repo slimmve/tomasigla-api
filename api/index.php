@@ -162,6 +162,7 @@ switch ($action) {
         $search    = '%' . ($_GET['search']   ?? '') . '%';
         $category  =        $_GET['category'] ?? '';
         $adminMode =       ($_GET['admin']    ?? '') === '1';
+        $isGuest   =       ($_GET['guest']    ?? '') === '1';
 
         $sql    = "SELECT * FROM tourist_spots WHERE (name ILIKE ? OR description ILIKE ? OR address ILIKE ?)";
         $params = [$search, $search, $search];
@@ -176,6 +177,8 @@ switch ($action) {
         }
 
         $sql .= " ORDER BY created_at DESC";
+        if ($isGuest) $sql .= " LIMIT 3";
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
 
@@ -258,6 +261,7 @@ switch ($action) {
         $search    = '%' . ($_GET['search']   ?? '') . '%';
         $category  =        $_GET['category'] ?? '';
         $adminMode =       ($_GET['admin']    ?? '') === '1';
+        $isGuest   =       ($_GET['guest']    ?? '') === '1';
 
         $sql    = "SELECT * FROM businesses WHERE (name ILIKE ? OR description ILIKE ? OR address ILIKE ?)";
         $params = [$search, $search, $search];
@@ -272,6 +276,8 @@ switch ($action) {
         }
 
         $sql .= " ORDER BY created_at DESC";
+        if ($isGuest) $sql .= " LIMIT 3";
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $rows = $stmt->fetchAll();
@@ -373,6 +379,7 @@ switch ($action) {
         $search    = '%' . ($_GET['search']   ?? '') . '%';
         $category  =        $_GET['category'] ?? '';
         $adminMode =       ($_GET['admin']    ?? '') === '1';
+        $isGuest   =       ($_GET['guest']    ?? '') === '1';
 
         $sql    = "
             SELECT p.*, b.name AS business_name
@@ -392,6 +399,8 @@ switch ($action) {
         }
 
         $sql .= " ORDER BY p.id DESC";
+        if ($isGuest) $sql .= " LIMIT 3";
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
 
@@ -474,6 +483,7 @@ switch ($action) {
         $search    = '%' . ($_GET['search'] ?? '') . '%';
         $type      =        $_GET['type']   ?? '';
         $adminMode =       ($_GET['admin']  ?? '') === '1';
+        $isGuest   =       ($_GET['guest']  ?? '') === '1';
 
         $sql    = "SELECT * FROM events WHERE (title ILIKE ? OR description ILIKE ? OR location ILIKE ?)";
         $params = [$search, $search, $search];
@@ -488,6 +498,8 @@ switch ($action) {
         }
 
         $sql .= " ORDER BY event_date ASC";
+        if ($isGuest) $sql .= " LIMIT 3";
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
 
