@@ -640,221 +640,268 @@ switch ($action) {
         $message = strtolower(trim($_POST['message'] ?? ''));
         $reply   = "Sorry, I didn't understand that. Try asking about spots, products, events, or businesses in Sto. Tomas!";
 
-        // ── GREETING ──────────────────────────────────────────
-        if (str_contains($message, 'hello') || str_contains($message, 'hi') || str_contains($message, 'hey')) {
-            $reply = "Hello! Welcome to TomaSIGLA — your guide to Sto. Tomas, Batangas. How can I help you?";
+        do {
+            // ── GREETING ──────────────────────────────────────────
+            if (str_contains($message, 'hello') || str_contains($message, 'hi') || str_contains($message, 'hey')) {
+                $reply = "Hello! Welcome to TomaSIGLA — your guide to Sto. Tomas, Batangas. How can I help you?";
+                break;
 
-        // ── HELP ──────────────────────────────────────────────
-        } elseif (str_contains($message, 'help') || str_contains($message, 'what can you do')) {
-            $reply = "I can help you with:\n• 📍 Tourist Spots\n• 🛍️ Local Products\n• 🏢 Businesses\n• 🎉 Events\n\nYou can ask things like:\n- 'Give me spots in Sto. Tomas'\n- 'Address of [place name]'\n- 'Details about [business name]'\n- 'Price of [product name]'\n- 'Upcoming events'";
+            // ── THANK YOU ─────────────────────────────────────────
+            } elseif (str_contains($message, 'thank') || str_contains($message, 'salamat')) {
+                $reply = "You're welcome! Feel free to ask if you need anything else about Sto. Tomas, Batangas!";
+                break;
 
-        // ── ADDRESS OF SPECIFIC PLACE ──────────────────────────
-        } elseif (
-            str_contains($message, 'address') ||
-            str_contains($message, 'where is') ||
-            str_contains($message, 'location of') ||
-            str_contains($message, 'located')
-        ) {
-            $found = null;
+            // ── HELP ──────────────────────────────────────────────
+            } elseif (str_contains($message, 'help') || str_contains($message, 'what can you do')) {
+                $reply = "I can help you with:\n- Tourist Spots\n- Local Products\n- Businesses\n- Events\n\nYou can ask things like:\n- Give me spots in Sto. Tomas\n- Address of [place name]\n- Details about [business name]\n- Price of [product name]\n- Upcoming events";
+                break;
 
-            // Check tourist spots
-            $stmt = $pdo->query("SELECT name, address FROM tourist_spots WHERE status='active'");
-            foreach ($stmt->fetchAll() as $row) {
-                if (str_contains($message, strtolower($row['name']))) {
-                    $found = $row;
-                    $reply = "📍 {$row['name']} is located at: {$row['address']}";
-                    break;
-                }
-            }
+            // ── ADDRESS OF SPECIFIC PLACE ──────────────────────────
+            } elseif (
+                str_contains($message, 'address') ||
+                str_contains($message, 'where is') ||
+                str_contains($message, 'location of') ||
+                str_contains($message, 'located')
+            ) {
+                $found = null;
 
-            // Check businesses
-            if (!$found) {
-                $stmt = $pdo->query("SELECT name, address FROM businesses WHERE status='active'");
+                $stmt = $pdo->query("SELECT name, address FROM tourist_spots WHERE status='active'");
                 foreach ($stmt->fetchAll() as $row) {
                     if (str_contains($message, strtolower($row['name']))) {
-                        $found = $row;
-                        $reply = "📍 {$row['name']} is located at: {$row['address']}";
+                        $found = true;
+                        $reply = "{$row['name']} is located at: {$row['address']}";
                         break;
                     }
                 }
-            }
 
-            if (!$found) {
-                $reply = "I couldn't find that place. Try asking 'give me spots' or 'give me businesses' first to see available names!";
-            }
-
-        // ── DETAILS / INFO ABOUT SPECIFIC PLACE ───────────────
-        } elseif (
-            str_contains($message, 'about') ||
-            str_contains($message, 'info') ||
-            str_contains($message, 'details') ||
-            str_contains($message, 'tell me')
-        ) {
-            $found = null;
-
-            // Check spots
-            $stmt = $pdo->query("SELECT name, description, address FROM tourist_spots WHERE status='active'");
-            foreach ($stmt->fetchAll() as $row) {
-                if (str_contains($message, strtolower($row['name']))) {
-                    $found = true;
-                    $reply = "📍 {$row['name']}\n📌 {$row['address']}\n📝 {$row['description']}";
-                    break;
+                if (!$found) {
+                    $stmt = $pdo->query("SELECT name, address FROM businesses WHERE status='active'");
+                    foreach ($stmt->fetchAll() as $row) {
+                        if (str_contains($message, strtolower($row['name']))) {
+                            $found = true;
+                            $reply = "{$row['name']} is located at: {$row['address']}";
+                            break;
+                        }
+                    }
                 }
-            }
 
-            // Check businesses
-            if (!$found) {
+                if (!$found) {
+                    $reply = "I couldn't find that place. Try asking 'give me spots' or 'give me businesses' first to see available names!";
+                }
+                break;
+
+            // ── DETAILS / INFO ABOUT SPECIFIC PLACE ───────────────
+            } elseif (
+                str_contains($message, 'about') ||
+                str_contains($message, 'info') ||
+                str_contains($message, 'details') ||
+                str_contains($message, 'tell me')
+            ) {
+                $found = null;
+
+                $stmt = $pdo->query("SELECT name, description, address FROM tourist_spots WHERE status='active'");
+                foreach ($stmt->fetchAll() as $row) {
+                    if (str_contains($message, strtolower($row['name']))) {
+                        $found = true;
+                        $reply = "{$row['name']}\nAddress: {$row['address']}\n{$row['description']}";
+                        break;
+                    }
+                }
+
+                if (!$found) {
+                    $stmt = $pdo->query("SELECT name, description, address, contact FROM businesses WHERE status='active'");
+                    foreach ($stmt->fetchAll() as $row) {
+                        if (str_contains($message, strtolower($row['name']))) {
+                            $found = true;
+                            $reply = "{$row['name']}\nAddress: {$row['address']}\nContact: {$row['contact']}\n{$row['description']}";
+                            break;
+                        }
+                    }
+                }
+
+                if (!$found) {
+                    $stmt = $pdo->query("SELECT p.name, p.description, p.price, b.name AS business_name FROM products p LEFT JOIN businesses b ON p.business_id = b.id WHERE p.status='active'");
+                    foreach ($stmt->fetchAll() as $row) {
+                        if (str_contains($message, strtolower($row['name']))) {
+                            $found = true;
+                            $bizInfo = $row['business_name'] ? "\nSold at: {$row['business_name']}" : '';
+                            $reply = "{$row['name']}\nPrice: P{$row['price']}{$bizInfo}\n{$row['description']}";
+                            break;
+                        }
+                    }
+                }
+
+                if (!$found) {
+                    $stmt = $pdo->query("SELECT title, description, location, event_date, event_time FROM events WHERE status='active'");
+                    foreach ($stmt->fetchAll() as $row) {
+                        if (str_contains($message, strtolower($row['title']))) {
+                            $found = true;
+                            $reply = "{$row['title']}\nLocation: {$row['location']}\nDate: {$row['event_date']} {$row['event_time']}\n{$row['description']}";
+                            break;
+                        }
+                    }
+                }
+
+                if (!$found) {
+                    $reply = "I couldn't find details for that. Try asking 'give me spots', 'give me businesses', or 'give me products' to see available names!";
+                }
+                break;
+
+            // ── CONTACT / PHONE ────────────────────────────────────
+            } elseif (
+                str_contains($message, 'contact') ||
+                str_contains($message, 'phone') ||
+                str_contains($message, 'number')
+            ) {
+                $found = null;
+                $stmt  = $pdo->query("SELECT name, contact FROM businesses WHERE status='active'");
+                foreach ($stmt->fetchAll() as $row) {
+                    if (str_contains($message, strtolower($row['name']))) {
+                        $found = true;
+                        $reply = "Contact for {$row['name']}: {$row['contact']}";
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $stmt2 = $pdo->query("SELECT name FROM businesses WHERE status='active' LIMIT 5");
+                    $list  = implode(', ', array_column($stmt2->fetchAll(), 'name'));
+                    $reply = $list
+                        ? "Please mention the business name. Available businesses: $list"
+                        : "No businesses listed yet.";
+                }
+                break;
+
+            // ── PRICE OF PRODUCT ───────────────────────────────────
+            } elseif (
+                str_contains($message, 'price') ||
+                str_contains($message, 'cost') ||
+                str_contains($message, 'how much')
+            ) {
+                $found = null;
+                $stmt  = $pdo->query("SELECT name, price FROM products WHERE status='active'");
+                foreach ($stmt->fetchAll() as $row) {
+                    if (str_contains($message, strtolower($row['name']))) {
+                        $found = true;
+                        $reply = "{$row['name']} costs P{$row['price']}";
+                        break;
+                    }
+                }
+                if (!$found) {
+                    $stmt2 = $pdo->query("SELECT name FROM products WHERE status='active' LIMIT 5");
+                    $list  = implode(', ', array_column($stmt2->fetchAll(), 'name'));
+                    $reply = $list
+                        ? "Please mention a product name. Available products: $list"
+                        : "No products listed yet.";
+                }
+                break;
+
+            // ── LIST SPOTS ─────────────────────────────────────────
+            } elseif (
+                str_contains($message, 'spot') ||
+                str_contains($message, 'tourist') ||
+                str_contains($message, 'place') ||
+                str_contains($message, 'visit')
+            ) {
+                $stmt = $pdo->query("SELECT name FROM tourist_spots WHERE status='active' LIMIT 5");
+                $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
+                $reply = $list
+                    ? "Here are some popular spots in Sto. Tomas: $list.\nAsk me 'address of [name]' or 'about [name]' for more details!"
+                    : "No tourist spots are available right now.";
+                break;
+
+            // ── LIST PRODUCTS ──────────────────────────────────────
+            } elseif (
+                str_contains($message, 'product') ||
+                str_contains($message, 'pasalubong') ||
+                str_contains($message, 'souvenir') ||
+                str_contains($message, 'buy') ||
+                str_contains($message, 'item')
+            ) {
+                $stmt = $pdo->query("SELECT name FROM products WHERE status='active' LIMIT 5");
+                $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
+                $reply = $list
+                    ? "Here are some local products in Sto. Tomas: $list.\nAsk me 'price of [name]' or 'about [name]' for more details!"
+                    : "No products listed yet.";
+                break;
+
+            // ── LIST EVENTS ────────────────────────────────────────
+            } elseif (
+                str_contains($message, 'event') ||
+                str_contains($message, 'festival') ||
+                str_contains($message, 'activity') ||
+                str_contains($message, 'happening')
+            ) {
+                $stmt = $pdo->query("SELECT title, event_date, location FROM events WHERE status='active' ORDER BY event_date ASC LIMIT 5");
+                $rows = $stmt->fetchAll();
+                if ($rows) {
+                    $lines = array_map(fn($e) => "{$e['title']} — {$e['event_date']} at {$e['location']}", $rows);
+                    $reply = "Upcoming events in Sto. Tomas:\n" . implode("\n", $lines);
+                } else {
+                    $reply = "No upcoming events right now.";
+                }
+                break;
+
+            // ── LIST BUSINESSES ────────────────────────────────────
+            } elseif (
+                str_contains($message, 'business') ||
+                str_contains($message, 'shop') ||
+                str_contains($message, 'store') ||
+                str_contains($message, 'food') ||
+                str_contains($message, 'restaurant') ||
+                str_contains($message, 'eat')
+            ) {
+                $stmt = $pdo->query("SELECT name FROM businesses WHERE status='active' LIMIT 5");
+                $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
+                $reply = $list
+                    ? "Popular businesses in Sto. Tomas: $list.\nAsk me 'address of [name]' or 'about [name]' for more details!"
+                    : "No businesses listed yet.";
+                break;
+
+            // ── GENERAL STO. TOMAS ─────────────────────────────────
+            } elseif (
+                str_contains($message, 'sto. tomas') ||
+                str_contains($message, 'sto tomas') ||
+                str_contains($message, 'batangas')
+            ) {
+                $reply = "Sto. Tomas, Batangas is a great place to visit! Ask me about spots, products, businesses, or events here.";
+                break;
+
+            // ── CATCH-ALL NAME SEARCH ──────────────────────────────
+            } else {
+                // Search spots
+                $stmt = $pdo->query("SELECT name, description, address FROM tourist_spots WHERE status='active'");
+                foreach ($stmt->fetchAll() as $row) {
+                    if (str_contains(strtolower($row['name']), $message)) {
+                        $reply = "{$row['name']}\nAddress: {$row['address']}\n{$row['description']}";
+                        break 2;
+                    }
+                }
+                // Search businesses
                 $stmt = $pdo->query("SELECT name, description, address, contact FROM businesses WHERE status='active'");
                 foreach ($stmt->fetchAll() as $row) {
-                    if (str_contains($message, strtolower($row['name']))) {
-                        $found = true;
-                        $reply = "🏢 {$row['name']}\n📌 {$row['address']}\n📞 {$row['contact']}\n📝 {$row['description']}";
-                        break;
+                    if (str_contains(strtolower($row['name']), $message)) {
+                        $reply = "{$row['name']}\nAddress: {$row['address']}\nContact: {$row['contact']}\n{$row['description']}";
+                        break 2;
                     }
                 }
-            }
-
-            // Check products
-            if (!$found) {
-                $stmt = $pdo->query("SELECT p.name, p.description, p.price, b.name AS business_name FROM products p LEFT JOIN businesses b ON p.business_id = b.id WHERE p.status='active'");
+                // Search products
+                $stmt = $pdo->query("SELECT name, description, price FROM products WHERE status='active'");
                 foreach ($stmt->fetchAll() as $row) {
-                    if (str_contains($message, strtolower($row['name']))) {
-                        $found = true;
-                        $bizInfo = $row['business_name'] ? "\n🏢 Sold at: {$row['business_name']}" : '';
-                        $reply = "🛍️ {$row['name']}\n💰 Price: ₱{$row['price']}{$bizInfo}\n📝 {$row['description']}";
-                        break;
+                    if (str_contains(strtolower($row['name']), $message)) {
+                        $reply = "{$row['name']}\nPrice: P{$row['price']}\n{$row['description']}";
+                        break 2;
                     }
                 }
-            }
-
-            // Check events
-            if (!$found) {
-                $stmt = $pdo->query("SELECT title, description, location, event_date, event_time FROM events WHERE status='active'");
+                // Search events
+                $stmt = $pdo->query("SELECT title, description, location, event_date FROM events WHERE status='active'");
                 foreach ($stmt->fetchAll() as $row) {
-                    if (str_contains($message, strtolower($row['title']))) {
-                        $found = true;
-                        $reply = "🎉 {$row['title']}\n📌 {$row['location']}\n📅 {$row['event_date']} {$row['event_time']}\n📝 {$row['description']}";
-                        break;
+                    if (str_contains(strtolower($row['title']), $message)) {
+                        $reply = "{$row['title']}\nLocation: {$row['location']}\nDate: {$row['event_date']}\n{$row['description']}";
+                        break 2;
                     }
                 }
             }
-
-            if (!$found) {
-                $reply = "I couldn't find details for that. Try asking 'give me spots', 'give me businesses', or 'give me products' to see available names!";
-            }
-
-        // ── CONTACT / PHONE ────────────────────────────────────
-        } elseif (
-            str_contains($message, 'contact') ||
-            str_contains($message, 'phone') ||
-            str_contains($message, 'number')
-        ) {
-            $found = null;
-            $stmt  = $pdo->query("SELECT name, contact FROM businesses WHERE status='active'");
-            foreach ($stmt->fetchAll() as $row) {
-                if (str_contains($message, strtolower($row['name']))) {
-                    $found = true;
-                    $reply = "📞 Contact for {$row['name']}: {$row['contact']}";
-                    break;
-                }
-            }
-            if (!$found) {
-                $stmt2 = $pdo->query("SELECT name FROM businesses WHERE status='active' LIMIT 5");
-                $list  = implode(', ', array_column($stmt2->fetchAll(), 'name'));
-                $reply = $list
-                    ? "Please mention the business name. Available businesses: $list"
-                    : "No businesses listed yet.";
-            }
-
-        // ── PRICE OF PRODUCT ───────────────────────────────────
-        } elseif (
-            str_contains($message, 'price') ||
-            str_contains($message, 'cost') ||
-            str_contains($message, 'how much')
-        ) {
-            $found = null;
-            $stmt  = $pdo->query("SELECT name, price FROM products WHERE status='active'");
-            foreach ($stmt->fetchAll() as $row) {
-                if (str_contains($message, strtolower($row['name']))) {
-                    $found = true;
-                    $reply = "💰 {$row['name']} costs ₱{$row['price']}";
-                    break;
-                }
-            }
-            if (!$found) {
-                $stmt2 = $pdo->query("SELECT name FROM products WHERE status='active' LIMIT 5");
-                $list  = implode(', ', array_column($stmt2->fetchAll(), 'name'));
-                $reply = $list
-                    ? "Please mention a product name. Available products: $list"
-                    : "No products listed yet.";
-            }
-
-        // ── LIST SPOTS ─────────────────────────────────────────
-        } elseif (
-            str_contains($message, 'spot') ||
-            str_contains($message, 'tourist') ||
-            str_contains($message, 'place') ||
-            str_contains($message, 'visit')
-        ) {
-            $stmt = $pdo->query("SELECT name FROM tourist_spots WHERE status='active' LIMIT 5");
-            $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
-            $reply = $list
-                ? "Here are some popular spots in Sto. Tomas: $list.\nAsk me 'address of [name]' or 'about [name]' for more details!"
-                : "No tourist spots are available right now.";
-
-        // ── LIST PRODUCTS ──────────────────────────────────────
-        } elseif (
-            str_contains($message, 'product') ||
-            str_contains($message, 'pasalubong') ||
-            str_contains($message, 'souvenir') ||
-            str_contains($message, 'buy') ||
-            str_contains($message, 'item')
-        ) {
-            $stmt = $pdo->query("SELECT name FROM products WHERE status='active' LIMIT 5");
-            $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
-            $reply = $list
-                ? "Here are some local products in Sto. Tomas: $list.\nAsk me 'price of [name]' or 'about [name]' for more details!"
-                : "No products listed yet.";
-
-        // ── LIST EVENTS ────────────────────────────────────────
-        } elseif (
-            str_contains($message, 'event') ||
-            str_contains($message, 'festival') ||
-            str_contains($message, 'activity') ||
-            str_contains($message, 'happening')
-        ) {
-            $stmt = $pdo->query("SELECT title, event_date, location FROM events WHERE status='active' ORDER BY event_date ASC LIMIT 5");
-            $rows = $stmt->fetchAll();
-            if ($rows) {
-                $lines = array_map(fn($e) => "🎉 {$e['title']} — {$e['event_date']} at {$e['location']}", $rows);
-                $reply = "Upcoming events in Sto. Tomas:\n" . implode("\n", $lines);
-            } else {
-                $reply = "No upcoming events right now.";
-            }
-
-        // ── LIST BUSINESSES ────────────────────────────────────
-        } elseif (
-            str_contains($message, 'business') ||
-            str_contains($message, 'shop') ||
-            str_contains($message, 'store') ||
-            str_contains($message, 'food') ||
-            str_contains($message, 'restaurant') ||
-            str_contains($message, 'eat')
-        ) {
-            $stmt = $pdo->query("SELECT name FROM businesses WHERE status='active' LIMIT 5");
-            $list = implode(', ', array_column($stmt->fetchAll(), 'name'));
-            $reply = $list
-                ? "Popular businesses in Sto. Tomas: $list.\nAsk me 'address of [name]' or 'about [name]' for more details!"
-                : "No businesses listed yet.";
-
-        // ── GENERAL STO. TOMAS ─────────────────────────────────
-        } elseif (
-            str_contains($message, 'sto. tomas') ||
-            str_contains($message, 'sto tomas') ||
-            str_contains($message, 'batangas')
-        ) {
-            $reply = "Sto. Tomas, Batangas is a great place to visit! Ask me about spots, products, businesses, or events here.";
-        }
+        } while (false);
 
         echo json_encode(['success' => true, 'reply' => $reply]);
         break;
