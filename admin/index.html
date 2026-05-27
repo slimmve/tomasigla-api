@@ -1713,6 +1713,15 @@
                             </svg>
                             Click anywhere on the map to drop a pin
                         </div>
+                        <!-- Search bar -->
+                        <div
+                            style="position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:999;width:70%;display:flex;gap:6px">
+                            <input type="text" id="s-map-search" placeholder="Search location…"
+                                style="flex:1;padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;box-shadow:0 2px 8px rgba(0,0,0,.1)"
+                                onkeydown="if(event.key==='Enter') searchMapLocation('s')" />
+                            <button onclick="searchMapLocation('s')"
+                                style="padding:7px 12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.1)">Search</button>
+                        </div>
                         <div id="s-map" class="map-container"></div>
                     </div>
                     <input type="hidden" id="s-lat" />
@@ -1802,6 +1811,15 @@
                                 <circle cx="12" cy="9" r="2.5" fill="currentColor" stroke="none" />
                             </svg>
                             Click anywhere on the map to drop a pin
+                        </div>
+                        <!-- Search bar -->
+                        <div
+                            style="position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:999;width:70%;display:flex;gap:6px">
+                            <input type="text" id="b-map-search" placeholder="Search location…"
+                                style="flex:1;padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;box-shadow:0 2px 8px rgba(0,0,0,.1)"
+                                onkeydown="if(event.key==='Enter') searchMapLocation('b')" />
+                            <button onclick="searchMapLocation('b')"
+                                style="padding:7px 12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.1)">Search</button>
                         </div>
                         <div id="b-map" class="map-container"></div>
                     </div>
@@ -2038,6 +2056,39 @@
                 .catch(() => { addrField.placeholder = 'Full address'; });
         }
 
+        async function searchMapLocation(prefix) {
+            const input = document.getElementById(prefix + '-map-search');
+            const query = input.value.trim();
+            if (!query) return;
+
+            input.disabled = true;
+            input.value = 'Searching…';
+
+            try {
+                const res = await fetch(
+                    'https://nominatim.openstreetmap.org/search?format=jsonv2&q=' + encodeURIComponent(query) + '&limit=1&accept-language=en',
+                    { headers: { 'User-Agent': 'TomaSIGLA-Admin/1.0' } }
+                );
+                const data = await res.json();
+                if (data && data.length > 0) {
+                    const lat = parseFloat(data[0].lat);
+                    const lng = parseFloat(data[0].lon);
+                    placeMarker(prefix, lat, lng);
+                    maps[prefix].setView([lat, lng], 16);
+                    input.value = query;
+                    toast('Location found: ' + data[0].display_name.split(',')[0], 'success');
+                } else {
+                    toast('Location not found. Try a different search.', 'error');
+                    input.value = query;
+                }
+            } catch {
+                toast('Search failed. Check your connection.', 'error');
+                input.value = query;
+            } finally {
+                input.disabled = false;
+            }
+        }
+
         let allSpots = [], allBiz = [], allProd = [], allEvt = [];
         let filteredSpots = [], filteredBiz = [], filteredProd = [], filteredEvt = [];
         const PAGE_SIZE = 10;
@@ -2184,7 +2235,7 @@
             if (name === 'products' && !allProd.length) loadProd();
             if (name === 'events' && !allEvt.length) loadEvt();
             if (name === 'settings') loadAppSettings();
-            if (name === 'suggestions') loadSuggestions();  
+            if (name === 'suggestions') loadSuggestions();
         }
 
         async function loadDashboard() {
