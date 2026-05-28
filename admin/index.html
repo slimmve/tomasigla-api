@@ -8,6 +8,7 @@
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
             --bg: #f5f6fa;
@@ -1212,6 +1213,25 @@
         .status-tog-lbl.on {
             color: var(--success)
         }
+
+        .qr-modal-wrap {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .qr-modal-wrap canvas,
+        .qr-modal-wrap img {
+            margin: 0 auto 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .qr-label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
     </style>
 </head>
 
@@ -1963,6 +1983,21 @@
         </div>
     </div>
 
+    <!-- QR MODAL -->
+    <div class="overlay" id="qr-modal">
+        <div class="modal" style="width:360px;text-align:center">
+            <div class="modal-title" id="qr-modal-title">QR Code</div>
+            <div class="qr-modal-wrap">
+                <div id="qr-code-display"></div>
+                <div class="qr-label" id="qr-label-text"></div>
+                <button class="btn btn-primary" onclick="downloadQR()" style="margin-right:8px">
+                    ⬇ Download QR
+                </button>
+                <button class="btn btn-secondary" onclick="closeModal('qr-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- CONFIRM MODAL -->
     <div class="overlay" id="confirm-modal">
         <div class="modal confirm-modal">
@@ -2285,7 +2320,7 @@
             <td>${esc(s.category)}</td>
             <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.address)}</td>
             <td>${statusBadge(s.status)}</td>
-            <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editSpot(${JSON.stringify(s)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_spot',${s.id},'spot')">Delete</button></div></td>
+            <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editSpot(${JSON.stringify(s)})'>Edit</button><button class="btn btn-secondary btn-sm" onclick="generateQR('spot',${s.id},'${esc(s.name)}')"> QR</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_spot',${s.id},'spot')">Delete</button></div></td>
         </tr>`).join('');
             renderPager('spots', total, spotPage, n => { spotPage = n; renderSpots() });
             document.getElementById('spots-info').textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
@@ -2336,7 +2371,7 @@
             <td>${esc(b.category)}</td>
             <td>${esc(b.contact || '—')}</td>
             <td>${statusBadge(b.status)}</td>
-            <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editBiz(${JSON.stringify(b)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_business',${b.id},'business')">Delete</button></div></td>
+            <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editBiz(${JSON.stringify(b)})'>Edit</button><button class="btn btn-secondary btn-sm" onclick="generateQR('business',${b.id},'${esc(b.name)}')">QR</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_business',${b.id},'business')">Delete</button></div></td>
         </tr>`).join('');
             renderPager('biz', total, bizPage, n => { bizPage = n; renderBiz() });
             document.getElementById('biz-info').textContent = `Showing ${start + 1}–${Math.min(end, total)} of ${total}`;
@@ -2651,6 +2686,33 @@
                     if (res.success) loadSuggestions();
                 })
                 .catch(() => toast('Failed to reject', 'error'));
+        }
+
+        function generateQR(type, id, name) {
+            document.getElementById('qr-modal-title').textContent = 'QR Code — ' + name;
+            document.getElementById('qr-label-text').textContent = 'Scan to open ' + name + ' in TomaSIGLA';
+            const container = document.getElementById('qr-code-display');
+            container.innerHTML = '';
+            const deepLink = 'tomasigla://' + type + '/' + id;
+            new QRCode(container, {
+                text: deepLink,
+                width: 220,
+                height: 220,
+                colorDark: '#1b5e20',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            openModal('qr-modal');
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qr-code-display canvas');
+            if (!canvas) return;
+            const title = document.getElementById('qr-modal-title').textContent.replace('QR Code — ', '');
+            const link = document.createElement('a');
+            link.download = 'QR-' + title.replace(/\s+/g, '-') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
         }
     </script>
 </body>
