@@ -1489,6 +1489,10 @@
                                 <input type="text" id="prod-search" placeholder="Search products…"
                                     oninput="filterProd()" />
                             </div>
+                            <input type="number" id="prod-min-price" placeholder="Min ₱" class="filter-sel"
+                                style="width:90px" oninput="filterProd()" />
+                            <input type="number" id="prod-max-price" placeholder="Max ₱" class="filter-sel"
+                                style="width:90px" oninput="filterProd()" />
                             <select class="filter-sel" id="prod-cat" onchange="filterProd()">
                                 <option value="">All Categories</option>
                                 <option>Food</option>
@@ -1899,7 +1903,9 @@
                 </div>
                 <div class="form-group full"><label>Description</label><textarea id="p-desc"
                         placeholder="Describe this product…"></textarea></div>
-                <div class="form-group"><label>Price (₱)</label><input type="number" step="0.01" id="p-price"
+                <div class="form-group"><label>Min Price (₱)</label><input type="number" step="0.01" id="p-price-min"
+                        placeholder="0.00" /></div>
+                <div class="form-group"><label>Max Price (₱)</label><input type="number" step="0.01" id="p-price-max"
                         placeholder="0.00" /></div>
                 <div class="form-group"><label>Business ID</label><input type="number" id="p-bizid" placeholder="1" />
                 </div>
@@ -2411,7 +2417,16 @@
         function filterProd() {
             const q = document.getElementById('prod-search').value.toLowerCase();
             const c = document.getElementById('prod-cat').value;
-            filteredProd = allProd.filter(p => (!q || (p.name || '').toLowerCase().includes(q) || (p.business_name || '').toLowerCase().includes(q)) && (!c || p.category === c));
+            const minP = parseFloat(document.getElementById('prod-min-price').value) || 0;
+            const maxP = parseFloat(document.getElementById('prod-max-price').value) || Infinity;
+            filteredProd = allProd.filter(p => {
+                const low = parseFloat(p.price_min ?? p.price ?? 0);
+                const high = parseFloat(p.price_max ?? p.price ?? 0);
+                const inRange = low >= minP && (maxP === Infinity || high <= maxP);
+                return (!q || (p.name || '').toLowerCase().includes(q) || (p.business_name || '').toLowerCase().includes(q))
+                    && (!c || p.category === c)
+                    && inRange;
+            });
             prodPage = 1; renderProd();
         }
         function renderProd() {
@@ -2423,7 +2438,7 @@
             <td>${p.image ? `<img class="td-img" src="${p.image}" onerror="this.style.display='none'" alt=""/>` : `<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path stroke-linecap="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>`}</td>
             <td><b style="color:var(--text)">${esc(p.name)}</b></td>
             <td>${esc(p.category)}</td>
-            <td>₱${parseFloat(p.price || 0).toFixed(2)}</td>
+           <td>${p.price_max && p.price_max != p.price_min ? `₱${parseFloat(p.price_min||0).toFixed(2)} – ₱${parseFloat(p.price_max||0).toFixed(2)}` : `₱${parseFloat(p.price_min ?? p.price ?? 0).toFixed(2)}`}</td>
             <td>${esc(p.business_name || '—')}</td>
             <td>${statusBadge(p.status)}</td>
             <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editProd(${JSON.stringify(p)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_product',${p.id},'product')">Delete</button></div></td>
@@ -2437,7 +2452,8 @@
             document.getElementById('p-name').value = p?.name || '';
             document.getElementById('p-cat').value = p?.category || 'Food';
             document.getElementById('p-desc').value = p?.description || '';
-            document.getElementById('p-price').value = p?.price || '';
+            document.getElementById('p-price-min').value = p?.price_min ?? p?.price ?? '';
+            document.getElementById('p-price-max').value = p?.price_max || '';
             document.getElementById('p-bizid').value = p?.business_id || '';
             setStatus('p', p?.status || 'active');
             resetImgUpload('p', p?.image || '');
@@ -2446,7 +2462,7 @@
         function editProd(p) { openProdModal(p) }
         async function saveProd() {
             const id = document.getElementById('prod-id').value;
-            const data = { name: document.getElementById('p-name').value, category: document.getElementById('p-cat').value, description: document.getElementById('p-desc').value, price: document.getElementById('p-price').value, business_id: document.getElementById('p-bizid').value, image: imgData['p'] || '', status: document.getElementById('p-status').value };
+            const data = { name: document.getElementById('p-name').value, category: document.getElementById('p-cat').value, description: document.getElementById('p-desc').value, price_min: document.getElementById('p-price-min').value, price_max: document.getElementById('p-price-max').value, business_id: document.getElementById('p-bizid').value, image: imgData['p'] || '', status: document.getElementById('p-status').value };
             if (!data.name) { toast('Name is required', 'error'); return }
             if (id) data.id = id;
             try { const r = await apiPost(id ? 'update_product' : 'add_product', data); if (r.success !== false) { closeModal('prod-modal'); toast((id ? 'Updated' : 'Added') + ' product', 'success'); allProd = []; loadProd(); } else toast(r.message || 'Error', 'error'); }
@@ -2651,9 +2667,9 @@
                     <td>
                         <div class="act-btns">
                             <button class="btn btn-sm" style="background:var(--success-bg);color:var(--success);border:1px solid rgba(22,163,74,.2)"
-                                onclick="approveSuggestion(${s.id}, '${s.name}')">✅ Approve</button>
+                                onclick="approveSuggestion(${s.id}, '${s.name}')">Approve</button>
                             <button class="btn btn-sm btn-danger"
-                                onclick="rejectSuggestion(${s.id})">❌ Reject</button>
+                                onclick="rejectSuggestion(${s.id})">Reject</button>
                         </div>
                     </td>
                 </tr>
