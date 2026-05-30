@@ -154,6 +154,36 @@ switch ($action) {
         echo json_encode(['success' => true, 'message' => 'Registered successfully.']);
         break;
 
+    case 'update_user':
+        $id       = (int)($_POST['id']       ?? 0);
+        $name     = trim($_POST['name']      ?? '');
+        $email    = trim($_POST['email']     ?? '');
+        $password =      $_POST['password']  ?? '';
+
+        if (!$id || !$name || !$email) {
+            echo json_encode(['success' => false, 'message' => 'ID, name and email are required.']);
+            exit;
+        }
+
+        $check = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ? LIMIT 1");
+        $check->execute([$email, $id]);
+        if ($check->fetch()) {
+            echo json_encode(['success' => false, 'message' => 'Email already used by another account.']);
+            exit;
+        }
+
+        if (!empty($password)) {
+            $hash = password_hash($password, PASSWORD_BCRYPT);
+            $stmt = $pdo->prepare("UPDATE users SET name=?, email=?, password=? WHERE id=?");
+            $stmt->execute([$name, $email, $hash, $id]);
+        } else {
+            $stmt = $pdo->prepare("UPDATE users SET name=?, email=? WHERE id=?");
+            $stmt->execute([$name, $email, $id]);
+        }
+
+        echo json_encode(['success' => true, 'message' => 'Profile updated successfully.']);
+        break;
+
     // ============================================================
     // TOURIST SPOTS
     // ============================================================
@@ -646,17 +676,17 @@ switch ($action) {
                 $reply = "Hello! Welcome to TomaSIGLA — your guide to Sto. Tomas, Batangas. How can I help you?";
                 break;
 
-            // ── THANK YOU ─────────────────────────────────────────
+                // ── THANK YOU ─────────────────────────────────────────
             } elseif (str_contains($message, 'thank') || str_contains($message, 'salamat')) {
                 $reply = "You're welcome! Feel free to ask if you need anything else about Sto. Tomas, Batangas!";
                 break;
 
-            // ── HELP ──────────────────────────────────────────────
+                // ── HELP ──────────────────────────────────────────────
             } elseif (str_contains($message, 'help') || str_contains($message, 'what can you do')) {
                 $reply = "I can help you with:\n- Tourist Spots\n- Local Products\n- Businesses\n- Events\n\nYou can ask things like:\n- Give me spots in Sto. Tomas\n- Address of [place name]\n- Details about [business name]\n- Price of [product name]\n- Upcoming events";
                 break;
 
-            // ── ADDRESS OF SPECIFIC PLACE ──────────────────────────
+                // ── ADDRESS OF SPECIFIC PLACE ──────────────────────────
             } elseif (
                 str_contains($message, 'address') ||
                 str_contains($message, 'where is') ||
@@ -690,7 +720,7 @@ switch ($action) {
                 }
                 break;
 
-            // ── DETAILS / INFO ABOUT SPECIFIC PLACE ───────────────
+                // ── DETAILS / INFO ABOUT SPECIFIC PLACE ───────────────
             } elseif (
                 str_contains($message, 'about') ||
                 str_contains($message, 'info') ||
@@ -747,7 +777,7 @@ switch ($action) {
                 }
                 break;
 
-            // ── CONTACT / PHONE ────────────────────────────────────
+                // ── CONTACT / PHONE ────────────────────────────────────
             } elseif (
                 str_contains($message, 'contact') ||
                 str_contains($message, 'phone') ||
@@ -771,7 +801,7 @@ switch ($action) {
                 }
                 break;
 
-            // ── PRICE OF PRODUCT ───────────────────────────────────
+                // ── PRICE OF PRODUCT ───────────────────────────────────
             } elseif (
                 str_contains($message, 'price') ||
                 str_contains($message, 'cost') ||
@@ -795,7 +825,7 @@ switch ($action) {
                 }
                 break;
 
-            // ── LIST SPOTS ─────────────────────────────────────────
+                // ── LIST SPOTS ─────────────────────────────────────────
             } elseif (
                 str_contains($message, 'spot') ||
                 str_contains($message, 'tourist') ||
@@ -809,7 +839,7 @@ switch ($action) {
                     : "No tourist spots are available right now.";
                 break;
 
-            // ── LIST PRODUCTS ──────────────────────────────────────
+                // ── LIST PRODUCTS ──────────────────────────────────────
             } elseif (
                 str_contains($message, 'product') ||
                 str_contains($message, 'pasalubong') ||
@@ -824,7 +854,7 @@ switch ($action) {
                     : "No products listed yet.";
                 break;
 
-            // ── LIST EVENTS ────────────────────────────────────────
+                // ── LIST EVENTS ────────────────────────────────────────
             } elseif (
                 str_contains($message, 'event') ||
                 str_contains($message, 'festival') ||
@@ -841,7 +871,7 @@ switch ($action) {
                 }
                 break;
 
-            // ── LIST BUSINESSES ────────────────────────────────────
+                // ── LIST BUSINESSES ────────────────────────────────────
             } elseif (
                 str_contains($message, 'business') ||
                 str_contains($message, 'shop') ||
@@ -857,7 +887,7 @@ switch ($action) {
                     : "No businesses listed yet.";
                 break;
 
-            // ── GENERAL STO. TOMAS ─────────────────────────────────
+                // ── GENERAL STO. TOMAS ─────────────────────────────────
             } elseif (
                 str_contains($message, 'sto. tomas') ||
                 str_contains($message, 'sto tomas') ||
@@ -866,7 +896,7 @@ switch ($action) {
                 $reply = "Sto. Tomas, Batangas is a great place to visit! Ask me about spots, products, businesses, or events here.";
                 break;
 
-            // ── CATCH-ALL NAME SEARCH ──────────────────────────────
+                // ── CATCH-ALL NAME SEARCH ──────────────────────────────
             } else {
                 // Search spots
                 $stmt = $pdo->query("SELECT name, description, address FROM tourist_spots WHERE status='active'");
