@@ -320,76 +320,78 @@ switch ($action) {
         break;
 
     case 'add_business':
-        $name = trim($_POST['name'] ?? '');
-        if ($name === '') {
-            echo json_encode(['success' => false, 'message' => 'Name is required.']);
-            exit;
-        }
+    $name = trim($_POST['name'] ?? '');
+    if ($name === '') {
+        echo json_encode(['success' => false, 'message' => 'Name is required.']);
+        exit;
+    }
 
-        $img       = handleImage($_POST['image'] ?? '');
-        $extraImgs = $_POST['images'] ?? '[]';
-        $imgsArr   = json_decode($extraImgs, true) ?? [];
-        $imgsArr   = array_map('handleImage', $imgsArr);
-        $imgsJson  = json_encode(array_values(array_filter($imgsArr)));
+    $img       = handleImage($_POST['image'] ?? '');
+    $extraImgs = $_POST['images'] ?? '[]';
+    $imgsArr   = json_decode($extraImgs, true) ?? [];
+    $imgsArr   = array_map('handleImage', $imgsArr);
+    $imgsJson  = json_encode(array_values(array_filter($imgsArr)));
 
-        $stmt = $pdo->prepare("
-            INSERT INTO businesses (name, category, description, address, contact, latitude, longitude, image, images, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            RETURNING id
-        ");
-        $stmt->execute([
-            $name,
-            trim($_POST['category']    ?? ''),
-            trim($_POST['description'] ?? ''),
-            trim($_POST['address']     ?? ''),
-            trim($_POST['contact']     ?? ''),
-            dec($_POST['latitude']  ?? ''),
-            dec($_POST['longitude'] ?? ''),
-            $img,
-            $imgsJson,
-            trim($_POST['status']      ?? 'active'),
-        ]);
-        $row = $stmt->fetch();
-        echo json_encode(['success' => true, 'id' => $row['id']]);
-        break;
+    $stmt = $pdo->prepare("
+        INSERT INTO businesses (name, category, description, address, contact, latitude, longitude, image, images, opening_hours, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        RETURNING id
+    ");
+    $stmt->execute([
+        $name,
+        trim($_POST['category']      ?? ''),
+        trim($_POST['description']   ?? ''),
+        trim($_POST['address']       ?? ''),
+        trim($_POST['contact']       ?? ''),
+        dec($_POST['latitude']    ?? ''),
+        dec($_POST['longitude']   ?? ''),
+        $img,
+        $imgsJson,
+        trim($_POST['opening_hours'] ?? ''),
+        trim($_POST['status']        ?? 'active'),
+    ]);
+    $row = $stmt->fetch();
+    echo json_encode(['success' => true, 'id' => $row['id']]);
+    break;
 
     case 'update_business':
-        $name = trim($_POST['name'] ?? '');
-        if ($name === '') {
-            echo json_encode(['success' => false, 'message' => 'Name is required.']);
-            exit;
-        }
-        if (empty($_POST['id'])) {
-            echo json_encode(['success' => false, 'message' => 'ID is required.']);
-            exit;
-        }
+    $name = trim($_POST['name'] ?? '');
+    if ($name === '') {
+        echo json_encode(['success' => false, 'message' => 'Name is required.']);
+        exit;
+    }
+    if (empty($_POST['id'])) {
+        echo json_encode(['success' => false, 'message' => 'ID is required.']);
+        exit;
+    }
 
-        $img       = handleImage($_POST['image'] ?? '');
-        $extraImgs = $_POST['images'] ?? '[]';
-        $imgsArr   = json_decode($extraImgs, true) ?? [];
-        $imgsArr   = array_map('handleImage', $imgsArr);
-        $imgsJson  = json_encode(array_values(array_filter($imgsArr)));
+    $img       = handleImage($_POST['image'] ?? '');
+    $extraImgs = $_POST['images'] ?? '[]';
+    $imgsArr   = json_decode($extraImgs, true) ?? [];
+    $imgsArr   = array_map('handleImage', $imgsArr);
+    $imgsJson  = json_encode(array_values(array_filter($imgsArr)));
 
-        $stmt = $pdo->prepare("
-            UPDATE businesses
-            SET name=?, category=?, description=?, address=?, contact=?, latitude=?, longitude=?, image=?, images=?, status=?
-            WHERE id=?
-        ");
-        $stmt->execute([
-            $name,
-            trim($_POST['category']    ?? ''),
-            trim($_POST['description'] ?? ''),
-            trim($_POST['address']     ?? ''),
-            trim($_POST['contact']     ?? ''),
-            dec($_POST['latitude']  ?? ''),
-            dec($_POST['longitude'] ?? ''),
-            $img,
-            $imgsJson,
-            trim($_POST['status']      ?? 'active'),
-            (int)$_POST['id'],
-        ]);
-        echo json_encode(['success' => true]);
-        break;
+    $stmt = $pdo->prepare("
+        UPDATE businesses
+        SET name=?, category=?, description=?, address=?, contact=?, latitude=?, longitude=?, image=?, images=?, opening_hours=?, status=?
+        WHERE id=?
+    ");
+    $stmt->execute([
+        $name,
+        trim($_POST['category']      ?? ''),
+        trim($_POST['description']   ?? ''),
+        trim($_POST['address']       ?? ''),
+        trim($_POST['contact']       ?? ''),
+        dec($_POST['latitude']    ?? ''),
+        dec($_POST['longitude']   ?? ''),
+        $img,
+        $imgsJson,
+        trim($_POST['opening_hours'] ?? ''),
+        trim($_POST['status']        ?? 'active'),
+        (int)$_POST['id'],
+    ]);
+    echo json_encode(['success' => true]);
+    break;
 
     case 'delete_business':
         if (empty($_POST['id'])) {
