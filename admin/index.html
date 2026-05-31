@@ -1815,6 +1815,8 @@
                         placeholder="Full address" /></div>
                 <div class="form-group"><label>Contact</label><input type="text" id="b-contact" placeholder="+63 9…" />
                 </div>
+                <div class="form-group full"><label>Opening Hours</label><input type="text" id="b-hours"
+                        placeholder="e.g. Mon-Sun 8:00 AM - 10:00 PM" /></div>
                 <div class="form-group full"><label>Status</label>
                     <div class="status-toggle-wrap">
                         <button type="button" class="status-tog-track on" id="b-status-track"
@@ -2390,6 +2392,7 @@
             document.getElementById('b-desc').value = b?.description || '';
             document.getElementById('b-addr').value = b?.address || '';
             document.getElementById('b-contact').value = b?.contact || '';
+            document.getElementById('b-hours').value = b?.opening_hours || '';
             document.getElementById('b-lat').value = b?.latitude || '';
             document.getElementById('b-lng').value = b?.longitude || '';
             setStatus('b', b?.status || 'active');
@@ -2402,13 +2405,12 @@
         function editBiz(b) { openBizModal(b) }
         async function saveBiz() {
             const id = document.getElementById('biz-id').value;
-            const data = { name: document.getElementById('b-name').value, category: document.getElementById('b-cat').value, description: document.getElementById('b-desc').value, address: document.getElementById('b-addr').value, contact: document.getElementById('b-contact').value, latitude: document.getElementById('b-lat').value, longitude: document.getElementById('b-lng').value, image: imgData['b'] || '', images: JSON.stringify(bizExtraImages), status: document.getElementById('b-status').value };
+            const data = { name: document.getElementById('b-name').value, category: document.getElementById('b-cat').value, description: document.getElementById('b-desc').value, address: document.getElementById('b-addr').value, contact: document.getElementById('b-contact').value, opening_hours: document.getElementById('b-hours').value, latitude: document.getElementById('b-lat').value, longitude: document.getElementById('b-lng').value, image: imgData['b'] || '', images: JSON.stringify(bizExtraImages), status: document.getElementById('b-status').value };
             if (!data.name) { toast('Name is required', 'error'); return }
             if (id) data.id = id;
             try { const r = await apiPost(id ? 'update_business' : 'add_business', data); if (r.success !== false) { closeModal('biz-modal'); toast((id ? 'Updated' : 'Added') + ' business', 'success'); allBiz = []; loadBiz(); } else toast(r.message || 'Error', 'error'); }
             catch { toast('Cannot connect to server', 'error') }
         }
-
         async function loadProd() {
             setLoading('prod-tbody', 7);
             try { const d = await apiGet('get_products'); allProd = d.data || []; } catch { allProd = sampleProd(); }
@@ -2438,7 +2440,7 @@
             <td>${p.image ? `<img class="td-img" src="${p.image}" onerror="this.style.display='none'" alt=""/>` : `<div class="td-img-placeholder"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--muted-light)" stroke-width="1.5"><path stroke-linecap="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>`}</td>
             <td><b style="color:var(--text)">${esc(p.name)}</b></td>
             <td>${esc(p.category)}</td>
-           <td>${p.price_max && p.price_max != p.price_min ? `₱${parseFloat(p.price_min||0).toFixed(2)} – ₱${parseFloat(p.price_max||0).toFixed(2)}` : `₱${parseFloat(p.price_min ?? p.price ?? 0).toFixed(2)}`}</td>
+           <td>${p.price_max && p.price_max != p.price_min ? `₱${parseFloat(p.price_min || 0).toFixed(2)} – ₱${parseFloat(p.price_max || 0).toFixed(2)}` : `₱${parseFloat(p.price_min ?? p.price ?? 0).toFixed(2)}`}</td>
             <td>${esc(p.business_name || '—')}</td>
             <td>${statusBadge(p.status)}</td>
             <td><div class="act-btns"><button class="btn btn-secondary btn-sm" onclick='editProd(${JSON.stringify(p)})'>Edit</button><button class="btn btn-danger btn-sm" onclick="confirmDelete('delete_product',${p.id},'product')">Delete</button></div></td>
