@@ -754,15 +754,16 @@ switch ($action) {
                 }
 
                 if (!$found) {
-                    $stmt = $pdo->query("SELECT p.name, p.description, p.price, b.name AS business_name FROM products p LEFT JOIN businesses b ON p.business_id = b.id WHERE p.status='active'");
-                    foreach ($stmt->fetchAll() as $row) {
-                        if (str_contains($message, strtolower($row['name']))) {
-                            $found = true;
-                            $bizInfo = $row['business_name'] ? "\nSold at: {$row['business_name']}" : '';
-                            $reply = "{$row['name']}\nPrice: P{$row['price']}{$bizInfo}\n{$row['description']}";
-                            break;
-                        }
-                    }
+                  $stmt = $pdo->query("SELECT p.name, p.description, p.price_min, p.price_max, b.name AS business_name FROM products p LEFT JOIN businesses b ON p.business_id = b.id WHERE p.status='active'");
+foreach ($stmt->fetchAll() as $row) {
+    if (str_contains($message, strtolower($row['name']))) {
+        $found = true;
+        $bizInfo = $row['business_name'] ? "\nSold at: {$row['business_name']}" : '';
+        $price = $row['price_max'] > 0 ? "P{$row['price_min']} - P{$row['price_max']}" : "P{$row['price_min']}";
+        $reply = "{$row['name']}\nPrice: {$price}{$bizInfo}\n{$row['description']}";
+        break;
+    }
+}
                 }
 
                 if (!$found) {
@@ -812,14 +813,15 @@ switch ($action) {
                 str_contains($message, 'how much')
             ) {
                 $found = null;
-                $stmt  = $pdo->query("SELECT name, price FROM products WHERE status='active'");
-                foreach ($stmt->fetchAll() as $row) {
-                    if (str_contains($message, strtolower($row['name']))) {
-                        $found = true;
-                        $reply = "{$row['name']} costs P{$row['price']}";
-                        break;
-                    }
-                }
+              $stmt  = $pdo->query("SELECT name, price_min, price_max FROM products WHERE status='active'");
+foreach ($stmt->fetchAll() as $row) {
+    if (str_contains($message, strtolower($row['name']))) {
+        $found = true;
+        $price = $row['price_max'] > 0 ? "P{$row['price_min']} - P{$row['price_max']}" : "P{$row['price_min']}";
+        $reply = "{$row['name']} costs {$price}";
+        break;
+    }
+}
                 if (!$found) {
                     $stmt2 = $pdo->query("SELECT name FROM products WHERE status='active' LIMIT 5");
                     $list  = implode(', ', array_column($stmt2->fetchAll(), 'name'));
@@ -919,13 +921,14 @@ switch ($action) {
                     }
                 }
                 // Search products
-                $stmt = $pdo->query("SELECT name, description, price FROM products WHERE status='active'");
-                foreach ($stmt->fetchAll() as $row) {
-                    if (str_contains(strtolower($row['name']), $message)) {
-                        $reply = "{$row['name']}\nPrice: P{$row['price']}\n{$row['description']}";
-                        break 2;
-                    }
-                }
+               $stmt = $pdo->query("SELECT name, description, price_min, price_max FROM products WHERE status='active'");
+foreach ($stmt->fetchAll() as $row) {
+    if (str_contains(strtolower($row['name']), $message)) {
+        $price = $row['price_max'] > 0 ? "P{$row['price_min']} - P{$row['price_max']}" : "P{$row['price_min']}";
+        $reply = "{$row['name']}\nPrice: {$price}\n{$row['description']}";
+        break 2;
+    }
+}
                 // Search events
                 $stmt = $pdo->query("SELECT title, description, location, event_date FROM events WHERE status='active'");
                 foreach ($stmt->fetchAll() as $row) {
